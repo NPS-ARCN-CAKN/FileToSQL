@@ -72,7 +72,7 @@ Partial Class Form1
         Me.ClientSize = New System.Drawing.Size(935, 606)
         Me.Controls.Add(Me.SplitContainer)
         Me.Name = "Form1"
-        Me.Text = "Form1"
+        Me.Text = "Data file to SQL 3.0"
         Me.SplitContainer.Panel1.ResumeLayout(False)
         Me.SplitContainer.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer, System.ComponentModel.ISupportInitialize).EndInit()

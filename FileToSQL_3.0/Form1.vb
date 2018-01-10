@@ -36,4 +36,8 @@ Public Class Form1
         End With
         'Me.SplitContainer.Panel2.Controls.Add(SkeeterDataTableControl)
     End Sub
+
+    Private Sub SkeeterDataTableControl_Load(sender As Object, e As EventArgs) Handles SkeeterDataTableControl.Load
+
+    End Sub
 End Class

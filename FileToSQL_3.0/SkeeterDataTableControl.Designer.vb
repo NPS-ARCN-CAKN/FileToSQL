@@ -59,6 +59,7 @@ Partial Class SkeeterDataTableControl
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Label2 = New System.Windows.Forms.Label()
+        Me.ExecuteSQLButton = New System.Windows.Forms.Button()
         CType(Me.SplitContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
@@ -293,9 +294,8 @@ Partial Class SkeeterDataTableControl
         Me.ConnectionStringTextBox.Location = New System.Drawing.Point(139, 39)
         Me.ConnectionStringTextBox.Multiline = True
         Me.ConnectionStringTextBox.Name = "ConnectionStringTextBox"
-        Me.ConnectionStringTextBox.Size = New System.Drawing.Size(933, 46)
+        Me.ConnectionStringTextBox.Size = New System.Drawing.Size(903, 46)
         Me.ConnectionStringTextBox.TabIndex = 1
-        Me.ConnectionStringTextBox.Text = "Server=INP2300VNTWKSQL\NTWK;Database=AKRO;Trusted_Connection=True;"
         '
         'ColumnsMappingDataGridView
         '
@@ -340,6 +340,7 @@ Partial Class SkeeterDataTableControl
         '
         'DatabaseConnectionPanel
         '
+        Me.DatabaseConnectionPanel.Controls.Add(Me.ExecuteSQLButton)
         Me.DatabaseConnectionPanel.Controls.Add(Me.TableComboBox)
         Me.DatabaseConnectionPanel.Controls.Add(Me.TableLabel)
         Me.DatabaseConnectionPanel.Controls.Add(Me.ConnectButton)
@@ -355,7 +356,8 @@ Partial Class SkeeterDataTableControl
         'ConnectButton
         '
         Me.ConnectButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ConnectButton.Location = New System.Drawing.Point(500, 91)
+        Me.ConnectButton.Enabled = False
+        Me.ConnectButton.Location = New System.Drawing.Point(1048, 39)
         Me.ConnectButton.Name = "ConnectButton"
         Me.ConnectButton.Size = New System.Drawing.Size(75, 23)
         Me.ConnectButton.TabIndex = 4
@@ -427,6 +429,19 @@ Partial Class SkeeterDataTableControl
         Me.Label2.TabIndex = 3
         Me.Label2.Text = "Map destination columns to source columns"
         '
+        'ExecuteSQLButton
+        '
+        Me.ExecuteSQLButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ExecuteSQLButton.Enabled = False
+        Me.ExecuteSQLButton.Image = CType(resources.GetObject("ExecuteSQLButton.Image"), System.Drawing.Image)
+        Me.ExecuteSQLButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.ExecuteSQLButton.Location = New System.Drawing.Point(500, 91)
+        Me.ExecuteSQLButton.Name = "ExecuteSQLButton"
+        Me.ExecuteSQLButton.Size = New System.Drawing.Size(116, 23)
+        Me.ExecuteSQLButton.TabIndex = 8
+        Me.ExecuteSQLButton.Text = "Execute"
+        Me.ExecuteSQLButton.UseVisualStyleBackColor = True
+        '
         'SkeeterDataTableControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -497,4 +512,5 @@ Partial Class SkeeterDataTableControl
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Label2 As Label
+    Friend WithEvents ExecuteSQLButton As Button
 End Class

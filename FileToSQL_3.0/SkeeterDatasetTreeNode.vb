@@ -14,8 +14,17 @@ Public Class SkeeterDatasetTreeNode
         If Not _Dataset Is Nothing Then
             For Each DT As DataTable In _Dataset.Tables
                 Dim DataTableNode As New SkeeterDatasetTreeNode(Nothing, Nothing, DT)
-                DataTableNode.DataTable = DT
-                DataTableNode.Text = DT.TableName
+                With DataTableNode
+                    .DataTable = DT
+                    .Text = DT.TableName
+                End With
+
+                'add the columns
+                For Each Col As DataColumn In DT.Columns
+                    Dim ColumnNode As New SkeeterDatasetTreeNode(Nothing, Nothing, Nothing)
+                    ColumnNode.Text = Col.ColumnName & " - " & Col.DataType.ToString.Replace("System.", "") & " " & Col.MaxLength
+                    DataTableNode.Nodes.Add(ColumnNode)
+                Next
                 Me.Nodes.Add(DataTableNode)
             Next
         End If
