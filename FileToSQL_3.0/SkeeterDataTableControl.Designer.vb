@@ -62,6 +62,9 @@ Partial Class SkeeterDataTableControl
         Me.SqlTextBox = New System.Windows.Forms.TextBox()
         Me.MappingsPanel = New System.Windows.Forms.Panel()
         Me.MappingsHeaderLabel = New System.Windows.Forms.Label()
+        Me.SqlToolStrip = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         CType(Me.SplitContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
@@ -83,6 +86,7 @@ Partial Class SkeeterDataTableControl
         Me.SplitContainer2.SuspendLayout()
         CType(Me.ColumnsMappingDataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MappingsPanel.SuspendLayout()
+        Me.SqlToolStrip.SuspendLayout()
         Me.SuspendLayout()
         '
         'SplitContainer
@@ -395,6 +399,7 @@ Partial Class SkeeterDataTableControl
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.SqlTextBox)
+        Me.SplitContainer2.Panel2.Controls.Add(Me.SqlToolStrip)
         Me.SplitContainer2.Size = New System.Drawing.Size(1167, 556)
         Me.SplitContainer2.SplitterDistance = 234
         Me.SplitContainer2.TabIndex = 6
@@ -444,10 +449,10 @@ Partial Class SkeeterDataTableControl
         '
         Me.SqlTextBox.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SqlTextBox.Font = New System.Drawing.Font("Courier New", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SqlTextBox.Location = New System.Drawing.Point(0, 0)
+        Me.SqlTextBox.Location = New System.Drawing.Point(0, 25)
         Me.SqlTextBox.Multiline = True
         Me.SqlTextBox.Name = "SqlTextBox"
-        Me.SqlTextBox.Size = New System.Drawing.Size(1167, 318)
+        Me.SqlTextBox.Size = New System.Drawing.Size(1167, 293)
         Me.SqlTextBox.TabIndex = 0
         '
         'MappingsPanel
@@ -469,6 +474,27 @@ Partial Class SkeeterDataTableControl
         Me.MappingsHeaderLabel.Size = New System.Drawing.Size(429, 24)
         Me.MappingsHeaderLabel.TabIndex = 3
         Me.MappingsHeaderLabel.Text = "Map destination columns to source columns"
+        '
+        'SqlToolStrip
+        '
+        Me.SqlToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
+        Me.SqlToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.ToolStripSeparator1})
+        Me.SqlToolStrip.Location = New System.Drawing.Point(0, 0)
+        Me.SqlToolStrip.Name = "SqlToolStrip"
+        Me.SqlToolStrip.Size = New System.Drawing.Size(1167, 25)
+        Me.SqlToolStrip.TabIndex = 1
+        Me.SqlToolStrip.Text = "Insert queries script:"
+        '
+        'ToolStripLabel1
+        '
+        Me.ToolStripLabel1.Name = "ToolStripLabel1"
+        Me.ToolStripLabel1.Size = New System.Drawing.Size(137, 22)
+        Me.ToolStripLabel1.Text = "Insert queries script"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
         '
         'SkeeterDataTableControl
         '
@@ -503,6 +529,8 @@ Partial Class SkeeterDataTableControl
         CType(Me.ColumnsMappingDataGridView, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MappingsPanel.ResumeLayout(False)
         Me.MappingsPanel.PerformLayout()
+        Me.SqlToolStrip.ResumeLayout(False)
+        Me.SqlToolStrip.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -545,4 +573,7 @@ Partial Class SkeeterDataTableControl
     Friend WithEvents SplitContainer2 As SplitContainer
     Friend WithEvents SqlTextBox As TextBox
     Friend WithEvents MappingTabPage As TabPage
+    Friend WithEvents SqlToolStrip As ToolStrip
+    Friend WithEvents ToolStripLabel1 As ToolStripLabel
+    Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
 End Class
