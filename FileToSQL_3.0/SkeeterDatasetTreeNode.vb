@@ -17,6 +17,7 @@ Public Class SkeeterDatasetTreeNode
                 With DataTableNode
                     .DataTable = DT
                     .Text = DT.TableName
+                    .FileInfo = _FileInfo
                 End With
 
                 'add the columns

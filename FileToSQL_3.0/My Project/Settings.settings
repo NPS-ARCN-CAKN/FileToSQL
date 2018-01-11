@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="ConnectionString" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Server=INPYUGAMS08SQL\NUNA;Database=ARCN_MuskoxSurveys;Trusted_Connection=True;Type System Version=SQL Server 2012;</Value>
     </Setting>
   </Settings>
 </SettingsFile>

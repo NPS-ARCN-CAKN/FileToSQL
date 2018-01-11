@@ -2,6 +2,7 @@
 Imports System.Data.SqlClient
 Imports System.IO
 
+
 Module DatasetConverters
     ''' <summary>
     ''' Converts a DataTable to a string of delimited values such as CSV
@@ -355,16 +356,19 @@ Module DatasetConverters
 
                 'open the connection
                 MySqlConnection.Open()
-
+                Using MySqlDataAdapter As New SqlDataAdapter(Sql, MySqlConnection)
+                    MySqlDataAdapter.Fill(MyDataTable)
+                End Using
                 'create a DataReader and execute the SqlCommand
-                Dim MyDataReader As SqlDataReader = MySqlCommand.ExecuteReader()
+                'Dim MyDataReader As SqlDataReader = MySqlCommand.ExecuteReader()
 
                 'load the reader into the datatable
-                MyDataTable.Load(MyDataReader)
+                'MyDataTable.Load(MyDataReader)
 
                 'clean up
-                MyDataReader.Close()
+                'MyDataReader.Close()
             End Using
+
         Catch ex As Exception
             MsgBox(ex.Message & " (" & System.Reflection.MethodBase.GetCurrentMethod.Name & ")")
         End Try
