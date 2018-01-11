@@ -43,26 +43,25 @@ Partial Class SkeeterDataTableControl
         Me.DataTableTabControl = New System.Windows.Forms.TabControl()
         Me.SourceDataTableTabPage = New System.Windows.Forms.TabPage()
         Me.DestinationTableTabPage = New System.Windows.Forms.TabPage()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.DestinationDataGridView = New System.Windows.Forms.DataGridView()
-        Me.ColumnsMappingDataGridView = New System.Windows.Forms.DataGridView()
-        Me.DestinationColumnName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SourceColumnName = New System.Windows.Forms.DataGridViewComboBoxColumn()
-        Me.DefaultValueColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.QuotedColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.MappingsPanel = New System.Windows.Forms.Panel()
-        Me.MappingsHeaderLabel = New System.Windows.Forms.Label()
         Me.DatabaseConnectionPanel = New System.Windows.Forms.Panel()
+        Me.QueryTextBox = New System.Windows.Forms.TextBox()
         Me.ExecuteSQLButton = New System.Windows.Forms.Button()
         Me.TableLabel = New System.Windows.Forms.Label()
         Me.ConnectButton = New System.Windows.Forms.Button()
         Me.DestinationLabel = New System.Windows.Forms.Label()
         Me.ConnectionStringLabel = New System.Windows.Forms.Label()
         Me.ConnectionStringTextBox = New System.Windows.Forms.TextBox()
-        Me.QueryTextBox = New System.Windows.Forms.TextBox()
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.OutputTextBox = New System.Windows.Forms.TextBox()
         Me.MappingTabPage = New System.Windows.Forms.TabPage()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.ColumnsMappingDataGridView = New System.Windows.Forms.DataGridView()
+        Me.DestinationColumnName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SourceColumnName = New System.Windows.Forms.DataGridViewComboBoxColumn()
+        Me.DefaultValueColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.QuotedColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SqlTextBox = New System.Windows.Forms.TextBox()
+        Me.MappingsPanel = New System.Windows.Forms.Panel()
+        Me.MappingsHeaderLabel = New System.Windows.Forms.Label()
         CType(Me.SplitContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
@@ -75,18 +74,15 @@ Partial Class SkeeterDataTableControl
         Me.DataTableTabControl.SuspendLayout()
         Me.SourceDataTableTabPage.SuspendLayout()
         Me.DestinationTableTabPage.SuspendLayout()
-        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer1.Panel1.SuspendLayout()
-        Me.SplitContainer1.SuspendLayout()
         CType(Me.DestinationDataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ColumnsMappingDataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.MappingsPanel.SuspendLayout()
         Me.DatabaseConnectionPanel.SuspendLayout()
+        Me.MappingTabPage.SuspendLayout()
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
-        Me.MappingTabPage.SuspendLayout()
+        CType(Me.ColumnsMappingDataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.MappingsPanel.SuspendLayout()
         Me.SuspendLayout()
         '
         'SplitContainer
@@ -194,7 +190,6 @@ Partial Class SkeeterDataTableControl
         '
         Me.BindingNavigatorPositionItem.AccessibleName = "Position"
         Me.BindingNavigatorPositionItem.AutoSize = False
-        Me.BindingNavigatorPositionItem.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.BindingNavigatorPositionItem.Name = "BindingNavigatorPositionItem"
         Me.BindingNavigatorPositionItem.Size = New System.Drawing.Size(50, 27)
         Me.BindingNavigatorPositionItem.Text = "0"
@@ -267,7 +262,7 @@ Partial Class SkeeterDataTableControl
         '
         'DestinationTableTabPage
         '
-        Me.DestinationTableTabPage.Controls.Add(Me.SplitContainer1)
+        Me.DestinationTableTabPage.Controls.Add(Me.DestinationDataGridView)
         Me.DestinationTableTabPage.Controls.Add(Me.DatabaseConnectionPanel)
         Me.DestinationTableTabPage.Location = New System.Drawing.Point(4, 25)
         Me.DestinationTableTabPage.Name = "DestinationTableTabPage"
@@ -277,90 +272,15 @@ Partial Class SkeeterDataTableControl
         Me.DestinationTableTabPage.Text = "Destination data table"
         Me.DestinationTableTabPage.UseVisualStyleBackColor = True
         '
-        'SplitContainer1
-        '
-        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.Location = New System.Drawing.Point(3, 151)
-        Me.SplitContainer1.Name = "SplitContainer1"
-        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer1.Panel1
-        '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.DestinationDataGridView)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1167, 456)
-        Me.SplitContainer1.SplitterDistance = 81
-        Me.SplitContainer1.TabIndex = 6
-        '
         'DestinationDataGridView
         '
         Me.DestinationDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DestinationDataGridView.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DestinationDataGridView.Location = New System.Drawing.Point(0, 0)
+        Me.DestinationDataGridView.Location = New System.Drawing.Point(3, 151)
         Me.DestinationDataGridView.Name = "DestinationDataGridView"
         Me.DestinationDataGridView.RowTemplate.Height = 24
-        Me.DestinationDataGridView.Size = New System.Drawing.Size(1167, 81)
+        Me.DestinationDataGridView.Size = New System.Drawing.Size(1167, 456)
         Me.DestinationDataGridView.TabIndex = 5
-        '
-        'ColumnsMappingDataGridView
-        '
-        Me.ColumnsMappingDataGridView.AllowUserToAddRows = False
-        Me.ColumnsMappingDataGridView.AllowUserToDeleteRows = False
-        Me.ColumnsMappingDataGridView.AllowUserToOrderColumns = True
-        Me.ColumnsMappingDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
-        Me.ColumnsMappingDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.ColumnsMappingDataGridView.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DestinationColumnName, Me.SourceColumnName, Me.DefaultValueColumn, Me.QuotedColumn})
-        Me.ColumnsMappingDataGridView.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ColumnsMappingDataGridView.Location = New System.Drawing.Point(0, 0)
-        Me.ColumnsMappingDataGridView.Name = "ColumnsMappingDataGridView"
-        Me.ColumnsMappingDataGridView.RowTemplate.Height = 24
-        Me.ColumnsMappingDataGridView.Size = New System.Drawing.Size(1167, 284)
-        Me.ColumnsMappingDataGridView.TabIndex = 3
-        '
-        'DestinationColumnName
-        '
-        Me.DestinationColumnName.DataPropertyName = "DestinationColumnName"
-        Me.DestinationColumnName.HeaderText = "Destination column"
-        Me.DestinationColumnName.Name = "DestinationColumnName"
-        '
-        'SourceColumnName
-        '
-        Me.SourceColumnName.DataPropertyName = "SourceColumnName"
-        Me.SourceColumnName.HeaderText = "Source column"
-        Me.SourceColumnName.Name = "SourceColumnName"
-        Me.SourceColumnName.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.SourceColumnName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
-        '
-        'DefaultValueColumn
-        '
-        Me.DefaultValueColumn.DataPropertyName = "DefaultValueColumn"
-        Me.DefaultValueColumn.HeaderText = "Default value"
-        Me.DefaultValueColumn.Name = "DefaultValueColumn"
-        '
-        'QuotedColumn
-        '
-        Me.QuotedColumn.DataPropertyName = "QuotedColumn"
-        Me.QuotedColumn.HeaderText = "Quote in SQL"
-        Me.QuotedColumn.Name = "QuotedColumn"
-        '
-        'MappingsPanel
-        '
-        Me.MappingsPanel.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.MappingsPanel.Controls.Add(Me.MappingsHeaderLabel)
-        Me.MappingsPanel.Dock = System.Windows.Forms.DockStyle.Top
-        Me.MappingsPanel.Location = New System.Drawing.Point(3, 3)
-        Me.MappingsPanel.Name = "MappingsPanel"
-        Me.MappingsPanel.Size = New System.Drawing.Size(1167, 48)
-        Me.MappingsPanel.TabIndex = 5
-        '
-        'MappingsHeaderLabel
-        '
-        Me.MappingsHeaderLabel.AutoSize = True
-        Me.MappingsHeaderLabel.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MappingsHeaderLabel.Location = New System.Drawing.Point(10, 12)
-        Me.MappingsHeaderLabel.Name = "MappingsHeaderLabel"
-        Me.MappingsHeaderLabel.Size = New System.Drawing.Size(429, 24)
-        Me.MappingsHeaderLabel.TabIndex = 3
-        Me.MappingsHeaderLabel.Text = "Map destination columns to source columns"
         '
         'DatabaseConnectionPanel
         '
@@ -376,6 +296,15 @@ Partial Class SkeeterDataTableControl
         Me.DatabaseConnectionPanel.Name = "DatabaseConnectionPanel"
         Me.DatabaseConnectionPanel.Size = New System.Drawing.Size(1167, 148)
         Me.DatabaseConnectionPanel.TabIndex = 4
+        '
+        'QueryTextBox
+        '
+        Me.QueryTextBox.Location = New System.Drawing.Point(139, 94)
+        Me.QueryTextBox.Multiline = True
+        Me.QueryTextBox.Name = "QueryTextBox"
+        Me.QueryTextBox.Size = New System.Drawing.Size(903, 38)
+        Me.QueryTextBox.TabIndex = 9
+        Me.QueryTextBox.Text = "select * from surveys"
         '
         'ExecuteSQLButton
         '
@@ -440,14 +369,17 @@ Partial Class SkeeterDataTableControl
         Me.ConnectionStringTextBox.TabIndex = 1
         Me.ConnectionStringTextBox.Text = "Server=INPYUGAMS08SQL\NUNA;Database=ARCN_MuskoxSurveys;Trusted_Connection=True;"
         '
-        'QueryTextBox
+        'MappingTabPage
         '
-        Me.QueryTextBox.Location = New System.Drawing.Point(139, 94)
-        Me.QueryTextBox.Multiline = True
-        Me.QueryTextBox.Name = "QueryTextBox"
-        Me.QueryTextBox.Size = New System.Drawing.Size(903, 38)
-        Me.QueryTextBox.TabIndex = 9
-        Me.QueryTextBox.Text = "select * from surveys"
+        Me.MappingTabPage.Controls.Add(Me.SplitContainer2)
+        Me.MappingTabPage.Controls.Add(Me.MappingsPanel)
+        Me.MappingTabPage.Location = New System.Drawing.Point(4, 25)
+        Me.MappingTabPage.Name = "MappingTabPage"
+        Me.MappingTabPage.Padding = New System.Windows.Forms.Padding(3)
+        Me.MappingTabPage.Size = New System.Drawing.Size(1173, 610)
+        Me.MappingTabPage.TabIndex = 2
+        Me.MappingTabPage.Text = "Map source data to destination"
+        Me.MappingTabPage.UseVisualStyleBackColor = True
         '
         'SplitContainer2
         '
@@ -462,31 +394,81 @@ Partial Class SkeeterDataTableControl
         '
         'SplitContainer2.Panel2
         '
-        Me.SplitContainer2.Panel2.Controls.Add(Me.OutputTextBox)
+        Me.SplitContainer2.Panel2.Controls.Add(Me.SqlTextBox)
         Me.SplitContainer2.Size = New System.Drawing.Size(1167, 556)
-        Me.SplitContainer2.SplitterDistance = 284
+        Me.SplitContainer2.SplitterDistance = 234
         Me.SplitContainer2.TabIndex = 6
         '
-        'OutputTextBox
+        'ColumnsMappingDataGridView
         '
-        Me.OutputTextBox.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.OutputTextBox.Location = New System.Drawing.Point(0, 0)
-        Me.OutputTextBox.Multiline = True
-        Me.OutputTextBox.Name = "OutputTextBox"
-        Me.OutputTextBox.Size = New System.Drawing.Size(1167, 268)
-        Me.OutputTextBox.TabIndex = 0
+        Me.ColumnsMappingDataGridView.AllowUserToAddRows = False
+        Me.ColumnsMappingDataGridView.AllowUserToDeleteRows = False
+        Me.ColumnsMappingDataGridView.AllowUserToOrderColumns = True
+        Me.ColumnsMappingDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
+        Me.ColumnsMappingDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.ColumnsMappingDataGridView.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DestinationColumnName, Me.SourceColumnName, Me.DefaultValueColumn, Me.QuotedColumn})
+        Me.ColumnsMappingDataGridView.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.ColumnsMappingDataGridView.Location = New System.Drawing.Point(0, 0)
+        Me.ColumnsMappingDataGridView.Name = "ColumnsMappingDataGridView"
+        Me.ColumnsMappingDataGridView.RowTemplate.Height = 24
+        Me.ColumnsMappingDataGridView.Size = New System.Drawing.Size(1167, 234)
+        Me.ColumnsMappingDataGridView.TabIndex = 3
         '
-        'MappingTabPage
+        'DestinationColumnName
         '
-        Me.MappingTabPage.Controls.Add(Me.SplitContainer2)
-        Me.MappingTabPage.Controls.Add(Me.MappingsPanel)
-        Me.MappingTabPage.Location = New System.Drawing.Point(4, 25)
-        Me.MappingTabPage.Name = "MappingTabPage"
-        Me.MappingTabPage.Padding = New System.Windows.Forms.Padding(3)
-        Me.MappingTabPage.Size = New System.Drawing.Size(1173, 610)
-        Me.MappingTabPage.TabIndex = 2
-        Me.MappingTabPage.Text = "Map source data to destination"
-        Me.MappingTabPage.UseVisualStyleBackColor = True
+        Me.DestinationColumnName.DataPropertyName = "DestinationColumnName"
+        Me.DestinationColumnName.HeaderText = "Destination column"
+        Me.DestinationColumnName.Name = "DestinationColumnName"
+        '
+        'SourceColumnName
+        '
+        Me.SourceColumnName.DataPropertyName = "SourceColumnName"
+        Me.SourceColumnName.HeaderText = "Source column"
+        Me.SourceColumnName.Name = "SourceColumnName"
+        Me.SourceColumnName.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.SourceColumnName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        '
+        'DefaultValueColumn
+        '
+        Me.DefaultValueColumn.DataPropertyName = "DefaultValueColumn"
+        Me.DefaultValueColumn.HeaderText = "Default value"
+        Me.DefaultValueColumn.Name = "DefaultValueColumn"
+        '
+        'QuotedColumn
+        '
+        Me.QuotedColumn.DataPropertyName = "QuotedColumn"
+        Me.QuotedColumn.HeaderText = "Quote in SQL"
+        Me.QuotedColumn.Name = "QuotedColumn"
+        '
+        'SqlTextBox
+        '
+        Me.SqlTextBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SqlTextBox.Font = New System.Drawing.Font("Courier New", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SqlTextBox.Location = New System.Drawing.Point(0, 0)
+        Me.SqlTextBox.Multiline = True
+        Me.SqlTextBox.Name = "SqlTextBox"
+        Me.SqlTextBox.Size = New System.Drawing.Size(1167, 318)
+        Me.SqlTextBox.TabIndex = 0
+        '
+        'MappingsPanel
+        '
+        Me.MappingsPanel.BackColor = System.Drawing.Color.Transparent
+        Me.MappingsPanel.Controls.Add(Me.MappingsHeaderLabel)
+        Me.MappingsPanel.Dock = System.Windows.Forms.DockStyle.Top
+        Me.MappingsPanel.Location = New System.Drawing.Point(3, 3)
+        Me.MappingsPanel.Name = "MappingsPanel"
+        Me.MappingsPanel.Size = New System.Drawing.Size(1167, 48)
+        Me.MappingsPanel.TabIndex = 5
+        '
+        'MappingsHeaderLabel
+        '
+        Me.MappingsHeaderLabel.AutoSize = True
+        Me.MappingsHeaderLabel.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MappingsHeaderLabel.Location = New System.Drawing.Point(10, 12)
+        Me.MappingsHeaderLabel.Name = "MappingsHeaderLabel"
+        Me.MappingsHeaderLabel.Size = New System.Drawing.Size(429, 24)
+        Me.MappingsHeaderLabel.TabIndex = 3
+        Me.MappingsHeaderLabel.Text = "Map destination columns to source columns"
         '
         'SkeeterDataTableControl
         '
@@ -509,21 +491,18 @@ Partial Class SkeeterDataTableControl
         Me.DataTableTabControl.ResumeLayout(False)
         Me.SourceDataTableTabPage.ResumeLayout(False)
         Me.DestinationTableTabPage.ResumeLayout(False)
-        Me.SplitContainer1.Panel1.ResumeLayout(False)
-        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer1.ResumeLayout(False)
         CType(Me.DestinationDataGridView, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ColumnsMappingDataGridView, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.MappingsPanel.ResumeLayout(False)
-        Me.MappingsPanel.PerformLayout()
         Me.DatabaseConnectionPanel.ResumeLayout(False)
         Me.DatabaseConnectionPanel.PerformLayout()
+        Me.MappingTabPage.ResumeLayout(False)
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.Panel2.PerformLayout()
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer2.ResumeLayout(False)
-        Me.MappingTabPage.ResumeLayout(False)
+        CType(Me.ColumnsMappingDataGridView, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.MappingsPanel.ResumeLayout(False)
+        Me.MappingsPanel.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -559,12 +538,11 @@ Partial Class SkeeterDataTableControl
     Friend WithEvents ConnectionStringTextBox As TextBox
     Friend WithEvents TableLabel As Label
     Friend WithEvents DestinationDataGridView As DataGridView
-    Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents MappingsPanel As Panel
     Friend WithEvents MappingsHeaderLabel As Label
     Friend WithEvents ExecuteSQLButton As Button
     Friend WithEvents QueryTextBox As TextBox
     Friend WithEvents SplitContainer2 As SplitContainer
-    Friend WithEvents OutputTextBox As TextBox
+    Friend WithEvents SqlTextBox As TextBox
     Friend WithEvents MappingTabPage As TabPage
 End Class

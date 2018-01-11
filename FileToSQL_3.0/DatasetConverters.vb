@@ -395,5 +395,64 @@ Module DatasetConverters
 
         Return MyDataTable
     End Function
+
+
+
+    ''' <summary>
+    ''' Get a CREATE TABLE SQL query string based on the submitted DataView
+    ''' </summary>
+    ''' <param name="DataView"></param>
+    ''' <param name="NewTableName"></param>
+    ''' <returns>String</returns>
+    Private Function GetCreateTableQuery(DataView As DataView, NewTableName As String) As String
+        Dim Sql As String = "" & vbNewLine
+        Sql = Sql & "--Best guess at columns and datatypes from the metadata available in the source dataset.  Examine and modify as needed" & vbNewLine
+        Sql = Sql & "CREATE TABLE " & NewTableName & "(" & vbNewLine
+        Dim CurrentDataTable As DataTable = DataView.ToTable
+        For Each Col As DataColumn In CurrentDataTable.Columns
+            Dim DataType As String = Col.DataType.ToString.Replace("System.", "")
+            Dim SqlDataType As String = ""
+            Select Case DataType
+                Case "Boolean"
+                    SqlDataType = "Bit"
+                Case "Byte"
+                    SqlDataType = "Binary"
+                Case "Char"
+                    SqlDataType = "Char(" & Col.MaxLength & ")"
+                Case "Date"
+                    SqlDataType = "Datetime"
+                Case "Decimal"
+                    SqlDataType = "Decimal" & "(" & Col.MaxLength & ",2)"
+                Case "Double"
+                    SqlDataType = "Float"
+                Case "Integer"
+                    SqlDataType = "Int"
+                Case "Long"
+                    SqlDataType = "Int"
+                Case "Object"
+                    SqlDataType = "Object()"
+                Case "SByte"
+                    SqlDataType = "Binary"
+                Case "Short"
+                    SqlDataType = "Int"
+                Case "Single"
+                    SqlDataType = "Float"
+                Case "String"
+                    SqlDataType = "Varchar(50)"
+                Case "UInteger"
+                    SqlDataType = "Int"
+                Case "ULong"
+                    SqlDataType = "Int"
+                Case "User-Defined"
+                    SqlDataType = "User-Defined"
+                Case "UShort"
+                    SqlDataType = "Int"
+                Case Else
+                    SqlDataType = "Varchar(50)"
+            End Select
+            Sql = Sql & "[" & Col.ColumnName & "] " & SqlDataType & "," & vbNewLine
+        Next
+        Return Sql.Substring(0, Sql.Trim.Length - 1) & ");"
+    End Function
 End Module
 
