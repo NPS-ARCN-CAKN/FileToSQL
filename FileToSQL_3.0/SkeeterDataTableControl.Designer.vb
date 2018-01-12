@@ -48,7 +48,6 @@ Partial Class SkeeterDataTableControl
         Me.QueryTextBox = New System.Windows.Forms.TextBox()
         Me.ExecuteSQLButton = New System.Windows.Forms.Button()
         Me.TableLabel = New System.Windows.Forms.Label()
-        Me.ConnectButton = New System.Windows.Forms.Button()
         Me.DestinationLabel = New System.Windows.Forms.Label()
         Me.ConnectionStringLabel = New System.Windows.Forms.Label()
         Me.ConnectionStringTextBox = New System.Windows.Forms.TextBox()
@@ -58,13 +57,19 @@ Partial Class SkeeterDataTableControl
         Me.DestinationColumnName = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SourceColumnName = New System.Windows.Forms.DataGridViewComboBoxColumn()
         Me.DefaultValueColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.QuotedColumn = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.QuotedColumn = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.SqlTextBox = New System.Windows.Forms.TextBox()
-        Me.MappingsPanel = New System.Windows.Forms.Panel()
-        Me.MappingsHeaderLabel = New System.Windows.Forms.Label()
         Me.SqlToolStrip = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.WrapToolStripLabel = New System.Windows.Forms.ToolStripLabel()
+        Me.WrapToolStripComboBox = New System.Windows.Forms.ToolStripComboBox()
+        Me.MappingsPanel = New System.Windows.Forms.Panel()
+        Me.MappingsHeaderLabel = New System.Windows.Forms.Label()
+        Me.TreeNodesImageList = New System.Windows.Forms.ImageList(Me.components)
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripLabel2 = New System.Windows.Forms.ToolStripLabel()
+        Me.NumberOfPreviewQueriesToolStripTextBox = New System.Windows.Forms.ToolStripTextBox()
         CType(Me.SplitContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
@@ -85,8 +90,8 @@ Partial Class SkeeterDataTableControl
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
         CType(Me.ColumnsMappingDataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.MappingsPanel.SuspendLayout()
         Me.SqlToolStrip.SuspendLayout()
+        Me.MappingsPanel.SuspendLayout()
         Me.SuspendLayout()
         '
         'SplitContainer
@@ -291,7 +296,6 @@ Partial Class SkeeterDataTableControl
         Me.DatabaseConnectionPanel.Controls.Add(Me.QueryTextBox)
         Me.DatabaseConnectionPanel.Controls.Add(Me.ExecuteSQLButton)
         Me.DatabaseConnectionPanel.Controls.Add(Me.TableLabel)
-        Me.DatabaseConnectionPanel.Controls.Add(Me.ConnectButton)
         Me.DatabaseConnectionPanel.Controls.Add(Me.DestinationLabel)
         Me.DatabaseConnectionPanel.Controls.Add(Me.ConnectionStringLabel)
         Me.DatabaseConnectionPanel.Controls.Add(Me.ConnectionStringTextBox)
@@ -308,12 +312,11 @@ Partial Class SkeeterDataTableControl
         Me.QueryTextBox.Name = "QueryTextBox"
         Me.QueryTextBox.Size = New System.Drawing.Size(903, 38)
         Me.QueryTextBox.TabIndex = 9
-        Me.QueryTextBox.Text = "select * from surveys"
+        Me.QueryTextBox.Text = "select top 3 * from muskoxgroups"
         '
         'ExecuteSQLButton
         '
         Me.ExecuteSQLButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ExecuteSQLButton.Enabled = False
         Me.ExecuteSQLButton.Image = CType(resources.GetObject("ExecuteSQLButton.Image"), System.Drawing.Image)
         Me.ExecuteSQLButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.ExecuteSQLButton.Location = New System.Drawing.Point(1048, 94)
@@ -331,17 +334,6 @@ Partial Class SkeeterDataTableControl
         Me.TableLabel.Size = New System.Drawing.Size(51, 17)
         Me.TableLabel.TabIndex = 6
         Me.TableLabel.Text = "Query:"
-        '
-        'ConnectButton
-        '
-        Me.ConnectButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ConnectButton.Enabled = False
-        Me.ConnectButton.Location = New System.Drawing.Point(1048, 39)
-        Me.ConnectButton.Name = "ConnectButton"
-        Me.ConnectButton.Size = New System.Drawing.Size(99, 23)
-        Me.ConnectButton.TabIndex = 4
-        Me.ConnectButton.Text = "Connect"
-        Me.ConnectButton.UseVisualStyleBackColor = True
         '
         'DestinationLabel
         '
@@ -444,16 +436,53 @@ Partial Class SkeeterDataTableControl
         Me.QuotedColumn.DataPropertyName = "QuotedColumn"
         Me.QuotedColumn.HeaderText = "Quote in SQL"
         Me.QuotedColumn.Name = "QuotedColumn"
+        Me.QuotedColumn.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.QuotedColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
         '
         'SqlTextBox
         '
         Me.SqlTextBox.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SqlTextBox.Font = New System.Drawing.Font("Courier New", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SqlTextBox.Location = New System.Drawing.Point(0, 25)
+        Me.SqlTextBox.Location = New System.Drawing.Point(0, 28)
         Me.SqlTextBox.Multiline = True
         Me.SqlTextBox.Name = "SqlTextBox"
-        Me.SqlTextBox.Size = New System.Drawing.Size(1167, 293)
+        Me.SqlTextBox.Size = New System.Drawing.Size(1167, 290)
         Me.SqlTextBox.TabIndex = 0
+        Me.SqlTextBox.WordWrap = False
+        '
+        'SqlToolStrip
+        '
+        Me.SqlToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
+        Me.SqlToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.ToolStripSeparator1, Me.WrapToolStripLabel, Me.WrapToolStripComboBox, Me.ToolStripSeparator2, Me.ToolStripLabel2, Me.NumberOfPreviewQueriesToolStripTextBox})
+        Me.SqlToolStrip.Location = New System.Drawing.Point(0, 0)
+        Me.SqlToolStrip.Name = "SqlToolStrip"
+        Me.SqlToolStrip.Size = New System.Drawing.Size(1167, 28)
+        Me.SqlToolStrip.TabIndex = 1
+        Me.SqlToolStrip.Text = "Insert queries script:"
+        '
+        'ToolStripLabel1
+        '
+        Me.ToolStripLabel1.Name = "ToolStripLabel1"
+        Me.ToolStripLabel1.Size = New System.Drawing.Size(137, 25)
+        Me.ToolStripLabel1.Text = "Insert queries script"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 28)
+        '
+        'WrapToolStripLabel
+        '
+        Me.WrapToolStripLabel.Name = "WrapToolStripLabel"
+        Me.WrapToolStripLabel.Size = New System.Drawing.Size(45, 25)
+        Me.WrapToolStripLabel.Text = "Wrap"
+        '
+        'WrapToolStripComboBox
+        '
+        Me.WrapToolStripComboBox.Items.AddRange(New Object() {"True", "False"})
+        Me.WrapToolStripComboBox.Name = "WrapToolStripComboBox"
+        Me.WrapToolStripComboBox.Size = New System.Drawing.Size(121, 28)
+        Me.WrapToolStripComboBox.Text = "False"
         '
         'MappingsPanel
         '
@@ -475,26 +504,34 @@ Partial Class SkeeterDataTableControl
         Me.MappingsHeaderLabel.TabIndex = 3
         Me.MappingsHeaderLabel.Text = "Map destination columns to source columns"
         '
-        'SqlToolStrip
+        'TreeNodesImageList
         '
-        Me.SqlToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.SqlToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.ToolStripSeparator1})
-        Me.SqlToolStrip.Location = New System.Drawing.Point(0, 0)
-        Me.SqlToolStrip.Name = "SqlToolStrip"
-        Me.SqlToolStrip.Size = New System.Drawing.Size(1167, 25)
-        Me.SqlToolStrip.TabIndex = 1
-        Me.SqlToolStrip.Text = "Insert queries script:"
+        Me.TreeNodesImageList.ImageStream = CType(resources.GetObject("TreeNodesImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.TreeNodesImageList.TransparentColor = System.Drawing.Color.Transparent
+        Me.TreeNodesImageList.Images.SetKeyName(0, "database.png")
+        Me.TreeNodesImageList.Images.SetKeyName(1, "table.png")
+        Me.TreeNodesImageList.Images.SetKeyName(2, "layout.png")
+        Me.TreeNodesImageList.Images.SetKeyName(3, "brick.png")
+        Me.TreeNodesImageList.Images.SetKeyName(4, "cog.png")
+        Me.TreeNodesImageList.Images.SetKeyName(5, "bullet_wrench.png")
+        Me.TreeNodesImageList.Images.SetKeyName(6, "page_excel.png")
+        Me.TreeNodesImageList.Images.SetKeyName(7, "page_white_text.png")
         '
-        'ToolStripLabel1
+        'ToolStripSeparator2
         '
-        Me.ToolStripLabel1.Name = "ToolStripLabel1"
-        Me.ToolStripLabel1.Size = New System.Drawing.Size(137, 22)
-        Me.ToolStripLabel1.Text = "Insert queries script"
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 28)
         '
-        'ToolStripSeparator1
+        'ToolStripLabel2
         '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
+        Me.ToolStripLabel2.Name = "ToolStripLabel2"
+        Me.ToolStripLabel2.Size = New System.Drawing.Size(192, 25)
+        Me.ToolStripLabel2.Text = "Number of preview queries:"
+        '
+        'NumberOfPreviewQueriesToolStripTextBox
+        '
+        Me.NumberOfPreviewQueriesToolStripTextBox.Name = "NumberOfPreviewQueriesToolStripTextBox"
+        Me.NumberOfPreviewQueriesToolStripTextBox.Size = New System.Drawing.Size(100, 28)
         '
         'SkeeterDataTableControl
         '
@@ -527,10 +564,10 @@ Partial Class SkeeterDataTableControl
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer2.ResumeLayout(False)
         CType(Me.ColumnsMappingDataGridView, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.MappingsPanel.ResumeLayout(False)
-        Me.MappingsPanel.PerformLayout()
         Me.SqlToolStrip.ResumeLayout(False)
         Me.SqlToolStrip.PerformLayout()
+        Me.MappingsPanel.ResumeLayout(False)
+        Me.MappingsPanel.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -555,12 +592,7 @@ Partial Class SkeeterDataTableControl
     Friend WithEvents SourceDataTableTabPage As TabPage
     Friend WithEvents DestinationTableTabPage As TabPage
     Friend WithEvents ColumnsMappingDataGridView As DataGridView
-    Friend WithEvents DestinationColumnName As DataGridViewTextBoxColumn
-    Friend WithEvents SourceColumnName As DataGridViewComboBoxColumn
-    Friend WithEvents DefaultValueColumn As DataGridViewTextBoxColumn
-    Friend WithEvents QuotedColumn As DataGridViewTextBoxColumn
     Friend WithEvents DatabaseConnectionPanel As Panel
-    Friend WithEvents ConnectButton As Button
     Friend WithEvents DestinationLabel As Label
     Friend WithEvents ConnectionStringLabel As Label
     Friend WithEvents ConnectionStringTextBox As TextBox
@@ -576,4 +608,14 @@ Partial Class SkeeterDataTableControl
     Friend WithEvents SqlToolStrip As ToolStrip
     Friend WithEvents ToolStripLabel1 As ToolStripLabel
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
+    Friend WithEvents TreeNodesImageList As ImageList
+    Friend WithEvents DestinationColumnName As DataGridViewTextBoxColumn
+    Friend WithEvents SourceColumnName As DataGridViewComboBoxColumn
+    Friend WithEvents DefaultValueColumn As DataGridViewTextBoxColumn
+    Friend WithEvents QuotedColumn As DataGridViewCheckBoxColumn
+    Friend WithEvents WrapToolStripLabel As ToolStripLabel
+    Friend WithEvents WrapToolStripComboBox As ToolStripComboBox
+    Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
+    Friend WithEvents ToolStripLabel2 As ToolStripLabel
+    Friend WithEvents NumberOfPreviewQueriesToolStripTextBox As ToolStripTextBox
 End Class

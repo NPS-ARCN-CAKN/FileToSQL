@@ -22,6 +22,8 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.DatasetTreeView = New System.Windows.Forms.TreeView()
         Me.SplitContainer = New System.Windows.Forms.SplitContainer()
         Me.MainMenuStrip = New System.Windows.Forms.MenuStrip()
@@ -29,6 +31,7 @@ Partial Class Form1
         Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExtToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TreeNodesImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.SkeeterDataTableControl = New FileToSQL_3._0.SkeeterDataTableControl()
         CType(Me.SplitContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer.Panel1.SuspendLayout()
@@ -41,8 +44,11 @@ Partial Class Form1
         '
         Me.DatasetTreeView.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DatasetTreeView.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DatasetTreeView.ImageIndex = 0
+        Me.DatasetTreeView.ImageList = Me.TreeNodesImageList
         Me.DatasetTreeView.Location = New System.Drawing.Point(0, 0)
         Me.DatasetTreeView.Name = "DatasetTreeView"
+        Me.DatasetTreeView.SelectedImageIndex = 0
         Me.DatasetTreeView.Size = New System.Drawing.Size(173, 578)
         Me.DatasetTreeView.TabIndex = 0
         '
@@ -98,6 +104,19 @@ Partial Class Form1
         Me.ExtToolStripMenuItem.Size = New System.Drawing.Size(129, 26)
         Me.ExtToolStripMenuItem.Text = "Exit"
         '
+        'TreeNodesImageList
+        '
+        Me.TreeNodesImageList.ImageStream = CType(resources.GetObject("TreeNodesImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.TreeNodesImageList.TransparentColor = System.Drawing.Color.Transparent
+        Me.TreeNodesImageList.Images.SetKeyName(0, "database.png")
+        Me.TreeNodesImageList.Images.SetKeyName(1, "table.png")
+        Me.TreeNodesImageList.Images.SetKeyName(2, "layout.png")
+        Me.TreeNodesImageList.Images.SetKeyName(3, "brick.png")
+        Me.TreeNodesImageList.Images.SetKeyName(4, "cog.png")
+        Me.TreeNodesImageList.Images.SetKeyName(5, "bullet_wrench.png")
+        Me.TreeNodesImageList.Images.SetKeyName(6, "page_excel.png")
+        Me.TreeNodesImageList.Images.SetKeyName(7, "page_white_text.png")
+        '
         'SkeeterDataTableControl
         '
         Me.SkeeterDataTableControl.Dock = System.Windows.Forms.DockStyle.Fill
@@ -135,4 +154,5 @@ Partial Class Form1
     Friend WithEvents OpenToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CloseToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ExtToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TreeNodesImageList As ImageList
 End Class

@@ -33,6 +33,15 @@ Module DatasetConverters
         Return CSV
     End Function
 
+    Public Function GetDatasetFromCSV(CSVFileInfo As FileInfo, Headers As Boolean) As DataSet
+        Dim CSVDataset As New DataSet(CSVFileInfo.Name)
+        Try
+            CSVDataset.Tables.Add(GetDataTableFromCSV(CSVFileInfo, Headers))
+        Catch ex As Exception
+            MsgBox(ex.Message & " (" & System.Reflection.MethodBase.GetCurrentMethod.Name & ")")
+        End Try
+        Return CSVDataset
+    End Function
 
     ''' <summary>
     ''' Converts the submitted CSV text file into a DataTable
@@ -53,6 +62,8 @@ Module DatasetConverters
         End Try
         Return MyDataTable
     End Function
+
+
 
     Public Function GetDatasetFromExcelWorkbook(ExcelFileInfo As FileInfo) As DataSet
         Dim ExcelDataset As New DataSet
@@ -246,29 +257,84 @@ Module DatasetConverters
             .ColumnName = "Unique"
         End With
 
+        'Maximum column
+        Dim MaximumColumn As New DataColumn
+        With MaximumColumn
+            .DataType = System.Type.GetType("System.String")
+            .Caption = "Maximum"
+            .ColumnName = "Maximum"
+        End With
+
+        'Minimum column
+        Dim MinimumColumn As New DataColumn
+        With MinimumColumn
+            .DataType = System.Type.GetType("System.String")
+            .Caption = "Minimum"
+            .ColumnName = "Minimum"
+        End With
+
+        'NullCount column
+        Dim NullCountColumn As New DataColumn
+        With NullCountColumn
+            .DataType = System.Type.GetType("System.Int32")
+            .Caption = "Nulls"
+            .ColumnName = "NullCount"
+        End With
+
+        'NotNullCount column
+        Dim FilledCountColumn As New DataColumn
+        With FilledCountColumn
+            .DataType = System.Type.GetType("System.Int32")
+            .Caption = "Not Nulls"
+            .ColumnName = "FilledCount"
+        End With
+
+        'Blank Count column
+        Dim BlankCountColumn As New DataColumn
+        With BlankCountColumn
+            .DataType = System.Type.GetType("System.Int32")
+            .Caption = "Blanks"
+            .ColumnName = "BlankCount"
+        End With
+
+        'Count column
+        Dim CountColumn As New DataColumn
+        With CountColumn
+            .DataType = System.Type.GetType("System.Int32")
+            .Caption = "Count"
+            .ColumnName = "Count"
+        End With
+
         'add the columns to the datatable
-        ColumnsDataTable.Columns.Add(ColumnNameColumn)
-        ColumnsDataTable.Columns.Add(UnitsColumn)
-        ColumnsDataTable.Columns.Add(CaptionColumn)
-        ColumnsDataTable.Columns.Add(DataTypeColumn)
+        With ColumnsDataTable.Columns
+            .Add(ColumnNameColumn)
+            .Add(UnitsColumn)
+            .Add(CaptionColumn)
+            .Add(DataTypeColumn)
+            .Add(MaximumColumn)
+            .Add(MinimumColumn)
+            .Add(CountColumn)
+            .Add(NullCountColumn)
+            .Add(FilledCountColumn)
+            .Add(BlankCountColumn)
+            .Add(ColumnDescriptionColumn)
+            .Add(AllowDBNullColumn)
+            .Add(UniqueColumn)
+            .Add(DefaultValueColumn)
+            .Add(AutoIncrementColumn)
+            .Add(AutoIncrementSeedColumn)
+            .Add(AutoIncrementStepColumn)
+            .Add(ColumnMappingColumn)
+            .Add(ExpressionColumn)
+            '.Add(ExtendedPropertiesColumn)
+            .Add(MaxLengthColumn)
+            .Add(TableColumn)
+            .Add(DateTimeModeColumn)
+        End With
 
-        ColumnsDataTable.Columns.Add(ColumnDescriptionColumn)
 
-        ColumnsDataTable.Columns.Add(AllowDBNullColumn)
-        ColumnsDataTable.Columns.Add(UniqueColumn)
-        ColumnsDataTable.Columns.Add(DefaultValueColumn)
-        ColumnsDataTable.Columns.Add(AutoIncrementColumn)
-        ColumnsDataTable.Columns.Add(AutoIncrementSeedColumn)
-        ColumnsDataTable.Columns.Add(AutoIncrementStepColumn)
-        ColumnsDataTable.Columns.Add(ColumnMappingColumn)
-        ColumnsDataTable.Columns.Add(ExpressionColumn)
-        'ColumnsDataTable.Columns.Add(ExtendedPropertiesColumn)
-        ColumnsDataTable.Columns.Add(MaxLengthColumn)
-        ColumnsDataTable.Columns.Add(TableColumn)
-        ColumnsDataTable.Columns.Add(DateTimeModeColumn)
-
-        Try
-            If Not InputDataTable Is Nothing Then
+        'Try
+        If Not InputDataTable Is Nothing Then
                 'load the columns data table with info about the input data table
                 For Each Column As DataColumn In InputDataTable.Columns
                     Dim NewRow As DataRow = ColumnsDataTable.NewRow
@@ -289,16 +355,36 @@ Module DatasetConverters
                     NewRow.Item("Unique") = Column.Unique
                     NewRow.Item("DateTimeMode") = Column.DateTimeMode
 
-                    'add the row to the table
-                    ColumnsDataTable.Rows.Add(NewRow)
-                Next
-            End If
-        Catch ex As Exception
-            MsgBox(ex.Message & " (" & System.Reflection.MethodBase.GetCurrentMethod.Name & ")")
-        End Try
+                NewRow.Item("Maximum") = InputDataTable.Compute("Max([" & Column.ColumnName & "])", "").ToString
+                NewRow.Item("Minimum") = InputDataTable.Compute("Min([" & Column.ColumnName & "])", "").ToString
 
-        'return the metadata datatable
-        Return ColumnsDataTable
+                NewRow.Item("Count") = InputDataTable.Compute("Count([" & Column.ColumnName & "])", "").ToString
+
+                Dim NullsFilter As String = "[" & Column.ColumnName & "] is NULL"
+                NewRow.Item("NullCount") = InputDataTable.Compute("Count([" & Column.ColumnName & "])", NullsFilter).ToString
+
+                Dim NotNullsFilter As String = "[" & Column.ColumnName & "] is not NULL"
+                NewRow.Item("FilledCount") = InputDataTable.Compute("Count([" & Column.ColumnName & "])", NotNullsFilter).ToString
+
+                'count the blanks
+                Dim BlanksCount As Integer = 0
+                For Each InputRow As DataRow In InputDataTable.Rows
+                    If InputRow.Item(Column.ColumnName).ToString.Trim = "" Then
+                        BlanksCount = BlanksCount + 1
+                    End If
+                Next
+                NewRow.Item("BlankCount") = BlanksCount
+
+                'add the row to the table
+                ColumnsDataTable.Rows.Add(NewRow)
+            Next
+        End If
+            'Catch ex As Exception
+            '    MsgBox(ex.Message & " (" & System.Reflection.MethodBase.GetCurrentMethod.Name & ")")
+            'End Try
+
+            'return the metadata datatable
+            Return ColumnsDataTable
     End Function
 
     Public Function GetMappingsDataTable() As DataTable

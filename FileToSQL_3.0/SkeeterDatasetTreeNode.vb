@@ -18,12 +18,20 @@ Public Class SkeeterDatasetTreeNode
                     .DataTable = DT
                     .Text = DT.TableName
                     .FileInfo = _FileInfo
+                    .ImageIndex = 1
+                    .SelectedImageIndex = 1
                 End With
 
                 'add the columns
                 For Each Col As DataColumn In DT.Columns
                     Dim ColumnNode As New SkeeterDatasetTreeNode(Nothing, Nothing, Nothing)
-                    ColumnNode.Text = Col.ColumnName & " - " & Col.DataType.ToString.Replace("System.", "") & " " & Col.MaxLength
+                    With ColumnNode
+                        .Text = Col.ColumnName & " - " & Col.DataType.ToString.Replace("System.", "") & " " & Col.MaxLength
+                        .ImageIndex = 2
+                        .SelectedImageIndex = 2
+                        .Tag = Col
+                    End With
+
                     DataTableNode.Nodes.Add(ColumnNode)
                 Next
                 Me.Nodes.Add(DataTableNode)
