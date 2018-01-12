@@ -28,14 +28,20 @@
 
             'loop through the metadata DGV's columns looking for a match.  Select a match.
             Dim RowIndex As Integer = 0
-            For Each Row As DataGridViewRow In MetadataDataGridView.Rows
-                If Row.Cells("ColumnName").Value = ClickedColumnName Then
-                    Me.MetadataDataGridView.Rows(RowIndex).Selected = True
-                Else
-                    Me.MetadataDataGridView.Rows(RowIndex).Selected = False
-                End If
-                RowIndex = RowIndex + 1
-            Next
+            Dim SelectedRowIndex As Integer = 0
+            If MetadataDataGridView.Rows.Count > 0 Then
+                For Each Row As DataGridViewRow In MetadataDataGridView.Rows
+                    If Row.Cells("ColumnName").Value = ClickedColumnName Then
+                        Me.MetadataDataGridView.Rows(RowIndex).Selected = True
+                        SelectedRowIndex = RowIndex
+                    Else
+                        Me.MetadataDataGridView.Rows(RowIndex).Selected = False
+                    End If
+                    RowIndex = RowIndex + 1
+                Next
+                Me.MetadataDataGridView.FirstDisplayedScrollingRowIndex = SelectedRowIndex
+            End If
+
         End If
     End Sub
 
@@ -109,7 +115,12 @@
     End Sub
 
     Private Sub ExecuteSQLButton_Click(sender As Object, e As EventArgs) Handles ExecuteSQLButton.Click
+        'load the mappings grid
         LoadMappingsGrid()
+
+        'save the database connection info
+        My.Settings.ConnectionString = Me.ConnectionStringTextBox.Text.Trim
+        My.Settings.Query = Me.QueryTextBox.Text
     End Sub
 
 

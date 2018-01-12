@@ -65,32 +65,29 @@ Module DatasetConverters
 
 
 
-    Public Function GetDatasetFromExcelWorkbook(ExcelFileInfo As FileInfo) As DataSet
+    Public Function GetDatasetFromExcelWorkbook(ExcelConnectionString As String) As DataSet
         Dim ExcelDataset As New DataSet
-        If My.Computer.FileSystem.FileExists(ExcelFileInfo.FullName) Then
-            Try
-                Dim ExcelConnectionString As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & ExcelFileInfo.FullName & ";Extended Properties='Excel 12.0 Xml;HDR=YES';"
-                ExcelDataset.DataSetName = ExcelFileInfo.Name
-                Dim WorksheetsDataTable As DataTable = GetExcelWorksheets(ExcelConnectionString)
-                For Each WorksheetRow As DataRow In WorksheetsDataTable.Rows
-                    Dim WorksheetName As String = WorksheetRow.Item("TABLE_NAME")
-                    Dim ExcelDataTable As New DataTable(WorksheetName)
-                    ExcelDataTable.TableName = WorksheetName
-                    Dim Sql As String = "SELECT * FROM [" & WorksheetName & "]"
-                    Dim MyConnection As New OleDbConnection(ExcelConnectionString)
-                    MyConnection.Open()
-                    Dim MyCommand As New OleDbCommand(Sql, MyConnection)
-                    Dim MyDataAdapter As New OleDbDataAdapter(MyCommand)
-                    MyDataAdapter.Fill(ExcelDataTable)
-                    ExcelDataset.Tables.Add(ExcelDataTable)
-                    MyConnection.Close()
-                Next
-            Catch ex As Exception
-                MsgBox(ex.Message & " (" & System.Reflection.MethodBase.GetCurrentMethod.Name & ")")
-            End Try
-        Else
-            MsgBox(ExcelFileInfo.FullName & " does not exist")
-        End If
+        'If My.Computer.FileSystem.FileExists(ExcelFileInfo.FullName) Then
+        Try
+            'Dim As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & ExcelFileInfo.FullName & ";Extended Properties='Excel 12.0 Xml;HDR=YES';"
+            'ExcelDataset.DataSetName = ExcelFileInfo.Name
+            Dim WorksheetsDataTable As DataTable = GetExcelWorksheets(ExcelConnectionString)
+            For Each WorksheetRow As DataRow In WorksheetsDataTable.Rows
+                Dim WorksheetName As String = WorksheetRow.Item("TABLE_NAME")
+                Dim ExcelDataTable As New DataTable(WorksheetName)
+                ExcelDataTable.TableName = WorksheetName
+                Dim Sql As String = "SELECT * FROM [" & WorksheetName & "]"
+                Dim MyConnection As New OleDbConnection(ExcelConnectionString)
+                MyConnection.Open()
+                Dim MyCommand As New OleDbCommand(Sql, MyConnection)
+                Dim MyDataAdapter As New OleDbDataAdapter(MyCommand)
+                MyDataAdapter.Fill(ExcelDataTable)
+                ExcelDataset.Tables.Add(ExcelDataTable)
+                MyConnection.Close()
+            Next
+        Catch ex As Exception
+            MsgBox(ex.Message & " (" & System.Reflection.MethodBase.GetCurrentMethod.Name & ")")
+        End Try
         Return ExcelDataset
     End Function
 
@@ -311,8 +308,8 @@ Module DatasetConverters
             .Add(UnitsColumn)
             .Add(CaptionColumn)
             .Add(DataTypeColumn)
-            .Add(MaximumColumn)
             .Add(MinimumColumn)
+            .Add(MaximumColumn)
             .Add(CountColumn)
             .Add(NullCountColumn)
             .Add(FilledCountColumn)
@@ -333,8 +330,8 @@ Module DatasetConverters
         End With
 
 
-        'Try
-        If Not InputDataTable Is Nothing Then
+        Try
+            If Not InputDataTable Is Nothing Then
                 'load the columns data table with info about the input data table
                 For Each Column As DataColumn In InputDataTable.Columns
                     Dim NewRow As DataRow = ColumnsDataTable.NewRow
@@ -355,37 +352,55 @@ Module DatasetConverters
                     NewRow.Item("Unique") = Column.Unique
                     NewRow.Item("DateTimeMode") = Column.DateTimeMode
 
-                NewRow.Item("Maximum") = InputDataTable.Compute("Max([" & Column.ColumnName & "])", "").ToString
-                NewRow.Item("Minimum") = InputDataTable.Compute("Min([" & Column.ColumnName & "])", "").ToString
+                    NewRow.Item("Maximum") = InputDataTable.Compute("Max([" & Column.ColumnName & "])", "").ToString
+                    NewRow.Item("Minimum") = InputDataTable.Compute("Min([" & Column.ColumnName & "])", "").ToString
 
-                NewRow.Item("Count") = InputDataTable.Compute("Count([" & Column.ColumnName & "])", "").ToString
+                    NewRow.Item("Count") = InputDataTable.Compute("Count([" & Column.ColumnName & "])", "").ToString
 
-                Dim NullsFilter As String = "[" & Column.ColumnName & "] is NULL"
-                NewRow.Item("NullCount") = InputDataTable.Compute("Count([" & Column.ColumnName & "])", NullsFilter).ToString
+                    Dim NullsFilter As String = "[" & Column.ColumnName & "] is NULL"
+                    NewRow.Item("NullCount") = InputDataTable.Compute("Count([" & Column.ColumnName & "])", NullsFilter).ToString
 
-                Dim NotNullsFilter As String = "[" & Column.ColumnName & "] is not NULL"
-                NewRow.Item("FilledCount") = InputDataTable.Compute("Count([" & Column.ColumnName & "])", NotNullsFilter).ToString
+                    Dim NotNullsFilter As String = "[" & Column.ColumnName & "] is not NULL"
+                    NewRow.Item("FilledCount") = InputDataTable.Compute("Count([" & Column.ColumnName & "])", NotNullsFilter).ToString
 
-                'count the blanks
-                Dim BlanksCount As Integer = 0
-                For Each InputRow As DataRow In InputDataTable.Rows
-                    If InputRow.Item(Column.ColumnName).ToString.Trim = "" Then
-                        BlanksCount = BlanksCount + 1
-                    End If
+                    'count the blanks
+                    Dim BlanksCount As Integer = 0
+                    For Each InputRow As DataRow In InputDataTable.Rows
+                        If InputRow.Item(Column.ColumnName).ToString.Trim = "" Then
+                            BlanksCount = BlanksCount + 1
+                        End If
+                    Next
+                    NewRow.Item("BlankCount") = BlanksCount
+
+                    'add the row to the table
+                    ColumnsDataTable.Rows.Add(NewRow)
                 Next
-                NewRow.Item("BlankCount") = BlanksCount
+            End If
+        Catch ex As Exception
+        MsgBox(ex.Message & " (" & System.Reflection.MethodBase.GetCurrentMethod.Name & ")")
+        End Try
 
-                'add the row to the table
-                ColumnsDataTable.Rows.Add(NewRow)
-            Next
-        End If
-            'Catch ex As Exception
-            '    MsgBox(ex.Message & " (" & System.Reflection.MethodBase.GetCurrentMethod.Name & ")")
-            'End Try
-
-            'return the metadata datatable
-            Return ColumnsDataTable
+        'return the metadata datatable
+        Return ColumnsDataTable
     End Function
+
+    'Public Function RemoveEmptyDataTableRows(InputDataTable As DataTable) As DataTable
+    '    Dim RowIndex As Integer = 0
+    '    For Each Row As DataRow In InputDataTable.Rows
+    '        Dim EmptyCellsCount As Integer = 0
+    '        For Each Col As DataColumn In InputDataTable.Columns
+    '            If IsDBNull(Row.Item(Col.ColumnName)) = True Or Row.Item(Col.ColumnName).ToString.Trim = "" Then
+    '                EmptyCellsCount = EmptyCellsCount + 1
+    '            End If
+    '        Next
+    '        If EmptyCellsCount = InputDataTable.Columns.Count Then
+    '            InputDataTable.Rows.Remove(Row)
+    '        End If
+    '        RowIndex = RowIndex + 1
+    '    Next
+    '    Return InputDataTable
+    'End Function
+
 
     Public Function GetMappingsDataTable() As DataTable
         Dim MappingsDataTable As New DataTable("Mappings")

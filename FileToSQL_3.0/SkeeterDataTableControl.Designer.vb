@@ -64,12 +64,12 @@ Partial Class SkeeterDataTableControl
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.WrapToolStripLabel = New System.Windows.Forms.ToolStripLabel()
         Me.WrapToolStripComboBox = New System.Windows.Forms.ToolStripComboBox()
-        Me.MappingsPanel = New System.Windows.Forms.Panel()
-        Me.MappingsHeaderLabel = New System.Windows.Forms.Label()
-        Me.TreeNodesImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripLabel2 = New System.Windows.Forms.ToolStripLabel()
         Me.NumberOfPreviewQueriesToolStripTextBox = New System.Windows.Forms.ToolStripTextBox()
+        Me.MappingsPanel = New System.Windows.Forms.Panel()
+        Me.MappingsHeaderLabel = New System.Windows.Forms.Label()
+        Me.TreeNodesImageList = New System.Windows.Forms.ImageList(Me.components)
         CType(Me.SplitContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
@@ -484,6 +484,22 @@ Partial Class SkeeterDataTableControl
         Me.WrapToolStripComboBox.Size = New System.Drawing.Size(121, 28)
         Me.WrapToolStripComboBox.Text = "False"
         '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 28)
+        '
+        'ToolStripLabel2
+        '
+        Me.ToolStripLabel2.Name = "ToolStripLabel2"
+        Me.ToolStripLabel2.Size = New System.Drawing.Size(192, 25)
+        Me.ToolStripLabel2.Text = "Number of preview queries:"
+        '
+        'NumberOfPreviewQueriesToolStripTextBox
+        '
+        Me.NumberOfPreviewQueriesToolStripTextBox.Name = "NumberOfPreviewQueriesToolStripTextBox"
+        Me.NumberOfPreviewQueriesToolStripTextBox.Size = New System.Drawing.Size(100, 28)
+        '
         'MappingsPanel
         '
         Me.MappingsPanel.BackColor = System.Drawing.Color.Transparent
@@ -516,22 +532,6 @@ Partial Class SkeeterDataTableControl
         Me.TreeNodesImageList.Images.SetKeyName(5, "bullet_wrench.png")
         Me.TreeNodesImageList.Images.SetKeyName(6, "page_excel.png")
         Me.TreeNodesImageList.Images.SetKeyName(7, "page_white_text.png")
-        '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 28)
-        '
-        'ToolStripLabel2
-        '
-        Me.ToolStripLabel2.Name = "ToolStripLabel2"
-        Me.ToolStripLabel2.Size = New System.Drawing.Size(192, 25)
-        Me.ToolStripLabel2.Text = "Number of preview queries:"
-        '
-        'NumberOfPreviewQueriesToolStripTextBox
-        '
-        Me.NumberOfPreviewQueriesToolStripTextBox.Name = "NumberOfPreviewQueriesToolStripTextBox"
-        Me.NumberOfPreviewQueriesToolStripTextBox.Size = New System.Drawing.Size(100, 28)
         '
         'SkeeterDataTableControl
         '

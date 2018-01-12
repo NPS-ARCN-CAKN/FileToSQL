@@ -56,14 +56,25 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Server=INPYUGAMS08SQL\NUNA;Database=ARCN_MuskoxSurveys;Trusted_Connection=True;Ty"& _ 
-            "pe System Version=SQL Server 2012;")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
         Public Property ConnectionString() As String
             Get
                 Return CType(Me("ConnectionString"),String)
             End Get
             Set
                 Me("ConnectionString") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property Query() As String
+            Get
+                Return CType(Me("Query"),String)
+            End Get
+            Set
+                Me("Query") = value
             End Set
         End Property
     End Class

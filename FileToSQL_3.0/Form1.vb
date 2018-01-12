@@ -24,7 +24,9 @@ Public Class Form1
 
 
 
-        Dim SourceFileInfo As New FileInfo("C:\Work\VitalSigns\ARCN Muskox\Data\2012 WEAR-208-2012 2012 Seward Peninsula Muskox Composition Count Survey\2012 Comp/22E_2012_comp.xlsx")
+        'Dim SourceFileInfo As New FileInfo("C:\Work\VitalSigns\ARCN Muskox\Data\2012 WEAR-208-2012 2012 Seward Peninsula Muskox Composition Count Survey\2012 Comp/22E_2012_comp.xlsx")
+        Dim SourceFileInfo As New FileInfo("C:\temp\zdata.xlsx")
+
         LoadSourceDataset(SourceFileInfo)
 
         'Dim SourceDataset As DataSet = GetDatasetFromExcelWorkbook(SourceFileInfo)
@@ -101,7 +103,8 @@ Public Class Form1
         Dim SourceDataset As DataSet
         Dim NodeImage As Integer = 0
         If FileInfo.Extension = ".xlsx" Or FileInfo.Extension = ".xls" Then
-            SourceDataset = GetDatasetFromExcelWorkbook(FileInfo)
+            Dim MyConnectionString As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & FileInfo.FullName & ";Extended Properties=""Excel 12.0 Xml;HDR=YES"";"
+            SourceDataset = GetDatasetFromExcelWorkbook(MyConnectionString)
             NodeImage = 6 'excel image
         ElseIf FileInfo.Extension = ".csv" Or FileInfo.Extension = ".txt" Then
             SourceDataset = GetDatasetFromCSV(FileInfo, True)
@@ -119,4 +122,16 @@ Public Class Form1
         Me.DatasetTreeView.Nodes.Add(SkeeterDatasetTreeNode)
     End Sub
 
+    Private Sub OpenSourceFileToolStripButton_Click(sender As Object, e As EventArgs) Handles OpenSourceFileToolStripButton.Click
+        Try
+            Dim SkeeterDatasetTreeNode As SkeeterDatasetTreeNode = Me.DatasetTreeView.Nodes(0)
+            Process.Start(SkeeterDatasetTreeNode.FileInfo.FullName)
+        Catch ex As Exception
+            MsgBox(ex.Message & "  " & System.Reflection.MethodBase.GetCurrentMethod.Name)
+        End Try
+    End Sub
+
+    Private Sub OpenDataFileToolStripButton_Click(sender As Object, e As EventArgs) Handles OpenDataFileToolStripButton.Click
+        OpenFile()
+    End Sub
 End Class
