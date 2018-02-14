@@ -33,10 +33,10 @@ Partial Class Form1
         Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExtToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MainToolStrip = New System.Windows.Forms.ToolStrip()
+        Me.OpenDataFileToolStripButton = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.OpenSourceFileToolStripButton = New System.Windows.Forms.ToolStripButton()
         Me.SkeeterDataTableControl = New FileToSQL_3._0.SkeeterDataTableControl()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.OpenDataFileToolStripButton = New System.Windows.Forms.ToolStripButton()
         CType(Me.SplitContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
@@ -107,19 +107,19 @@ Partial Class Form1
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(181, 26)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(129, 26)
         Me.OpenToolStripMenuItem.Text = "Open..."
         '
         'CloseToolStripMenuItem
         '
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(181, 26)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(129, 26)
         Me.CloseToolStripMenuItem.Text = "Close"
         '
         'ExtToolStripMenuItem
         '
         Me.ExtToolStripMenuItem.Name = "ExtToolStripMenuItem"
-        Me.ExtToolStripMenuItem.Size = New System.Drawing.Size(181, 26)
+        Me.ExtToolStripMenuItem.Size = New System.Drawing.Size(129, 26)
         Me.ExtToolStripMenuItem.Text = "Exit"
         '
         'MainToolStrip
@@ -131,6 +131,20 @@ Partial Class Form1
         Me.MainToolStrip.Size = New System.Drawing.Size(1006, 27)
         Me.MainToolStrip.TabIndex = 2
         Me.MainToolStrip.Text = "ToolStrip1"
+        '
+        'OpenDataFileToolStripButton
+        '
+        Me.OpenDataFileToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.OpenDataFileToolStripButton.Image = CType(resources.GetObject("OpenDataFileToolStripButton.Image"), System.Drawing.Image)
+        Me.OpenDataFileToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.OpenDataFileToolStripButton.Name = "OpenDataFileToolStripButton"
+        Me.OpenDataFileToolStripButton.Size = New System.Drawing.Size(117, 24)
+        Me.OpenDataFileToolStripButton.Text = "Open data file..."
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 27)
         '
         'OpenSourceFileToolStripButton
         '
@@ -150,22 +164,9 @@ Partial Class Form1
         Me.SkeeterDataTableControl.SkeeterDatasetTreeNode = Nothing
         Me.SkeeterDataTableControl.TabIndex = 0
         '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 27)
-        '
-        'OpenDataFileToolStripButton
-        '
-        Me.OpenDataFileToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.OpenDataFileToolStripButton.Image = CType(resources.GetObject("OpenDataFileToolStripButton.Image"), System.Drawing.Image)
-        Me.OpenDataFileToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.OpenDataFileToolStripButton.Name = "OpenDataFileToolStripButton"
-        Me.OpenDataFileToolStripButton.Size = New System.Drawing.Size(117, 24)
-        Me.OpenDataFileToolStripButton.Text = "Open data file..."
-        '
         'Form1
         '
+        Me.AllowDrop = True
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1006, 721)

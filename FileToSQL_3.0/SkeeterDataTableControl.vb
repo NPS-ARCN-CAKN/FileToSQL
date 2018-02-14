@@ -1,4 +1,6 @@
-﻿Public Class SkeeterDataTableControl
+﻿Imports System.IO
+
+Public Class SkeeterDataTableControl
 
     'datatable to hold the source to destination columns mappings
     Dim MappingsDataTable As DataTable
@@ -114,6 +116,23 @@
         End Try
     End Sub
 
+    Public Sub FormatMetadataDataGridView()
+        If Me.MetadataDataGridView.Rows.Count > 0 Then
+            For Each Row As DataGridViewRow In Me.MetadataDataGridView.Rows
+                'highlight blanks
+                If Row.Cells("BlankCount").Value > 0 Then
+                    Row.Cells("BlankCount").Style.BackColor = Color.Red
+                End If
+
+                'highlight nulls
+                If Row.Cells("NullCount").Value > 0 Then
+                    Row.Cells("NullCount").Style.BackColor = Color.LightSalmon
+                End If
+            Next
+        End If
+
+    End Sub
+
     Private Sub ExecuteSQLButton_Click(sender As Object, e As EventArgs) Handles ExecuteSQLButton.Click
         'load the mappings grid
         LoadMappingsGrid()
@@ -128,13 +147,13 @@
     Private Sub ColumnsMappingDataGridView_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles ColumnsMappingDataGridView.CellEndEdit
         'reconcile the automated column types to the quotedcolumn value, e.g. Autonumber should not be quoted but New GUID should
         For Each Row As DataRow In MappingsDataTable.Rows
-                If Not IsDBNull(Row.Item("SourceColumnName")) Then
+            If Not IsDBNull(Row.Item("SourceColumnName")) Then
                 If Row.Item("SourceColumnName") = "Autonumber" Then Row.Item("QuotedColumn") = False
                 If Row.Item("SourceColumnName") = "New GUID" Then Row.Item("QuotedColumn") = True
                 If Row.Item("SourceColumnName") = "Current Datetime" Then Row.Item("QuotedColumn") = True
                 If Row.Item("SourceColumnName") = "Username" Then Row.Item("QuotedColumn") = True
             End If
-            Next
+        Next
 
         'generate the insert queries preview
         GenerateInsertQueries(3, Me.SkeeterDatasetTreeNode.DataTable.DefaultView)
@@ -186,7 +205,7 @@
                 End If
 
 
-                Sql = Sql & "INSERT INTO " & Me.SkeeterDatasetTreeNode.FileInfo.Name & "("
+                Sql = Sql & "INSERT INTO " & Me.SkeeterDatasetTreeNode.FileInfo.Name.Trim.Replace(Me.SkeeterDatasetTreeNode.FileInfo.Extension, "") & "("
                 Dim InsertColumns As String = ""
                 Dim ValuesList As String = ""
 
@@ -284,5 +303,31 @@
             End If
             GenerateInsertQueries(NumberOfPreviewQueries, Me.SkeeterDatasetTreeNode.DataTable.DefaultView)
         End If
+    End Sub
+
+    Private Sub ExportToCSVToolStripButton_Click(sender As Object, e As EventArgs) Handles ExportToCSVToolStripButton.Click
+        ' Displays a SaveFileDialog so the user can save the Image  
+        ' assigned to Button2.  
+        Dim SFD As New SaveFileDialog()
+        With SFD
+            .AddExtension = True
+            .Filter = "Comma separated values file|*.csv"
+            .Title = "Save"
+            .InitialDirectory = Me._SkeeterDatasetTreeNode.FileInfo.DirectoryName
+            .FileName = _SkeeterDatasetTreeNode.FileInfo.Name.Replace(_SkeeterDatasetTreeNode.FileInfo.Extension, ".csv")
+            .ShowDialog()
+        End With
+        ' If the file name is not an empty string open it for saving.  
+        If SFD.FileName <> "" Then
+            'Dim CSVFileStreamWriter As System.IO.StreamWriter
+            'CSVFileStreamWriter = My.Computer.FileSystem.OpenTextFileWriter(SFD.FileName, True)
+            Dim SourceDataTable As DataTable = _SkeeterDatasetTreeNode.DataTable
+            If Not SourceDataTable Is Nothing Then
+                File.WriteAllText(SFD.FileName, DataTableToCSV(SourceDataTable, ","))
+            End If
+        End If
+
+
+
     End Sub
 End Class

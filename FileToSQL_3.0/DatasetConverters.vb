@@ -63,7 +63,60 @@ Module DatasetConverters
         Return MyDataTable
     End Function
 
+    ''' <summary>
+    ''' Converts a DBF file into a Dataset
+    ''' </summary>
+    ''' <param name="DBFFileInfo">DBF File to convert</param>
+    ''' <returns>Dataset</returns>
+    Public Function GetDatasetFromDBF(DBFFileInfo As FileInfo) As DataSet
+        Dim DBFDataset As New DataSet(DBFFileInfo.Name)
+        Try
+            DBFDataset.Tables.Add(GetDataTableFromDBF(DBFFileInfo))
+        Catch ex As Exception
+            MsgBox(ex.Message & " (" & System.Reflection.MethodBase.GetCurrentMethod.Name & ")")
+        End Try
+        Return DBFDataset
+    End Function
 
+    ''' <summary>
+    ''' Converts a DBF file into a DataTable
+    ''' </summary>
+    ''' <param name="DBFFileInfo">DBF FileInfo to convert</param>
+    ''' <returns>DataTable</returns>
+    Public Function GetDataTableFromDBF(DBFFileInfo As FileInfo) As DataTable
+        Dim DBFDataTable As New DataTable(DBFFileInfo.Name)
+        'dbf file
+        Try
+            'we'll need the dbf filename and path separately so isolate them here
+            'Dim DBFFileInfo As New System.IO.FileInfo(InputFileInfo)
+            Dim DBFDirectory As String = DBFFileInfo.DirectoryName 'the dbf directory
+
+            'NOTE: the dbf query won't work on long filenames so copy the dbf to a temporary file named zzzzzzzz.dbf and work with that
+            Dim TemporaryDBFFilename As String = "zzzzzzzz.dbf"
+            Dim TemporaryDBFFileFullName As String = DBFDirectory & "\" & TemporaryDBFFilename
+            My.Computer.FileSystem.CopyFile(DBFFileInfo.FullName, TemporaryDBFFileFullName, True)
+
+            'connect to the temporary dbf and open the contents into a datareader
+            Dim MyConnectionString As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & DBFDirectory & ";Extended Properties=dBASE IV;User ID=Admin;Password=;"
+            Dim MyConnection As New OleDbConnection(MyConnectionString)
+            MyConnection.Open()
+            Dim Sql As String = "SELECT * FROM [" & TemporaryDBFFilename.Replace(".dbf", "") & "]"
+            Dim MyCommand As New OleDbCommand(Sql, MyConnection)
+            Dim MyDataReader As OleDbDataReader = MyCommand.ExecuteReader()
+
+            'load the data from the datareader into the datatable
+            DBFDataTable.Load(MyDataReader)
+
+            'close the connection
+            MyConnection.Close()
+
+            'delete the temporary dbf file
+            My.Computer.FileSystem.DeleteFile(TemporaryDBFFileFullName)
+        Catch ex As Exception
+            MsgBox("Could not import waypoints from DBF file. " & ex.Message & " (" & System.Reflection.MethodBase.GetCurrentMethod.Name)
+        End Try
+        Return DBFDataTable
+    End Function
 
     Public Function GetDatasetFromExcelWorkbook(ExcelConnectionString As String) As DataSet
         Dim ExcelDataset As New DataSet

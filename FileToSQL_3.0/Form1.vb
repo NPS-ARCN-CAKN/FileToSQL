@@ -25,9 +25,9 @@ Public Class Form1
 
 
         'Dim SourceFileInfo As New FileInfo("C:\Work\VitalSigns\ARCN Muskox\Data\2012 WEAR-208-2012 2012 Seward Peninsula Muskox Composition Count Survey\2012 Comp/22E_2012_comp.xlsx")
-        Dim SourceFileInfo As New FileInfo("C:\temp\zdata.xlsx")
-
-        LoadSourceDataset(SourceFileInfo)
+        Dim myfile As String = "C:\temp\zdata.xlsx"
+        Dim SourceFileInfo As New FileInfo(myfile)
+        'LoadSourceDataset(SourceFileInfo)
 
         'Dim SourceDataset As DataSet = GetDatasetFromExcelWorkbook(SourceFileInfo)
         'Dim SkeeterDatasetTreeNode As New SkeeterDatasetTreeNode(SourceFileInfo, SourceDataset, Nothing)
@@ -57,6 +57,7 @@ Public Class Form1
                 .DataTableBindingSource.DataSource = DT
                 .DataTableDataGridView.DataSource = .DataTableBindingSource
                 .MetadataDataGridView.DataSource = GetMetadataDataTable(DT)
+                .FormatMetadataDataGridView()
             Else
                 .DataTableBindingSource.DataSource = Nothing
                 .DataTableDataGridView.DataSource = .DataTableBindingSource
@@ -86,6 +87,8 @@ Public Class Form1
         End With
         If OFD.ShowDialog = DialogResult.OK Then
             Dim DataFileInfo As New FileInfo(OFD.FileName)
+            Me.SkeeterDataTableControl.DataTableDataGridView.DataSource = Nothing
+            Me.SkeeterDataTableControl.MetadataDataGridView.DataSource = Nothing
             LoadSourceDataset(DataFileInfo)
         End If
     End Sub
@@ -99,7 +102,6 @@ Public Class Form1
         Me.DatasetTreeView.Nodes.Clear()
 
         'open the file
-
         Dim SourceDataset As DataSet
         Dim NodeImage As Integer = 0
         If FileInfo.Extension = ".xlsx" Or FileInfo.Extension = ".xls" Then
@@ -109,6 +111,9 @@ Public Class Form1
         ElseIf FileInfo.Extension = ".csv" Or FileInfo.Extension = ".txt" Then
             SourceDataset = GetDatasetFromCSV(FileInfo, True)
             NodeImage = 7 'text file image
+        ElseIf FileInfo.Extension = ".dbf" Then
+            SourceDataset = GetDatasetFromDBF(FileInfo)
+            NodeImage = 0 'database file image
         End If
 
         Dim SkeeterDatasetTreeNode As New SkeeterDatasetTreeNode(FileInfo, SourceDataset, Nothing)
@@ -133,5 +138,39 @@ Public Class Form1
 
     Private Sub OpenDataFileToolStripButton_Click(sender As Object, e As EventArgs) Handles OpenDataFileToolStripButton.Click
         OpenFile()
+    End Sub
+
+    Private Sub Form1_DragEnter(sender As Object, e As DragEventArgs) Handles MyBase.DragEnter
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            e.Effect = DragDropEffects.Move
+        Else
+            e.Effect = DragDropEffects.None
+        End If
+    End Sub
+
+    Private Sub Form1_DragDrop(sender As Object, e As DragEventArgs) Handles MyBase.DragDrop
+        Try
+            If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+                Dim Files As String() = CType(e.Data.GetData(DataFormats.FileDrop), String())
+                Dim i As Integer = 1
+                For Each File As String In Files
+                    If i = 1 Then
+                        Me.SkeeterDataTableControl.DataTableDataGridView.DataSource = Nothing
+                        Me.SkeeterDataTableControl.MetadataDataGridView.DataSource = Nothing
+                        If My.Computer.FileSystem.FileExists(File) Then
+                            Dim DataFileInfo As New FileInfo(File)
+
+                            LoadSourceDataset(DataFileInfo)
+                        Else
+                            MsgBox("File does not exist")
+                        End If
+
+                    End If
+                    i = i + 1
+                Next File
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message & "  " & System.Reflection.MethodBase.GetCurrentMethod.Name)
+        End Try
     End Sub
 End Class
