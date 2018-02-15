@@ -5,6 +5,9 @@ Public Class SkeeterDataTableControl
     'datatable to hold the source to destination columns mappings
     Dim MappingsDataTable As DataTable
 
+    Dim NullColor As System.Drawing.Color = Color.Gainsboro
+    Dim ZeroLengthColor As System.Drawing.Color = Color.WhiteSmoke
+
     Private _SkeeterDatasetTreeNode As SkeeterDatasetTreeNode
     Public Property SkeeterDatasetTreeNode() As SkeeterDatasetTreeNode
         Get
@@ -116,17 +119,39 @@ Public Class SkeeterDataTableControl
         End Try
     End Sub
 
+    Public Sub FormatSourceDataGridView(SourceDataTable As DataTable)
+        If SourceDataTable.Rows.Count > 0 Then
+            Dim r As Integer = 0 'row counter
+            For Each Row As DataRow In SourceDataTable.Rows
+                Dim c As Integer = 0 'column counter
+                For Each Column As DataColumn In SourceDataTable.Columns
+
+                    If Row.Item(c).ToString.Trim = "" Then
+                        Me.DataTableDataGridView.Rows(r).Cells(c).Style.BackColor = ZeroLengthColor
+                    ElseIf IsDBNull(Row.Item(c)) Then
+                        Me.DataTableDataGridView.Rows(r).Cells(c).Style.BackColor = NullColor
+                    Else
+                        Me.DataTableDataGridView.Rows(r).Cells(c).Style.BackColor = Color.White
+                    End If
+                    c = c + 1
+                Next
+                r = r + 1
+            Next
+        End If
+
+    End Sub
+
     Public Sub FormatMetadataDataGridView()
         If Me.MetadataDataGridView.Rows.Count > 0 Then
             For Each Row As DataGridViewRow In Me.MetadataDataGridView.Rows
                 'highlight blanks
                 If Row.Cells("BlankCount").Value > 0 Then
-                    Row.Cells("BlankCount").Style.BackColor = Color.Red
+                    Row.Cells("BlankCount").Style.BackColor = ZeroLengthColor
                 End If
 
                 'highlight nulls
                 If Row.Cells("NullCount").Value > 0 Then
-                    Row.Cells("NullCount").Style.BackColor = Color.LightSalmon
+                    Row.Cells("NullCount").Style.BackColor = NullColor
                 End If
             Next
         End If

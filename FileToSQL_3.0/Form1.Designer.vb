@@ -36,17 +36,22 @@ Partial Class Form1
         Me.OpenDataFileToolStripButton = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.OpenSourceFileToolStripButton = New System.Windows.Forms.ToolStripButton()
+        Me.TreeViewContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.RemoveDatasetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SkeeterDataTableControl = New FileToSQL_3._0.SkeeterDataTableControl()
+        Me.RemoveAllDatasetsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.SplitContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
         Me.SplitContainer.SuspendLayout()
         Me.MainMenuStrip.SuspendLayout()
         Me.MainToolStrip.SuspendLayout()
+        Me.TreeViewContextMenuStrip.SuspendLayout()
         Me.SuspendLayout()
         '
         'DatasetTreeView
         '
+        Me.DatasetTreeView.ContextMenuStrip = Me.TreeViewContextMenuStrip
         Me.DatasetTreeView.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DatasetTreeView.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DatasetTreeView.ImageIndex = 0
@@ -155,6 +160,19 @@ Partial Class Form1
         Me.OpenSourceFileToolStripButton.Size = New System.Drawing.Size(248, 24)
         Me.OpenSourceFileToolStripButton.Text = "Open using Windows default editor"
         '
+        'TreeViewContextMenuStrip
+        '
+        Me.TreeViewContextMenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
+        Me.TreeViewContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveDatasetToolStripMenuItem, Me.RemoveAllDatasetsToolStripMenuItem})
+        Me.TreeViewContextMenuStrip.Name = "TreeViewContextMenuStrip"
+        Me.TreeViewContextMenuStrip.Size = New System.Drawing.Size(245, 80)
+        '
+        'RemoveDatasetToolStripMenuItem
+        '
+        Me.RemoveDatasetToolStripMenuItem.Name = "RemoveDatasetToolStripMenuItem"
+        Me.RemoveDatasetToolStripMenuItem.Size = New System.Drawing.Size(244, 24)
+        Me.RemoveDatasetToolStripMenuItem.Text = "Remove selected dataset"
+        '
         'SkeeterDataTableControl
         '
         Me.SkeeterDataTableControl.Dock = System.Windows.Forms.DockStyle.Fill
@@ -163,6 +181,12 @@ Partial Class Form1
         Me.SkeeterDataTableControl.Size = New System.Drawing.Size(816, 666)
         Me.SkeeterDataTableControl.SkeeterDatasetTreeNode = Nothing
         Me.SkeeterDataTableControl.TabIndex = 0
+        '
+        'RemoveAllDatasetsToolStripMenuItem
+        '
+        Me.RemoveAllDatasetsToolStripMenuItem.Name = "RemoveAllDatasetsToolStripMenuItem"
+        Me.RemoveAllDatasetsToolStripMenuItem.Size = New System.Drawing.Size(244, 24)
+        Me.RemoveAllDatasetsToolStripMenuItem.Text = "Remove all datasets"
         '
         'Form1
         '
@@ -183,6 +207,7 @@ Partial Class Form1
         Me.MainMenuStrip.PerformLayout()
         Me.MainToolStrip.ResumeLayout(False)
         Me.MainToolStrip.PerformLayout()
+        Me.TreeViewContextMenuStrip.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -201,4 +226,7 @@ Partial Class Form1
     Friend WithEvents OpenSourceFileToolStripButton As ToolStripButton
     Friend WithEvents OpenDataFileToolStripButton As ToolStripButton
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
+    Friend WithEvents TreeViewContextMenuStrip As ContextMenuStrip
+    Friend WithEvents RemoveDatasetToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RemoveAllDatasetsToolStripMenuItem As ToolStripMenuItem
 End Class

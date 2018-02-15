@@ -33,10 +33,10 @@ Module DatasetConverters
         Return CSV
     End Function
 
-    Public Function GetDatasetFromCSV(CSVFileInfo As FileInfo, Headers As Boolean) As DataSet
+    Public Function GetDatasetFromTextFile(CSVFileInfo As FileInfo, Headers As Boolean, Format As String) As DataSet
         Dim CSVDataset As New DataSet(CSVFileInfo.Name)
         Try
-            CSVDataset.Tables.Add(GetDataTableFromCSV(CSVFileInfo, Headers))
+            CSVDataset.Tables.Add(GetDataTableFromCSV(CSVFileInfo, Headers, Format))
         Catch ex As Exception
             MsgBox(ex.Message & " (" & System.Reflection.MethodBase.GetCurrentMethod.Name & ")")
         End Try
@@ -49,10 +49,10 @@ Module DatasetConverters
     ''' <param name="CSVFileInfo">Input CSV FileInfo</param>
     ''' <param name="Headers">Whether the file has headers or not</param>
     ''' <returns>DataTable</returns>
-    Public Function GetDataTableFromCSV(CSVFileInfo As FileInfo, Headers As Boolean) As DataTable
+    Public Function GetDataTableFromCSV(CSVFileInfo As FileInfo, Headers As Boolean, Format As String) As DataTable
         Dim MyDataTable As New DataTable(CSVFileInfo.Name) 'this datatable will hold the imported data
         Try
-            Dim CSVConnectionString As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & CSVFileInfo.DirectoryName & ";Extended Properties=""text;HDR=" & Headers & ";FMT=Delimited"";"
+            Dim CSVConnectionString As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & CSVFileInfo.DirectoryName & ";Extended Properties=""text;HDR=" & Headers & ";FMT=" & Format & """;"
             Using MyOleDBDataAdapter As New OleDbDataAdapter("SELECT * FROM [" & CSVFileInfo.Name & "]", CSVConnectionString)
                 MyOleDBDataAdapter.Fill(MyDataTable)
             End Using
