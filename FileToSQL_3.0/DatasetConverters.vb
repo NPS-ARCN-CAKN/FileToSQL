@@ -33,6 +33,41 @@ Module DatasetConverters
         Return CSV
     End Function
 
+    ''' <summary>
+    ''' Converts a tab delimited text file to a DataTable
+    ''' </summary>
+    ''' <param name="TDVFileInfo">Tab delimited text file. FileInfo.</param>
+    ''' <returns>DataTable</returns>
+    Public Function GetDataTableFromTabDelimitedTextFile(TDVFileInfo As FileInfo) As DataTable
+        Dim TDVDataTable As New DataTable(TDVFileInfo.Name)
+        Try
+            Dim MyTextFileParser As New FileIO.TextFieldParser(TDVFileInfo.FullName)
+            MyTextFileParser.Delimiters = New String() {vbTab}
+            TDVDataTable.Columns.AddRange(Array.ConvertAll(MyTextFileParser.ReadFields, Function(s) New DataColumn With {.Caption = s, .ColumnName = s}))
+            Do While Not MyTextFileParser.EndOfData
+                TDVDataTable.Rows.Add(MyTextFileParser.ReadFields)
+            Loop
+        Catch ex As Exception
+            MsgBox(ex.Message & "  " & System.Reflection.MethodBase.GetCurrentMethod.Name)
+        End Try
+        Return TDVDataTable
+    End Function
+
+    ''' <summary>
+    ''' Converts an XML file into a Dataset
+    ''' </summary>
+    ''' <param name="XMLFileInfo">XML file</param>
+    ''' <returns>Dataset</returns>
+    Public Function GetDatasetFromXMLFile(XMLFileInfo As FileInfo) As DataSet
+        Dim XMLDataset As New DataSet(XMLFileInfo.Name)
+        Try
+            XMLDataset.ReadXml(XMLFileInfo.FullName)
+        Catch ex As Exception
+            MsgBox(ex.Message & "  " & System.Reflection.MethodBase.GetCurrentMethod.Name)
+        End Try
+        Return XMLDataset
+    End Function
+
     Public Function GetDatasetFromTextFile(CSVFileInfo As FileInfo, Headers As Boolean, Format As String) As DataSet
         Dim CSVDataset As New DataSet(CSVFileInfo.Name)
         Try

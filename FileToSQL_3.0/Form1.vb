@@ -134,7 +134,6 @@ Public Class Form1
         Try
             If e.Data.GetDataPresent(DataFormats.FileDrop) Then
                 Dim Files As String() = CType(e.Data.GetData(DataFormats.FileDrop), String())
-                Dim i As Integer = 1
                 For Each File As String In Files
                     Me.SkeeterDataTableControl.DataTableDataGridView.DataSource = Nothing
                     Me.SkeeterDataTableControl.MetadataDataGridView.DataSource = Nothing
@@ -142,7 +141,6 @@ Public Class Form1
                         Dim DataFileInfo As New FileInfo(File)
                         LoadSourceDataset(DataFileInfo)
                     End If
-                    i = i + 1
                 Next File
             End If
         Catch ex As Exception
