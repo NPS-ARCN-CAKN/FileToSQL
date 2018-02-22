@@ -355,4 +355,21 @@ Public Class SkeeterDataTableControl
 
 
     End Sub
+
+    Private Sub AutosizeColumnsToolStripComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles AutosizeColumnsToolStripComboBox.SelectedIndexChanged
+        Select Case Me.AutosizeColumnsToolStripComboBox.SelectedText
+            Case "Column header"
+                Me.DataTableDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader
+            Case "All cells except header"
+                Me.DataTableDataGridView.AutoSizeColumnsMode =  = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader
+            Case "All cells"
+                Me.DataTableDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.AllCells
+            Case "Displayed cells except header"
+                Me.DataTableDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
+            Case "Displayed cells"
+                Me.DataTableDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.DisplayedCells
+            Case "Fill"
+                Me.DataTableDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
+        End Select
+    End Sub
 End Class

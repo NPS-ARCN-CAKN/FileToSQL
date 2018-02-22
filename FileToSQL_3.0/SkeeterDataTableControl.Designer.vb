@@ -41,7 +41,11 @@ Partial Class SkeeterDataTableControl
         Me.BindingNavigatorMoveNextItem = New System.Windows.Forms.ToolStripButton()
         Me.BindingNavigatorMoveLastItem = New System.Windows.Forms.ToolStripButton()
         Me.BindingNavigatorSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.DataTablePanel = New System.Windows.Forms.Panel()
+        Me.DataTableLabel = New System.Windows.Forms.Label()
         Me.MetadataDataGridView = New System.Windows.Forms.DataGridView()
+        Me.MetadataPanel = New System.Windows.Forms.Panel()
+        Me.MetadataLabel = New System.Windows.Forms.Label()
         Me.DataTableTabControl = New System.Windows.Forms.TabControl()
         Me.SourceDataTableTabPage = New System.Windows.Forms.TabPage()
         Me.DestinationTableTabPage = New System.Windows.Forms.TabPage()
@@ -72,10 +76,9 @@ Partial Class SkeeterDataTableControl
         Me.MappingsPanel = New System.Windows.Forms.Panel()
         Me.MappingsHeaderLabel = New System.Windows.Forms.Label()
         Me.TreeNodesImageList = New System.Windows.Forms.ImageList(Me.components)
-        Me.DataTablePanel = New System.Windows.Forms.Panel()
-        Me.DataTableLabel = New System.Windows.Forms.Label()
-        Me.MetadataPanel = New System.Windows.Forms.Panel()
-        Me.MetadataLabel = New System.Windows.Forms.Label()
+        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripLabel3 = New System.Windows.Forms.ToolStripLabel()
+        Me.AutosizeColumnsToolStripComboBox = New System.Windows.Forms.ToolStripComboBox()
         CType(Me.SplitContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
@@ -85,7 +88,9 @@ Partial Class SkeeterDataTableControl
         CType(Me.DataTableBindingNavigator, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.DataTableBindingNavigator.SuspendLayout()
         CType(Me.DataTableBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.DataTablePanel.SuspendLayout()
         CType(Me.MetadataDataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.MetadataPanel.SuspendLayout()
         Me.DataTableTabControl.SuspendLayout()
         Me.SourceDataTableTabPage.SuspendLayout()
         Me.DestinationTableTabPage.SuspendLayout()
@@ -99,8 +104,6 @@ Partial Class SkeeterDataTableControl
         CType(Me.ColumnsMappingDataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SqlToolStrip.SuspendLayout()
         Me.MappingsPanel.SuspendLayout()
-        Me.DataTablePanel.SuspendLayout()
-        Me.MetadataPanel.SuspendLayout()
         Me.SuspendLayout()
         '
         'SplitContainer
@@ -132,20 +135,20 @@ Partial Class SkeeterDataTableControl
         Me.DataTableDataGridView.AllowUserToOrderColumns = True
         Me.DataTableDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataTableDataGridView.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataTableDataGridView.Location = New System.Drawing.Point(0, 66)
+        Me.DataTableDataGridView.Location = New System.Drawing.Point(0, 67)
         Me.DataTableDataGridView.Name = "DataTableDataGridView"
         Me.DataTableDataGridView.ReadOnly = True
         Me.DataTableDataGridView.RowTemplate.Height = 24
-        Me.DataTableDataGridView.Size = New System.Drawing.Size(1167, 195)
+        Me.DataTableDataGridView.Size = New System.Drawing.Size(1167, 194)
         Me.DataTableDataGridView.TabIndex = 0
         '
         'DataTableToolStrip
         '
         Me.DataTableToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.DataTableToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExportToCSVToolStripButton})
+        Me.DataTableToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExportToCSVToolStripButton, Me.ToolStripSeparator3, Me.ToolStripLabel3, Me.AutosizeColumnsToolStripComboBox})
         Me.DataTableToolStrip.Location = New System.Drawing.Point(0, 39)
         Me.DataTableToolStrip.Name = "DataTableToolStrip"
-        Me.DataTableToolStrip.Size = New System.Drawing.Size(1167, 27)
+        Me.DataTableToolStrip.Size = New System.Drawing.Size(1167, 28)
         Me.DataTableToolStrip.TabIndex = 2
         Me.DataTableToolStrip.Text = "ToolStrip1"
         '
@@ -155,7 +158,7 @@ Partial Class SkeeterDataTableControl
         Me.ExportToCSVToolStripButton.Image = CType(resources.GetObject("ExportToCSVToolStripButton.Image"), System.Drawing.Image)
         Me.ExportToCSVToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ExportToCSVToolStripButton.Name = "ExportToCSVToolStripButton"
-        Me.ExportToCSVToolStripButton.Size = New System.Drawing.Size(104, 24)
+        Me.ExportToCSVToolStripButton.Size = New System.Drawing.Size(104, 25)
         Me.ExportToCSVToolStripButton.Text = "Export to CSV"
         '
         'DataTableBindingNavigator
@@ -263,6 +266,25 @@ Partial Class SkeeterDataTableControl
         Me.BindingNavigatorSeparator2.Name = "BindingNavigatorSeparator2"
         Me.BindingNavigatorSeparator2.Size = New System.Drawing.Size(6, 27)
         '
+        'DataTablePanel
+        '
+        Me.DataTablePanel.Controls.Add(Me.DataTableLabel)
+        Me.DataTablePanel.Dock = System.Windows.Forms.DockStyle.Top
+        Me.DataTablePanel.Location = New System.Drawing.Point(0, 0)
+        Me.DataTablePanel.Name = "DataTablePanel"
+        Me.DataTablePanel.Size = New System.Drawing.Size(1167, 39)
+        Me.DataTablePanel.TabIndex = 3
+        '
+        'DataTableLabel
+        '
+        Me.DataTableLabel.AutoSize = True
+        Me.DataTableLabel.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DataTableLabel.Location = New System.Drawing.Point(16, 9)
+        Me.DataTableLabel.Name = "DataTableLabel"
+        Me.DataTableLabel.Size = New System.Drawing.Size(53, 24)
+        Me.DataTableLabel.TabIndex = 0
+        Me.DataTableLabel.Text = "Data"
+        '
         'MetadataDataGridView
         '
         Me.MetadataDataGridView.AllowUserToAddRows = False
@@ -276,6 +298,25 @@ Partial Class SkeeterDataTableControl
         Me.MetadataDataGridView.RowTemplate.Height = 24
         Me.MetadataDataGridView.Size = New System.Drawing.Size(1167, 273)
         Me.MetadataDataGridView.TabIndex = 1
+        '
+        'MetadataPanel
+        '
+        Me.MetadataPanel.Controls.Add(Me.MetadataLabel)
+        Me.MetadataPanel.Dock = System.Windows.Forms.DockStyle.Top
+        Me.MetadataPanel.Location = New System.Drawing.Point(0, 0)
+        Me.MetadataPanel.Name = "MetadataPanel"
+        Me.MetadataPanel.Size = New System.Drawing.Size(1167, 39)
+        Me.MetadataPanel.TabIndex = 4
+        '
+        'MetadataLabel
+        '
+        Me.MetadataLabel.AutoSize = True
+        Me.MetadataLabel.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MetadataLabel.Location = New System.Drawing.Point(16, 9)
+        Me.MetadataLabel.Name = "MetadataLabel"
+        Me.MetadataLabel.Size = New System.Drawing.Size(97, 24)
+        Me.MetadataLabel.TabIndex = 0
+        Me.MetadataLabel.Text = "Metadata"
         '
         'DataTableTabControl
         '
@@ -564,43 +605,22 @@ Partial Class SkeeterDataTableControl
         Me.TreeNodesImageList.Images.SetKeyName(6, "page_excel.png")
         Me.TreeNodesImageList.Images.SetKeyName(7, "page_white_text.png")
         '
-        'DataTablePanel
+        'ToolStripSeparator3
         '
-        Me.DataTablePanel.Controls.Add(Me.DataTableLabel)
-        Me.DataTablePanel.Dock = System.Windows.Forms.DockStyle.Top
-        Me.DataTablePanel.Location = New System.Drawing.Point(0, 0)
-        Me.DataTablePanel.Name = "DataTablePanel"
-        Me.DataTablePanel.Size = New System.Drawing.Size(1167, 39)
-        Me.DataTablePanel.TabIndex = 3
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 28)
         '
-        'DataTableLabel
+        'ToolStripLabel3
         '
-        Me.DataTableLabel.AutoSize = True
-        Me.DataTableLabel.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.DataTableLabel.Location = New System.Drawing.Point(16, 9)
-        Me.DataTableLabel.Name = "DataTableLabel"
-        Me.DataTableLabel.Size = New System.Drawing.Size(53, 24)
-        Me.DataTableLabel.TabIndex = 0
-        Me.DataTableLabel.Text = "Data"
+        Me.ToolStripLabel3.Name = "ToolStripLabel3"
+        Me.ToolStripLabel3.Size = New System.Drawing.Size(113, 25)
+        Me.ToolStripLabel3.Text = "ToolStripLabel3"
         '
-        'MetadataPanel
+        'AutosizeColumnsToolStripComboBox
         '
-        Me.MetadataPanel.Controls.Add(Me.MetadataLabel)
-        Me.MetadataPanel.Dock = System.Windows.Forms.DockStyle.Top
-        Me.MetadataPanel.Location = New System.Drawing.Point(0, 0)
-        Me.MetadataPanel.Name = "MetadataPanel"
-        Me.MetadataPanel.Size = New System.Drawing.Size(1167, 39)
-        Me.MetadataPanel.TabIndex = 4
-        '
-        'MetadataLabel
-        '
-        Me.MetadataLabel.AutoSize = True
-        Me.MetadataLabel.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MetadataLabel.Location = New System.Drawing.Point(16, 9)
-        Me.MetadataLabel.Name = "MetadataLabel"
-        Me.MetadataLabel.Size = New System.Drawing.Size(97, 24)
-        Me.MetadataLabel.TabIndex = 0
-        Me.MetadataLabel.Text = "Metadata"
+        Me.AutosizeColumnsToolStripComboBox.Items.AddRange(New Object() {"Column header", "All cells except header", "All cells", "Displayed cells except header", "Displayed cells", "Fill"})
+        Me.AutosizeColumnsToolStripComboBox.Name = "AutosizeColumnsToolStripComboBox"
+        Me.AutosizeColumnsToolStripComboBox.Size = New System.Drawing.Size(121, 28)
         '
         'SkeeterDataTableControl
         '
@@ -621,7 +641,11 @@ Partial Class SkeeterDataTableControl
         Me.DataTableBindingNavigator.ResumeLayout(False)
         Me.DataTableBindingNavigator.PerformLayout()
         CType(Me.DataTableBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.DataTablePanel.ResumeLayout(False)
+        Me.DataTablePanel.PerformLayout()
         CType(Me.MetadataDataGridView, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.MetadataPanel.ResumeLayout(False)
+        Me.MetadataPanel.PerformLayout()
         Me.DataTableTabControl.ResumeLayout(False)
         Me.SourceDataTableTabPage.ResumeLayout(False)
         Me.DestinationTableTabPage.ResumeLayout(False)
@@ -639,10 +663,6 @@ Partial Class SkeeterDataTableControl
         Me.SqlToolStrip.PerformLayout()
         Me.MappingsPanel.ResumeLayout(False)
         Me.MappingsPanel.PerformLayout()
-        Me.DataTablePanel.ResumeLayout(False)
-        Me.DataTablePanel.PerformLayout()
-        Me.MetadataPanel.ResumeLayout(False)
-        Me.MetadataPanel.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -699,4 +719,7 @@ Partial Class SkeeterDataTableControl
     Friend WithEvents DataTableLabel As Label
     Friend WithEvents MetadataPanel As Panel
     Friend WithEvents MetadataLabel As Label
+    Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
+    Friend WithEvents ToolStripLabel3 As ToolStripLabel
+    Friend WithEvents AutosizeColumnsToolStripComboBox As ToolStripComboBox
 End Class
