@@ -11,6 +11,8 @@ Public Class Form1
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.WindowState = FormWindowState.Maximized
+        Me.SkeeterDataTableControl.ConnectionStringTextBox.Text = My.Settings.ConnectionString
+        Me.SkeeterDataTableControl.QueryTextBox.Text = My.Settings.Query
     End Sub
 
     Private Sub DatasetTreeView_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles DatasetTreeView.AfterSelect
@@ -173,5 +175,18 @@ Public Class Form1
         Me.SkeeterDataTableControl.DataTableDataGridView.DataSource = Nothing
         Me.SkeeterDataTableControl.MetadataDataGridView.DataSource = Nothing
         Me.SkeeterDataTableControl.ColumnsMappingDataGridView.DataSource = Nothing
+    End Sub
+
+    Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        'see if the database connection info changed
+        If My.Settings.ConnectionString.Trim.ToLower <> Me.SkeeterDataTableControl.ConnectionStringTextBox.Text.Trim.ToLower Or My.Settings.Query.Trim.ToLower <> Me.SkeeterDataTableControl.SqlTextBox.Text.Trim.ToLower Then
+            'the database connection info changed
+            'ask If the user wants to save the database connection info for next time
+            If MsgBox("Persist the current database connection string and SQL query?", MsgBoxStyle.YesNo, "Save database connection information for next time?") = MsgBoxResult.Yes Then
+                My.Settings.ConnectionString = Me.SkeeterDataTableControl.ConnectionStringTextBox.Text
+                My.Settings.Query = Me.SkeeterDataTableControl.SqlTextBox.Text
+            End If
+        End If
+
     End Sub
 End Class

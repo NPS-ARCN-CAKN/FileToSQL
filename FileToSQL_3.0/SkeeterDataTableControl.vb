@@ -83,23 +83,21 @@ Public Class SkeeterDataTableControl
         Me.DestinationDataGridView.DataSource = DestinationDataTable
 
         'load the source column names into the DGV's chooser combobox tool
-        'Me.ColumnsMappingDataGridView.AutoGenerateColumns = False
-        'For Each column As DataGridViewColumn In Me.ColumnsMappingDataGridView.Columns
-        '    Debug.Print(column.DataPropertyName & " " & column.CellType.ToString)
-        'Next
-        'Exit Sub
-        Dim MetadataDataTable As DataTable = Me.MetadataDataGridView.DataSource
-        Dim SourceColumnNameDataGridViewComboBoxColumn As DataGridViewComboBoxColumn = Me.ColumnsMappingDataGridView.Columns("SourceColumnName")
-        With SourceColumnNameDataGridViewComboBoxColumn
-            .Items.Add("Default value")
-            .Items.Add("New GUID")
-            .Items.Add("Autonumber")
-            .Items.Add("Current Datetime")
-            .Items.Add("Username")
-            For Each Row As DataRow In MetadataDataTable.Rows
-                .Items.Add(Row.Item("ColumnName"))
-            Next
-        End With
+        If Not Me.MetadataDataGridView.DataSource Is Nothing Then
+            Dim MetadataDataTable As DataTable = Me.MetadataDataGridView.DataSource
+            Dim SourceColumnNameDataGridViewComboBoxColumn As DataGridViewComboBoxColumn = Me.ColumnsMappingDataGridView.Columns("SourceColumnName")
+            With SourceColumnNameDataGridViewComboBoxColumn
+                .Items.Add("Default value")
+                .Items.Add("New GUID")
+                .Items.Add("Autonumber")
+                .Items.Add("Current Datetime")
+                .Items.Add("Username")
+                For Each Row As DataRow In MetadataDataTable.Rows
+                    .Items.Add(Row.Item("ColumnName"))
+                Next
+            End With
+        End If
+
 
 
         'load the destination datatable columns into the DGV
@@ -331,37 +329,45 @@ Public Class SkeeterDataTableControl
     End Sub
 
     Private Sub ExportToCSVToolStripButton_Click(sender As Object, e As EventArgs) Handles ExportToCSVToolStripButton.Click
-        ' Displays a SaveFileDialog so the user can save the Image  
-        ' assigned to Button2.  
+        Dim CSVFilename As String = _SkeeterDatasetTreeNode.FileInfo.Name.Replace(_SkeeterDatasetTreeNode.FileInfo.Extension, ".csv")
+        Dim CSVMetadataFilename As String = _SkeeterDatasetTreeNode.FileInfo.Name.Replace(_SkeeterDatasetTreeNode.FileInfo.Extension, ".csv.meta")
+        ' Displays a SaveFileDialog so the user can save the file where needed
         Dim SFD As New SaveFileDialog()
         With SFD
             .AddExtension = True
             .Filter = "Comma separated values file|*.csv"
             .Title = "Save"
             .InitialDirectory = Me._SkeeterDatasetTreeNode.FileInfo.DirectoryName
-            .FileName = _SkeeterDatasetTreeNode.FileInfo.Name.Replace(_SkeeterDatasetTreeNode.FileInfo.Extension, ".csv")
+            .FileName = CSVFilename
             .ShowDialog()
         End With
+
         ' If the file name is not an empty string open it for saving.  
-        If SFD.FileName <> "" Then
-            'Dim CSVFileStreamWriter As System.IO.StreamWriter
-            'CSVFileStreamWriter = My.Computer.FileSystem.OpenTextFileWriter(SFD.FileName, True)
-            Dim SourceDataTable As DataTable = _SkeeterDatasetTreeNode.DataTable
-            If Not SourceDataTable Is Nothing Then
-                File.WriteAllText(SFD.FileName, DataTableToCSV(SourceDataTable, ","))
+        Try
+            If SFD.FileName <> "" Then
+                Dim SourceDataTable As DataTable = _SkeeterDatasetTreeNode.DataTable
+                If Not SourceDataTable Is Nothing Then
+                    File.WriteAllText(SFD.FileName, DataTableToCSV(SourceDataTable, ","))
+                End If
+
+                'metadata datatable
+                If Not Me.MetadataDataGridView.DataSource Is Nothing Then
+                    Dim MetadataDataTable As DataTable = Me.MetadataDataGridView.DataSource
+                    File.WriteAllText(SFD.FileName.Trim & ".meta", DataTableToCSV(MetadataDataTable, ","))
+                End If
             End If
-        End If
-
-
-
+        Catch ex As Exception
+            MsgBox(ex.Message & " " & System.Reflection.MethodBase.GetCurrentMethod.Name)
+        End Try
     End Sub
 
     Private Sub AutosizeColumnsToolStripComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles AutosizeColumnsToolStripComboBox.SelectedIndexChanged
-        Select Case Me.AutosizeColumnsToolStripComboBox.SelectedText
+        'change the autosizing columns mode of the main data datagridview
+        Select Case Me.AutosizeColumnsToolStripComboBox.Text
             Case "Column header"
                 Me.DataTableDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader
             Case "All cells except header"
-                Me.DataTableDataGridView.AutoSizeColumnsMode =  = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader
+                Me.DataTableDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader
             Case "All cells"
                 Me.DataTableDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.AllCells
             Case "Displayed cells except header"

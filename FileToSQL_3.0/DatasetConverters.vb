@@ -155,10 +155,7 @@ Module DatasetConverters
 
     Public Function GetDatasetFromExcelWorkbook(ExcelConnectionString As String) As DataSet
         Dim ExcelDataset As New DataSet
-        'If My.Computer.FileSystem.FileExists(ExcelFileInfo.FullName) Then
         Try
-            'Dim As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & ExcelFileInfo.FullName & ";Extended Properties='Excel 12.0 Xml;HDR=YES';"
-            'ExcelDataset.DataSetName = ExcelFileInfo.Name
             Dim WorksheetsDataTable As DataTable = GetExcelWorksheets(ExcelConnectionString)
             For Each WorksheetRow As DataRow In WorksheetsDataTable.Rows
                 Dim WorksheetName As String = WorksheetRow.Item("TABLE_NAME")
@@ -342,6 +339,14 @@ Module DatasetConverters
             .ColumnName = "Unique"
         End With
 
+        'Average column
+        Dim AverageColumn As New DataColumn
+        With AverageColumn
+            .DataType = System.Type.GetType("System.String")
+            .Caption = "Average"
+            .ColumnName = "Average"
+        End With
+
         'Maximum column
         Dim MaximumColumn As New DataColumn
         With MaximumColumn
@@ -396,6 +401,7 @@ Module DatasetConverters
             .Add(UnitsColumn)
             .Add(CaptionColumn)
             .Add(DataTypeColumn)
+            .Add(AverageColumn)
             .Add(MinimumColumn)
             .Add(MaximumColumn)
             .Add(CountColumn)
@@ -440,6 +446,10 @@ Module DatasetConverters
                     NewRow.Item("Unique") = Column.Unique
                     NewRow.Item("DateTimeMode") = Column.DateTimeMode
 
+                    'if the column type is numaric then calculate the average
+                    If ColumnDataTypeIsNumeric(Column) = True Then
+                        NewRow.Item("Average") = InputDataTable.Compute("Avg([" & Column.ColumnName & "])", "").ToString
+                    End If
                     NewRow.Item("Maximum") = InputDataTable.Compute("Max([" & Column.ColumnName & "])", "").ToString
                     NewRow.Item("Minimum") = InputDataTable.Compute("Min([" & Column.ColumnName & "])", "").ToString
 
@@ -643,5 +653,22 @@ Module DatasetConverters
         Next
         Return Sql.Substring(0, Sql.Trim.Length - 1) & ");"
     End Function
+
+    Public Function ColumnDataTypeIsNumeric(DataColumn As DataColumn) As Boolean
+        Dim ColumnDataType As String = DataColumn.DataType.ToString.Trim.Replace("System.", "")
+        Dim DataType As String = DataColumn.DataType.ToString.Trim.Replace("System.", "")
+        Dim NumericDataTypes As String = "a,b,c"
+        Dim IsNumeric As Boolean = False
+        Dim CSV As String = "Decimal,Double,Int16,Int32,Int64,Single,UInt16,UInt32,UInt64"
+        For Each DataType In CSV.Split(",")
+            If ColumnDataType = DataType Then
+                IsNumeric = True
+                Debug.Print(ColumnDataType & " " & DataType & " " & IsNumeric)
+            End If
+        Next
+        Return IsNumeric
+    End Function
+
+
 End Module
 

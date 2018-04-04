@@ -28,6 +28,9 @@ Partial Class SkeeterDataTableControl
         Me.DataTableDataGridView = New System.Windows.Forms.DataGridView()
         Me.DataTableToolStrip = New System.Windows.Forms.ToolStrip()
         Me.ExportToCSVToolStripButton = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.AutosizeColumnsModeToolStripLabel = New System.Windows.Forms.ToolStripLabel()
+        Me.AutosizeColumnsToolStripComboBox = New System.Windows.Forms.ToolStripComboBox()
         Me.DataTableBindingNavigator = New System.Windows.Forms.BindingNavigator(Me.components)
         Me.BindingNavigatorAddNewItem = New System.Windows.Forms.ToolStripButton()
         Me.DataTableBindingSource = New System.Windows.Forms.BindingSource(Me.components)
@@ -76,9 +79,6 @@ Partial Class SkeeterDataTableControl
         Me.MappingsPanel = New System.Windows.Forms.Panel()
         Me.MappingsHeaderLabel = New System.Windows.Forms.Label()
         Me.TreeNodesImageList = New System.Windows.Forms.ImageList(Me.components)
-        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripLabel3 = New System.Windows.Forms.ToolStripLabel()
-        Me.AutosizeColumnsToolStripComboBox = New System.Windows.Forms.ToolStripComboBox()
         CType(Me.SplitContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
@@ -145,7 +145,7 @@ Partial Class SkeeterDataTableControl
         'DataTableToolStrip
         '
         Me.DataTableToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.DataTableToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExportToCSVToolStripButton, Me.ToolStripSeparator3, Me.ToolStripLabel3, Me.AutosizeColumnsToolStripComboBox})
+        Me.DataTableToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExportToCSVToolStripButton, Me.ToolStripSeparator3, Me.AutosizeColumnsModeToolStripLabel, Me.AutosizeColumnsToolStripComboBox})
         Me.DataTableToolStrip.Location = New System.Drawing.Point(0, 39)
         Me.DataTableToolStrip.Name = "DataTableToolStrip"
         Me.DataTableToolStrip.Size = New System.Drawing.Size(1167, 28)
@@ -160,6 +160,23 @@ Partial Class SkeeterDataTableControl
         Me.ExportToCSVToolStripButton.Name = "ExportToCSVToolStripButton"
         Me.ExportToCSVToolStripButton.Size = New System.Drawing.Size(104, 25)
         Me.ExportToCSVToolStripButton.Text = "Export to CSV"
+        '
+        'ToolStripSeparator3
+        '
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 28)
+        '
+        'AutosizeColumnsModeToolStripLabel
+        '
+        Me.AutosizeColumnsModeToolStripLabel.Name = "AutosizeColumnsModeToolStripLabel"
+        Me.AutosizeColumnsModeToolStripLabel.Size = New System.Drawing.Size(171, 25)
+        Me.AutosizeColumnsModeToolStripLabel.Text = "Autosize columns mode:"
+        '
+        'AutosizeColumnsToolStripComboBox
+        '
+        Me.AutosizeColumnsToolStripComboBox.Items.AddRange(New Object() {"Column header", "All cells except header", "All cells", "Displayed cells except header", "Displayed cells", "Fill"})
+        Me.AutosizeColumnsToolStripComboBox.Name = "AutosizeColumnsToolStripComboBox"
+        Me.AutosizeColumnsToolStripComboBox.Size = New System.Drawing.Size(200, 28)
         '
         'DataTableBindingNavigator
         '
@@ -384,7 +401,6 @@ Partial Class SkeeterDataTableControl
         Me.QueryTextBox.Name = "QueryTextBox"
         Me.QueryTextBox.Size = New System.Drawing.Size(903, 38)
         Me.QueryTextBox.TabIndex = 9
-        Me.QueryTextBox.Text = "select top 3 * from muskoxgroups"
         '
         'ExecuteSQLButton
         '
@@ -435,7 +451,6 @@ Partial Class SkeeterDataTableControl
         Me.ConnectionStringTextBox.Name = "ConnectionStringTextBox"
         Me.ConnectionStringTextBox.Size = New System.Drawing.Size(903, 46)
         Me.ConnectionStringTextBox.TabIndex = 1
-        Me.ConnectionStringTextBox.Text = "Server=INPYUGAMS08SQL\NUNA;Database=ARCN_MuskoxSurveys;Trusted_Connection=True;"
         '
         'MappingTabPage
         '
@@ -605,23 +620,6 @@ Partial Class SkeeterDataTableControl
         Me.TreeNodesImageList.Images.SetKeyName(6, "page_excel.png")
         Me.TreeNodesImageList.Images.SetKeyName(7, "page_white_text.png")
         '
-        'ToolStripSeparator3
-        '
-        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 28)
-        '
-        'ToolStripLabel3
-        '
-        Me.ToolStripLabel3.Name = "ToolStripLabel3"
-        Me.ToolStripLabel3.Size = New System.Drawing.Size(113, 25)
-        Me.ToolStripLabel3.Text = "ToolStripLabel3"
-        '
-        'AutosizeColumnsToolStripComboBox
-        '
-        Me.AutosizeColumnsToolStripComboBox.Items.AddRange(New Object() {"Column header", "All cells except header", "All cells", "Displayed cells except header", "Displayed cells", "Fill"})
-        Me.AutosizeColumnsToolStripComboBox.Name = "AutosizeColumnsToolStripComboBox"
-        Me.AutosizeColumnsToolStripComboBox.Size = New System.Drawing.Size(121, 28)
-        '
         'SkeeterDataTableControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -720,6 +718,6 @@ Partial Class SkeeterDataTableControl
     Friend WithEvents MetadataPanel As Panel
     Friend WithEvents MetadataLabel As Label
     Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
-    Friend WithEvents ToolStripLabel3 As ToolStripLabel
+    Friend WithEvents AutosizeColumnsModeToolStripLabel As ToolStripLabel
     Friend WithEvents AutosizeColumnsToolStripComboBox As ToolStripComboBox
 End Class
