@@ -76,37 +76,45 @@ Public Class Form1
     ''' </summary>
     ''' <param name="FileInfo"></param>
     Private Sub LoadSourceDataset(FileInfo As FileInfo)
+
         'clear everything
         'Me.DatasetTreeView.Nodes.Clear()
         Me.SkeeterDataTableControl.SqlTextBox.Text = ""
 
-        'open the file
-        Dim SourceDataset As DataSet = Nothing
-        Dim NodeImage As Integer = 0
-        If FileInfo.Extension.ToLower = ".xlsx" Or FileInfo.Extension.ToLower = ".xls" Then
-            Dim MyConnectionString As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & FileInfo.FullName & ";Extended Properties=""Excel 12.0 Xml;HDR=YES"";"
-            SourceDataset = GetDatasetFromExcelWorkbook(MyConnectionString)
-            NodeImage = 6 'excel image
-        ElseIf FileInfo.Extension.ToLower = ".csv" Or FileInfo.Extension.ToLower = ".txt" Or FileInfo.Extension.ToLower = ".tab" Then
-            SourceDataset = GetDatasetFromTextFile(FileInfo, True, "Delimited")
-            NodeImage = 7 'text file image
-        ElseIf FileInfo.Extension.ToLower = ".dbf" Then
-            SourceDataset = GetDatasetFromDBF(FileInfo)
-            NodeImage = 0 'database file image
-        End If
+        Try
+            'open the file
+            Dim SourceDataset As DataSet = Nothing
+            Dim NodeImage As Integer = 0
+            If FileInfo.Extension.ToLower = ".xlsx" Or FileInfo.Extension.ToLower = ".xls" Then
+                Dim MyConnectionString As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & FileInfo.FullName & ";Extended Properties=""Excel 12.0 Xml;HDR=YES"";"
+                SourceDataset = GetDatasetFromExcelWorkbook(MyConnectionString)
+                NodeImage = 6 'excel image
+            ElseIf FileInfo.Extension.ToLower = ".csv" Or FileInfo.Extension.ToLower = ".txt" Or FileInfo.Extension.ToLower = ".tab" Then
+                SourceDataset = GetDatasetFromTextFile(FileInfo, True, "Delimited")
+                NodeImage = 7 'text file image
+            ElseIf FileInfo.Extension.ToLower = ".dbf" Then
+                SourceDataset = GetDatasetFromDBF(FileInfo)
+                NodeImage = 0 'database file image
+            End If
 
-        'load the skeeterdataset into the treeview
-        If Not SourceDataset Is Nothing Then
-            Dim SkeeterDatasetTreeNode As New SkeeterDatasetTreeNode(FileInfo, SourceDataset, Nothing)
-            With SkeeterDatasetTreeNode
-                .Text = FileInfo.Name
-                .FileInfo = FileInfo
-                .ImageIndex = NodeImage
-                .SelectedImageIndex = NodeImage
-                .Expand()
-            End With
-            Me.DatasetTreeView.Nodes.Add(SkeeterDatasetTreeNode)
-        End If
+            'load the skeeterdataset into the treeview
+            If Not SourceDataset Is Nothing Then
+                Dim SkeeterDatasetTreeNode As New SkeeterDatasetTreeNode(FileInfo, SourceDataset, Nothing)
+                With SkeeterDatasetTreeNode
+                    .Text = FileInfo.Name
+                    .FileInfo = FileInfo
+                    .ImageIndex = NodeImage
+                    .SelectedImageIndex = NodeImage
+                    .Expand()
+                End With
+                Me.DatasetTreeView.Nodes.Add(SkeeterDatasetTreeNode)
+                'open the first subnode
+                Me.DatasetTreeView.SelectedNode = SkeeterDatasetTreeNode.Nodes(0)
+
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message & "  " & System.Reflection.MethodBase.GetCurrentMethod.Name)
+        End Try
     End Sub
 
 

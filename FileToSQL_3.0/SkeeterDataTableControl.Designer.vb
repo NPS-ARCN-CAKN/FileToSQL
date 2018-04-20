@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class SkeeterDataTableControl
     Inherits System.Windows.Forms.UserControl
 
     'UserControl overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class SkeeterDataTableControl
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SkeeterDataTableControl))
@@ -109,7 +109,8 @@ Partial Class SkeeterDataTableControl
         'SplitContainer
         '
         Me.SplitContainer.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer.Location = New System.Drawing.Point(3, 3)
+        Me.SplitContainer.Location = New System.Drawing.Point(2, 2)
+        Me.SplitContainer.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.SplitContainer.Name = "SplitContainer"
         Me.SplitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
@@ -124,8 +125,9 @@ Partial Class SkeeterDataTableControl
         '
         Me.SplitContainer.Panel2.Controls.Add(Me.MetadataDataGridView)
         Me.SplitContainer.Panel2.Controls.Add(Me.MetadataPanel)
-        Me.SplitContainer.Size = New System.Drawing.Size(1167, 604)
-        Me.SplitContainer.SplitterDistance = 288
+        Me.SplitContainer.Size = New System.Drawing.Size(874, 489)
+        Me.SplitContainer.SplitterDistance = 233
+        Me.SplitContainer.SplitterWidth = 3
         Me.SplitContainer.TabIndex = 0
         '
         'DataTableDataGridView
@@ -135,20 +137,21 @@ Partial Class SkeeterDataTableControl
         Me.DataTableDataGridView.AllowUserToOrderColumns = True
         Me.DataTableDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataTableDataGridView.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataTableDataGridView.Location = New System.Drawing.Point(0, 67)
+        Me.DataTableDataGridView.Location = New System.Drawing.Point(0, 57)
+        Me.DataTableDataGridView.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.DataTableDataGridView.Name = "DataTableDataGridView"
         Me.DataTableDataGridView.ReadOnly = True
         Me.DataTableDataGridView.RowTemplate.Height = 24
-        Me.DataTableDataGridView.Size = New System.Drawing.Size(1167, 194)
+        Me.DataTableDataGridView.Size = New System.Drawing.Size(874, 149)
         Me.DataTableDataGridView.TabIndex = 0
         '
         'DataTableToolStrip
         '
         Me.DataTableToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.DataTableToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExportToCSVToolStripButton, Me.ToolStripSeparator3, Me.AutosizeColumnsModeToolStripLabel, Me.AutosizeColumnsToolStripComboBox})
-        Me.DataTableToolStrip.Location = New System.Drawing.Point(0, 39)
+        Me.DataTableToolStrip.Location = New System.Drawing.Point(0, 32)
         Me.DataTableToolStrip.Name = "DataTableToolStrip"
-        Me.DataTableToolStrip.Size = New System.Drawing.Size(1167, 28)
+        Me.DataTableToolStrip.Size = New System.Drawing.Size(874, 25)
         Me.DataTableToolStrip.TabIndex = 2
         Me.DataTableToolStrip.Text = "ToolStrip1"
         '
@@ -158,25 +161,25 @@ Partial Class SkeeterDataTableControl
         Me.ExportToCSVToolStripButton.Image = CType(resources.GetObject("ExportToCSVToolStripButton.Image"), System.Drawing.Image)
         Me.ExportToCSVToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ExportToCSVToolStripButton.Name = "ExportToCSVToolStripButton"
-        Me.ExportToCSVToolStripButton.Size = New System.Drawing.Size(104, 25)
+        Me.ExportToCSVToolStripButton.Size = New System.Drawing.Size(82, 22)
         Me.ExportToCSVToolStripButton.Text = "Export to CSV"
         '
         'ToolStripSeparator3
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 28)
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 25)
         '
         'AutosizeColumnsModeToolStripLabel
         '
         Me.AutosizeColumnsModeToolStripLabel.Name = "AutosizeColumnsModeToolStripLabel"
-        Me.AutosizeColumnsModeToolStripLabel.Size = New System.Drawing.Size(171, 25)
+        Me.AutosizeColumnsModeToolStripLabel.Size = New System.Drawing.Size(138, 22)
         Me.AutosizeColumnsModeToolStripLabel.Text = "Autosize columns mode:"
         '
         'AutosizeColumnsToolStripComboBox
         '
         Me.AutosizeColumnsToolStripComboBox.Items.AddRange(New Object() {"Column header", "All cells except header", "All cells", "Displayed cells except header", "Displayed cells", "Fill"})
         Me.AutosizeColumnsToolStripComboBox.Name = "AutosizeColumnsToolStripComboBox"
-        Me.AutosizeColumnsToolStripComboBox.Size = New System.Drawing.Size(200, 28)
+        Me.AutosizeColumnsToolStripComboBox.Size = New System.Drawing.Size(151, 25)
         '
         'DataTableBindingNavigator
         '
@@ -187,14 +190,14 @@ Partial Class SkeeterDataTableControl
         Me.DataTableBindingNavigator.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.DataTableBindingNavigator.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.DataTableBindingNavigator.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BindingNavigatorMoveFirstItem, Me.BindingNavigatorMovePreviousItem, Me.BindingNavigatorSeparator, Me.BindingNavigatorPositionItem, Me.BindingNavigatorCountItem, Me.BindingNavigatorSeparator1, Me.BindingNavigatorMoveNextItem, Me.BindingNavigatorMoveLastItem, Me.BindingNavigatorSeparator2, Me.BindingNavigatorAddNewItem, Me.BindingNavigatorDeleteItem})
-        Me.DataTableBindingNavigator.Location = New System.Drawing.Point(0, 261)
+        Me.DataTableBindingNavigator.Location = New System.Drawing.Point(0, 206)
         Me.DataTableBindingNavigator.MoveFirstItem = Me.BindingNavigatorMoveFirstItem
         Me.DataTableBindingNavigator.MoveLastItem = Me.BindingNavigatorMoveLastItem
         Me.DataTableBindingNavigator.MoveNextItem = Me.BindingNavigatorMoveNextItem
         Me.DataTableBindingNavigator.MovePreviousItem = Me.BindingNavigatorMovePreviousItem
         Me.DataTableBindingNavigator.Name = "DataTableBindingNavigator"
         Me.DataTableBindingNavigator.PositionItem = Me.BindingNavigatorPositionItem
-        Me.DataTableBindingNavigator.Size = New System.Drawing.Size(1167, 27)
+        Me.DataTableBindingNavigator.Size = New System.Drawing.Size(874, 27)
         Me.DataTableBindingNavigator.TabIndex = 1
         Me.DataTableBindingNavigator.Text = "BindingNavigator1"
         '
@@ -210,7 +213,7 @@ Partial Class SkeeterDataTableControl
         'BindingNavigatorCountItem
         '
         Me.BindingNavigatorCountItem.Name = "BindingNavigatorCountItem"
-        Me.BindingNavigatorCountItem.Size = New System.Drawing.Size(45, 24)
+        Me.BindingNavigatorCountItem.Size = New System.Drawing.Size(35, 24)
         Me.BindingNavigatorCountItem.Text = "of {0}"
         Me.BindingNavigatorCountItem.ToolTipText = "Total number of items"
         '
@@ -251,7 +254,7 @@ Partial Class SkeeterDataTableControl
         Me.BindingNavigatorPositionItem.AccessibleName = "Position"
         Me.BindingNavigatorPositionItem.AutoSize = False
         Me.BindingNavigatorPositionItem.Name = "BindingNavigatorPositionItem"
-        Me.BindingNavigatorPositionItem.Size = New System.Drawing.Size(50, 27)
+        Me.BindingNavigatorPositionItem.Size = New System.Drawing.Size(38, 23)
         Me.BindingNavigatorPositionItem.Text = "0"
         Me.BindingNavigatorPositionItem.ToolTipText = "Current position"
         '
@@ -288,17 +291,19 @@ Partial Class SkeeterDataTableControl
         Me.DataTablePanel.Controls.Add(Me.DataTableLabel)
         Me.DataTablePanel.Dock = System.Windows.Forms.DockStyle.Top
         Me.DataTablePanel.Location = New System.Drawing.Point(0, 0)
+        Me.DataTablePanel.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.DataTablePanel.Name = "DataTablePanel"
-        Me.DataTablePanel.Size = New System.Drawing.Size(1167, 39)
+        Me.DataTablePanel.Size = New System.Drawing.Size(874, 32)
         Me.DataTablePanel.TabIndex = 3
         '
         'DataTableLabel
         '
         Me.DataTableLabel.AutoSize = True
         Me.DataTableLabel.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.DataTableLabel.Location = New System.Drawing.Point(16, 9)
+        Me.DataTableLabel.Location = New System.Drawing.Point(12, 7)
+        Me.DataTableLabel.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.DataTableLabel.Name = "DataTableLabel"
-        Me.DataTableLabel.Size = New System.Drawing.Size(53, 24)
+        Me.DataTableLabel.Size = New System.Drawing.Size(44, 19)
         Me.DataTableLabel.TabIndex = 0
         Me.DataTableLabel.Text = "Data"
         '
@@ -309,11 +314,12 @@ Partial Class SkeeterDataTableControl
         Me.MetadataDataGridView.AllowUserToOrderColumns = True
         Me.MetadataDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.MetadataDataGridView.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.MetadataDataGridView.Location = New System.Drawing.Point(0, 39)
+        Me.MetadataDataGridView.Location = New System.Drawing.Point(0, 32)
+        Me.MetadataDataGridView.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.MetadataDataGridView.Name = "MetadataDataGridView"
         Me.MetadataDataGridView.ReadOnly = True
         Me.MetadataDataGridView.RowTemplate.Height = 24
-        Me.MetadataDataGridView.Size = New System.Drawing.Size(1167, 273)
+        Me.MetadataDataGridView.Size = New System.Drawing.Size(874, 221)
         Me.MetadataDataGridView.TabIndex = 1
         '
         'MetadataPanel
@@ -321,17 +327,19 @@ Partial Class SkeeterDataTableControl
         Me.MetadataPanel.Controls.Add(Me.MetadataLabel)
         Me.MetadataPanel.Dock = System.Windows.Forms.DockStyle.Top
         Me.MetadataPanel.Location = New System.Drawing.Point(0, 0)
+        Me.MetadataPanel.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.MetadataPanel.Name = "MetadataPanel"
-        Me.MetadataPanel.Size = New System.Drawing.Size(1167, 39)
+        Me.MetadataPanel.Size = New System.Drawing.Size(874, 32)
         Me.MetadataPanel.TabIndex = 4
         '
         'MetadataLabel
         '
         Me.MetadataLabel.AutoSize = True
         Me.MetadataLabel.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MetadataLabel.Location = New System.Drawing.Point(16, 9)
+        Me.MetadataLabel.Location = New System.Drawing.Point(12, 7)
+        Me.MetadataLabel.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.MetadataLabel.Name = "MetadataLabel"
-        Me.MetadataLabel.Size = New System.Drawing.Size(97, 24)
+        Me.MetadataLabel.Size = New System.Drawing.Size(78, 19)
         Me.MetadataLabel.TabIndex = 0
         Me.MetadataLabel.Text = "Metadata"
         '
@@ -342,18 +350,20 @@ Partial Class SkeeterDataTableControl
         Me.DataTableTabControl.Controls.Add(Me.MappingTabPage)
         Me.DataTableTabControl.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataTableTabControl.Location = New System.Drawing.Point(0, 0)
+        Me.DataTableTabControl.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.DataTableTabControl.Name = "DataTableTabControl"
         Me.DataTableTabControl.SelectedIndex = 0
-        Me.DataTableTabControl.Size = New System.Drawing.Size(1181, 639)
+        Me.DataTableTabControl.Size = New System.Drawing.Size(886, 519)
         Me.DataTableTabControl.TabIndex = 2
         '
         'SourceDataTableTabPage
         '
         Me.SourceDataTableTabPage.Controls.Add(Me.SplitContainer)
-        Me.SourceDataTableTabPage.Location = New System.Drawing.Point(4, 25)
+        Me.SourceDataTableTabPage.Location = New System.Drawing.Point(4, 22)
+        Me.SourceDataTableTabPage.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.SourceDataTableTabPage.Name = "SourceDataTableTabPage"
-        Me.SourceDataTableTabPage.Padding = New System.Windows.Forms.Padding(3)
-        Me.SourceDataTableTabPage.Size = New System.Drawing.Size(1173, 610)
+        Me.SourceDataTableTabPage.Padding = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.SourceDataTableTabPage.Size = New System.Drawing.Size(878, 493)
         Me.SourceDataTableTabPage.TabIndex = 0
         Me.SourceDataTableTabPage.Text = "Source data table"
         Me.SourceDataTableTabPage.UseVisualStyleBackColor = True
@@ -362,10 +372,11 @@ Partial Class SkeeterDataTableControl
         '
         Me.DestinationTableTabPage.Controls.Add(Me.DestinationDataGridView)
         Me.DestinationTableTabPage.Controls.Add(Me.DatabaseConnectionPanel)
-        Me.DestinationTableTabPage.Location = New System.Drawing.Point(4, 25)
+        Me.DestinationTableTabPage.Location = New System.Drawing.Point(4, 22)
+        Me.DestinationTableTabPage.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.DestinationTableTabPage.Name = "DestinationTableTabPage"
-        Me.DestinationTableTabPage.Padding = New System.Windows.Forms.Padding(3)
-        Me.DestinationTableTabPage.Size = New System.Drawing.Size(1173, 610)
+        Me.DestinationTableTabPage.Padding = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.DestinationTableTabPage.Size = New System.Drawing.Size(878, 493)
         Me.DestinationTableTabPage.TabIndex = 1
         Me.DestinationTableTabPage.Text = "Destination data table"
         Me.DestinationTableTabPage.UseVisualStyleBackColor = True
@@ -374,10 +385,11 @@ Partial Class SkeeterDataTableControl
         '
         Me.DestinationDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DestinationDataGridView.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DestinationDataGridView.Location = New System.Drawing.Point(3, 151)
+        Me.DestinationDataGridView.Location = New System.Drawing.Point(2, 122)
+        Me.DestinationDataGridView.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.DestinationDataGridView.Name = "DestinationDataGridView"
         Me.DestinationDataGridView.RowTemplate.Height = 24
-        Me.DestinationDataGridView.Size = New System.Drawing.Size(1167, 456)
+        Me.DestinationDataGridView.Size = New System.Drawing.Size(874, 369)
         Me.DestinationDataGridView.TabIndex = 5
         '
         'DatabaseConnectionPanel
@@ -389,17 +401,19 @@ Partial Class SkeeterDataTableControl
         Me.DatabaseConnectionPanel.Controls.Add(Me.ConnectionStringLabel)
         Me.DatabaseConnectionPanel.Controls.Add(Me.ConnectionStringTextBox)
         Me.DatabaseConnectionPanel.Dock = System.Windows.Forms.DockStyle.Top
-        Me.DatabaseConnectionPanel.Location = New System.Drawing.Point(3, 3)
+        Me.DatabaseConnectionPanel.Location = New System.Drawing.Point(2, 2)
+        Me.DatabaseConnectionPanel.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.DatabaseConnectionPanel.Name = "DatabaseConnectionPanel"
-        Me.DatabaseConnectionPanel.Size = New System.Drawing.Size(1167, 148)
+        Me.DatabaseConnectionPanel.Size = New System.Drawing.Size(874, 120)
         Me.DatabaseConnectionPanel.TabIndex = 4
         '
         'QueryTextBox
         '
-        Me.QueryTextBox.Location = New System.Drawing.Point(139, 94)
+        Me.QueryTextBox.Location = New System.Drawing.Point(104, 76)
+        Me.QueryTextBox.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.QueryTextBox.Multiline = True
         Me.QueryTextBox.Name = "QueryTextBox"
-        Me.QueryTextBox.Size = New System.Drawing.Size(903, 38)
+        Me.QueryTextBox.Size = New System.Drawing.Size(678, 32)
         Me.QueryTextBox.TabIndex = 9
         '
         'ExecuteSQLButton
@@ -407,9 +421,10 @@ Partial Class SkeeterDataTableControl
         Me.ExecuteSQLButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ExecuteSQLButton.Image = CType(resources.GetObject("ExecuteSQLButton.Image"), System.Drawing.Image)
         Me.ExecuteSQLButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ExecuteSQLButton.Location = New System.Drawing.Point(1048, 94)
+        Me.ExecuteSQLButton.Location = New System.Drawing.Point(785, 76)
+        Me.ExecuteSQLButton.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.ExecuteSQLButton.Name = "ExecuteSQLButton"
-        Me.ExecuteSQLButton.Size = New System.Drawing.Size(99, 23)
+        Me.ExecuteSQLButton.Size = New System.Drawing.Size(74, 19)
         Me.ExecuteSQLButton.TabIndex = 8
         Me.ExecuteSQLButton.Text = "Execute"
         Me.ExecuteSQLButton.UseVisualStyleBackColor = True
@@ -417,9 +432,10 @@ Partial Class SkeeterDataTableControl
         'TableLabel
         '
         Me.TableLabel.AutoSize = True
-        Me.TableLabel.Location = New System.Drawing.Point(11, 94)
+        Me.TableLabel.Location = New System.Drawing.Point(8, 76)
+        Me.TableLabel.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.TableLabel.Name = "TableLabel"
-        Me.TableLabel.Size = New System.Drawing.Size(51, 17)
+        Me.TableLabel.Size = New System.Drawing.Size(38, 13)
         Me.TableLabel.TabIndex = 6
         Me.TableLabel.Text = "Query:"
         '
@@ -427,18 +443,20 @@ Partial Class SkeeterDataTableControl
         '
         Me.DestinationLabel.AutoSize = True
         Me.DestinationLabel.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.DestinationLabel.Location = New System.Drawing.Point(10, 12)
+        Me.DestinationLabel.Location = New System.Drawing.Point(8, 10)
+        Me.DestinationLabel.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.DestinationLabel.Name = "DestinationLabel"
-        Me.DestinationLabel.Size = New System.Drawing.Size(193, 24)
+        Me.DestinationLabel.Size = New System.Drawing.Size(156, 19)
         Me.DestinationLabel.TabIndex = 3
         Me.DestinationLabel.Text = "Destination dataset"
         '
         'ConnectionStringLabel
         '
         Me.ConnectionStringLabel.AutoSize = True
-        Me.ConnectionStringLabel.Location = New System.Drawing.Point(11, 42)
+        Me.ConnectionStringLabel.Location = New System.Drawing.Point(8, 34)
+        Me.ConnectionStringLabel.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.ConnectionStringLabel.Name = "ConnectionStringLabel"
-        Me.ConnectionStringLabel.Size = New System.Drawing.Size(122, 17)
+        Me.ConnectionStringLabel.Size = New System.Drawing.Size(92, 13)
         Me.ConnectionStringLabel.TabIndex = 2
         Me.ConnectionStringLabel.Text = "Connection string:"
         '
@@ -446,20 +464,22 @@ Partial Class SkeeterDataTableControl
         '
         Me.ConnectionStringTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ConnectionStringTextBox.Location = New System.Drawing.Point(139, 39)
+        Me.ConnectionStringTextBox.Location = New System.Drawing.Point(104, 32)
+        Me.ConnectionStringTextBox.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.ConnectionStringTextBox.Multiline = True
         Me.ConnectionStringTextBox.Name = "ConnectionStringTextBox"
-        Me.ConnectionStringTextBox.Size = New System.Drawing.Size(903, 46)
+        Me.ConnectionStringTextBox.Size = New System.Drawing.Size(677, 38)
         Me.ConnectionStringTextBox.TabIndex = 1
         '
         'MappingTabPage
         '
         Me.MappingTabPage.Controls.Add(Me.SplitContainer2)
         Me.MappingTabPage.Controls.Add(Me.MappingsPanel)
-        Me.MappingTabPage.Location = New System.Drawing.Point(4, 25)
+        Me.MappingTabPage.Location = New System.Drawing.Point(4, 22)
+        Me.MappingTabPage.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.MappingTabPage.Name = "MappingTabPage"
-        Me.MappingTabPage.Padding = New System.Windows.Forms.Padding(3)
-        Me.MappingTabPage.Size = New System.Drawing.Size(1173, 610)
+        Me.MappingTabPage.Padding = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.MappingTabPage.Size = New System.Drawing.Size(878, 493)
         Me.MappingTabPage.TabIndex = 2
         Me.MappingTabPage.Text = "Map source data to destination"
         Me.MappingTabPage.UseVisualStyleBackColor = True
@@ -467,7 +487,8 @@ Partial Class SkeeterDataTableControl
         'SplitContainer2
         '
         Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer2.Location = New System.Drawing.Point(3, 51)
+        Me.SplitContainer2.Location = New System.Drawing.Point(2, 41)
+        Me.SplitContainer2.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.SplitContainer2.Name = "SplitContainer2"
         Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
@@ -479,8 +500,9 @@ Partial Class SkeeterDataTableControl
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.SqlTextBox)
         Me.SplitContainer2.Panel2.Controls.Add(Me.SqlToolStrip)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1167, 556)
-        Me.SplitContainer2.SplitterDistance = 234
+        Me.SplitContainer2.Size = New System.Drawing.Size(874, 450)
+        Me.SplitContainer2.SplitterDistance = 189
+        Me.SplitContainer2.SplitterWidth = 3
         Me.SplitContainer2.TabIndex = 6
         '
         'ColumnsMappingDataGridView
@@ -493,9 +515,10 @@ Partial Class SkeeterDataTableControl
         Me.ColumnsMappingDataGridView.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DestinationColumnName, Me.SourceColumnName, Me.DefaultValueColumn, Me.QuotedColumn})
         Me.ColumnsMappingDataGridView.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ColumnsMappingDataGridView.Location = New System.Drawing.Point(0, 0)
+        Me.ColumnsMappingDataGridView.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.ColumnsMappingDataGridView.Name = "ColumnsMappingDataGridView"
         Me.ColumnsMappingDataGridView.RowTemplate.Height = 24
-        Me.ColumnsMappingDataGridView.Size = New System.Drawing.Size(1167, 234)
+        Me.ColumnsMappingDataGridView.Size = New System.Drawing.Size(874, 189)
         Me.ColumnsMappingDataGridView.TabIndex = 3
         '
         'DestinationColumnName
@@ -530,10 +553,11 @@ Partial Class SkeeterDataTableControl
         '
         Me.SqlTextBox.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SqlTextBox.Font = New System.Drawing.Font("Courier New", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SqlTextBox.Location = New System.Drawing.Point(0, 28)
+        Me.SqlTextBox.Location = New System.Drawing.Point(0, 25)
+        Me.SqlTextBox.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.SqlTextBox.Multiline = True
         Me.SqlTextBox.Name = "SqlTextBox"
-        Me.SqlTextBox.Size = New System.Drawing.Size(1167, 290)
+        Me.SqlTextBox.Size = New System.Drawing.Size(874, 233)
         Me.SqlTextBox.TabIndex = 0
         Me.SqlTextBox.WordWrap = False
         '
@@ -543,67 +567,69 @@ Partial Class SkeeterDataTableControl
         Me.SqlToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.ToolStripSeparator1, Me.WrapToolStripLabel, Me.WrapToolStripComboBox, Me.ToolStripSeparator2, Me.ToolStripLabel2, Me.NumberOfPreviewQueriesToolStripTextBox})
         Me.SqlToolStrip.Location = New System.Drawing.Point(0, 0)
         Me.SqlToolStrip.Name = "SqlToolStrip"
-        Me.SqlToolStrip.Size = New System.Drawing.Size(1167, 28)
+        Me.SqlToolStrip.Size = New System.Drawing.Size(874, 25)
         Me.SqlToolStrip.TabIndex = 1
         Me.SqlToolStrip.Text = "Insert queries script:"
         '
         'ToolStripLabel1
         '
         Me.ToolStripLabel1.Name = "ToolStripLabel1"
-        Me.ToolStripLabel1.Size = New System.Drawing.Size(137, 25)
+        Me.ToolStripLabel1.Size = New System.Drawing.Size(109, 22)
         Me.ToolStripLabel1.Text = "Insert queries script"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 28)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
         '
         'WrapToolStripLabel
         '
         Me.WrapToolStripLabel.Name = "WrapToolStripLabel"
-        Me.WrapToolStripLabel.Size = New System.Drawing.Size(45, 25)
+        Me.WrapToolStripLabel.Size = New System.Drawing.Size(35, 22)
         Me.WrapToolStripLabel.Text = "Wrap"
         '
         'WrapToolStripComboBox
         '
         Me.WrapToolStripComboBox.Items.AddRange(New Object() {"True", "False"})
         Me.WrapToolStripComboBox.Name = "WrapToolStripComboBox"
-        Me.WrapToolStripComboBox.Size = New System.Drawing.Size(121, 28)
+        Me.WrapToolStripComboBox.Size = New System.Drawing.Size(92, 25)
         Me.WrapToolStripComboBox.Text = "False"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 28)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
         '
         'ToolStripLabel2
         '
         Me.ToolStripLabel2.Name = "ToolStripLabel2"
-        Me.ToolStripLabel2.Size = New System.Drawing.Size(192, 25)
+        Me.ToolStripLabel2.Size = New System.Drawing.Size(153, 22)
         Me.ToolStripLabel2.Text = "Number of preview queries:"
         '
         'NumberOfPreviewQueriesToolStripTextBox
         '
         Me.NumberOfPreviewQueriesToolStripTextBox.Name = "NumberOfPreviewQueriesToolStripTextBox"
-        Me.NumberOfPreviewQueriesToolStripTextBox.Size = New System.Drawing.Size(100, 28)
+        Me.NumberOfPreviewQueriesToolStripTextBox.Size = New System.Drawing.Size(76, 25)
         '
         'MappingsPanel
         '
         Me.MappingsPanel.BackColor = System.Drawing.Color.Transparent
         Me.MappingsPanel.Controls.Add(Me.MappingsHeaderLabel)
         Me.MappingsPanel.Dock = System.Windows.Forms.DockStyle.Top
-        Me.MappingsPanel.Location = New System.Drawing.Point(3, 3)
+        Me.MappingsPanel.Location = New System.Drawing.Point(2, 2)
+        Me.MappingsPanel.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.MappingsPanel.Name = "MappingsPanel"
-        Me.MappingsPanel.Size = New System.Drawing.Size(1167, 48)
+        Me.MappingsPanel.Size = New System.Drawing.Size(874, 39)
         Me.MappingsPanel.TabIndex = 5
         '
         'MappingsHeaderLabel
         '
         Me.MappingsHeaderLabel.AutoSize = True
         Me.MappingsHeaderLabel.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MappingsHeaderLabel.Location = New System.Drawing.Point(10, 12)
+        Me.MappingsHeaderLabel.Location = New System.Drawing.Point(8, 10)
+        Me.MappingsHeaderLabel.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.MappingsHeaderLabel.Name = "MappingsHeaderLabel"
-        Me.MappingsHeaderLabel.Size = New System.Drawing.Size(429, 24)
+        Me.MappingsHeaderLabel.Size = New System.Drawing.Size(346, 19)
         Me.MappingsHeaderLabel.TabIndex = 3
         Me.MappingsHeaderLabel.Text = "Map destination columns to source columns"
         '
@@ -622,11 +648,12 @@ Partial Class SkeeterDataTableControl
         '
         'SkeeterDataTableControl
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.DataTableTabControl)
+        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Name = "SkeeterDataTableControl"
-        Me.Size = New System.Drawing.Size(1181, 639)
+        Me.Size = New System.Drawing.Size(886, 519)
         Me.SplitContainer.Panel1.ResumeLayout(False)
         Me.SplitContainer.Panel1.PerformLayout()
         Me.SplitContainer.Panel2.ResumeLayout(False)
