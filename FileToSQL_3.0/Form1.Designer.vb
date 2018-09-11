@@ -30,6 +30,7 @@ Partial Class Form1
         Me.RemoveAllDatasetsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TreeNodesImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.SplitContainer = New System.Windows.Forms.SplitContainer()
+        Me.SkeeterDataTableControl = New FileToSQL_3._0.SkeeterDataTableControl()
         Me.MainMenuStrip = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -39,7 +40,6 @@ Partial Class Form1
         Me.OpenDataFileToolStripButton = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.OpenSourceFileToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.SkeeterDataTableControl = New FileToSQL_3._0.SkeeterDataTableControl()
         Me.TreeViewContextMenuStrip.SuspendLayout()
         CType(Me.SplitContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer.Panel1.SuspendLayout()
@@ -57,9 +57,10 @@ Partial Class Form1
         Me.DatasetTreeView.ImageIndex = 0
         Me.DatasetTreeView.ImageList = Me.TreeNodesImageList
         Me.DatasetTreeView.Location = New System.Drawing.Point(0, 0)
+        Me.DatasetTreeView.Margin = New System.Windows.Forms.Padding(2)
         Me.DatasetTreeView.Name = "DatasetTreeView"
         Me.DatasetTreeView.SelectedImageIndex = 0
-        Me.DatasetTreeView.Size = New System.Drawing.Size(186, 666)
+        Me.DatasetTreeView.Size = New System.Drawing.Size(185, 680)
         Me.DatasetTreeView.TabIndex = 0
         '
         'TreeViewContextMenuStrip
@@ -67,18 +68,18 @@ Partial Class Form1
         Me.TreeViewContextMenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.TreeViewContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveDatasetToolStripMenuItem, Me.RemoveAllDatasetsToolStripMenuItem})
         Me.TreeViewContextMenuStrip.Name = "TreeViewContextMenuStrip"
-        Me.TreeViewContextMenuStrip.Size = New System.Drawing.Size(245, 52)
+        Me.TreeViewContextMenuStrip.Size = New System.Drawing.Size(205, 48)
         '
         'RemoveDatasetToolStripMenuItem
         '
         Me.RemoveDatasetToolStripMenuItem.Name = "RemoveDatasetToolStripMenuItem"
-        Me.RemoveDatasetToolStripMenuItem.Size = New System.Drawing.Size(244, 24)
+        Me.RemoveDatasetToolStripMenuItem.Size = New System.Drawing.Size(204, 22)
         Me.RemoveDatasetToolStripMenuItem.Text = "Remove selected dataset"
         '
         'RemoveAllDatasetsToolStripMenuItem
         '
         Me.RemoveAllDatasetsToolStripMenuItem.Name = "RemoveAllDatasetsToolStripMenuItem"
-        Me.RemoveAllDatasetsToolStripMenuItem.Size = New System.Drawing.Size(244, 24)
+        Me.RemoveAllDatasetsToolStripMenuItem.Size = New System.Drawing.Size(204, 22)
         Me.RemoveAllDatasetsToolStripMenuItem.Text = "Remove all datasets"
         '
         'TreeNodesImageList
@@ -97,7 +98,8 @@ Partial Class Form1
         'SplitContainer
         '
         Me.SplitContainer.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer.Location = New System.Drawing.Point(0, 55)
+        Me.SplitContainer.Location = New System.Drawing.Point(0, 49)
+        Me.SplitContainer.Margin = New System.Windows.Forms.Padding(2)
         Me.SplitContainer.Name = "SplitContainer"
         '
         'SplitContainer.Panel1
@@ -107,9 +109,20 @@ Partial Class Form1
         'SplitContainer.Panel2
         '
         Me.SplitContainer.Panel2.Controls.Add(Me.SkeeterDataTableControl)
-        Me.SplitContainer.Size = New System.Drawing.Size(1006, 666)
-        Me.SplitContainer.SplitterDistance = 186
+        Me.SplitContainer.Size = New System.Drawing.Size(1008, 680)
+        Me.SplitContainer.SplitterDistance = 185
+        Me.SplitContainer.SplitterWidth = 3
         Me.SplitContainer.TabIndex = 1
+        '
+        'SkeeterDataTableControl
+        '
+        Me.SkeeterDataTableControl.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SkeeterDataTableControl.Location = New System.Drawing.Point(0, 0)
+        Me.SkeeterDataTableControl.Margin = New System.Windows.Forms.Padding(2)
+        Me.SkeeterDataTableControl.Name = "SkeeterDataTableControl"
+        Me.SkeeterDataTableControl.Size = New System.Drawing.Size(820, 680)
+        Me.SkeeterDataTableControl.SkeeterDatasetTreeNode = Nothing
+        Me.SkeeterDataTableControl.TabIndex = 0
         '
         'MainMenuStrip
         '
@@ -117,7 +130,8 @@ Partial Class Form1
         Me.MainMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem})
         Me.MainMenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MainMenuStrip.Name = "MainMenuStrip"
-        Me.MainMenuStrip.Size = New System.Drawing.Size(1006, 28)
+        Me.MainMenuStrip.Padding = New System.Windows.Forms.Padding(4, 2, 0, 2)
+        Me.MainMenuStrip.Size = New System.Drawing.Size(1008, 24)
         Me.MainMenuStrip.TabIndex = 1
         Me.MainMenuStrip.Text = "MenuStrip1"
         '
@@ -125,34 +139,34 @@ Partial Class Form1
         '
         Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenToolStripMenuItem, Me.CloseToolStripMenuItem, Me.ExtToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
-        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(44, 24)
+        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
         Me.FileToolStripMenuItem.Text = "File"
         '
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(181, 26)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(112, 22)
         Me.OpenToolStripMenuItem.Text = "Open..."
         '
         'CloseToolStripMenuItem
         '
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(181, 26)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(112, 22)
         Me.CloseToolStripMenuItem.Text = "Close"
         '
         'ExtToolStripMenuItem
         '
         Me.ExtToolStripMenuItem.Name = "ExtToolStripMenuItem"
-        Me.ExtToolStripMenuItem.Size = New System.Drawing.Size(181, 26)
+        Me.ExtToolStripMenuItem.Size = New System.Drawing.Size(112, 22)
         Me.ExtToolStripMenuItem.Text = "Exit"
         '
         'MainToolStrip
         '
         Me.MainToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.MainToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenDataFileToolStripButton, Me.ToolStripSeparator1, Me.OpenSourceFileToolStripButton})
-        Me.MainToolStrip.Location = New System.Drawing.Point(0, 28)
+        Me.MainToolStrip.Location = New System.Drawing.Point(0, 24)
         Me.MainToolStrip.Name = "MainToolStrip"
-        Me.MainToolStrip.Size = New System.Drawing.Size(1006, 27)
+        Me.MainToolStrip.Size = New System.Drawing.Size(1008, 25)
         Me.MainToolStrip.TabIndex = 2
         Me.MainToolStrip.Text = "ToolStrip1"
         '
@@ -162,13 +176,13 @@ Partial Class Form1
         Me.OpenDataFileToolStripButton.Image = CType(resources.GetObject("OpenDataFileToolStripButton.Image"), System.Drawing.Image)
         Me.OpenDataFileToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.OpenDataFileToolStripButton.Name = "OpenDataFileToolStripButton"
-        Me.OpenDataFileToolStripButton.Size = New System.Drawing.Size(117, 24)
+        Me.OpenDataFileToolStripButton.Size = New System.Drawing.Size(94, 22)
         Me.OpenDataFileToolStripButton.Text = "Open data file..."
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 27)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
         '
         'OpenSourceFileToolStripButton
         '
@@ -176,27 +190,19 @@ Partial Class Form1
         Me.OpenSourceFileToolStripButton.Image = CType(resources.GetObject("OpenSourceFileToolStripButton.Image"), System.Drawing.Image)
         Me.OpenSourceFileToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.OpenSourceFileToolStripButton.Name = "OpenSourceFileToolStripButton"
-        Me.OpenSourceFileToolStripButton.Size = New System.Drawing.Size(248, 24)
+        Me.OpenSourceFileToolStripButton.Size = New System.Drawing.Size(198, 22)
         Me.OpenSourceFileToolStripButton.Text = "Open using Windows default editor"
-        '
-        'SkeeterDataTableControl
-        '
-        Me.SkeeterDataTableControl.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SkeeterDataTableControl.Location = New System.Drawing.Point(0, 0)
-        Me.SkeeterDataTableControl.Name = "SkeeterDataTableControl"
-        Me.SkeeterDataTableControl.Size = New System.Drawing.Size(816, 666)
-        Me.SkeeterDataTableControl.SkeeterDatasetTreeNode = Nothing
-        Me.SkeeterDataTableControl.TabIndex = 0
         '
         'Form1
         '
         Me.AllowDrop = True
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1006, 721)
+        Me.ClientSize = New System.Drawing.Size(1008, 729)
         Me.Controls.Add(Me.SplitContainer)
         Me.Controls.Add(Me.MainToolStrip)
         Me.Controls.Add(Me.MainMenuStrip)
+        Me.Margin = New System.Windows.Forms.Padding(2)
         Me.Name = "Form1"
         Me.Text = "Data file to SQL 3.0"
         Me.TreeViewContextMenuStrip.ResumeLayout(False)

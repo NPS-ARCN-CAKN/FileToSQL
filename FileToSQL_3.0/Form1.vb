@@ -110,7 +110,6 @@ Public Class Form1
                 Me.DatasetTreeView.Nodes.Add(SkeeterDatasetTreeNode)
                 'open the first subnode
                 Me.DatasetTreeView.SelectedNode = SkeeterDatasetTreeNode.Nodes(0)
-
             End If
         Catch ex As Exception
             MsgBox(ex.Message & "  " & System.Reflection.MethodBase.GetCurrentMethod.Name)
@@ -197,4 +196,6 @@ Public Class Form1
         End If
 
     End Sub
+
+
 End Class

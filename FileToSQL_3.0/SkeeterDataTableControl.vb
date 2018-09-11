@@ -353,7 +353,7 @@ Public Class SkeeterDataTableControl
                 'metadata datatable
                 If Not Me.MetadataDataGridView.DataSource Is Nothing Then
                     Dim MetadataDataTable As DataTable = Me.MetadataDataGridView.DataSource
-                    File.WriteAllText(SFD.FileName.Trim & ".Metadata.txt", DataTableToCSV(MetadataDataTable, ","))
+                    File.WriteAllText(SFD.FileName.Trim & ".Metadata.csv", DataTableToCSV(MetadataDataTable, ","))
                 End If
             End If
         Catch ex As Exception
@@ -378,4 +378,6 @@ Public Class SkeeterDataTableControl
                 Me.DataTableDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
         End Select
     End Sub
+
+
 End Class
