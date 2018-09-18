@@ -3,7 +3,20 @@ Imports System.Data.SqlClient
 Imports System.IO
 
 
+''' <summary>
+''' Functions that convert data file formats to Datasets
+''' </summary>
 Module DatasetConverters
+
+    ''' <summary>
+    ''' Format is used in ConnectionStrings to determine if the data is delimited or fixed width
+    ''' </summary>
+    Enum Format
+        Delimited = 0
+        Fixed = 1
+    End Enum
+
+
     ''' <summary>
     ''' Converts a DataTable to a string of delimited values such as CSV
     ''' </summary>
@@ -68,8 +81,15 @@ Module DatasetConverters
         Return XMLDataset
     End Function
 
-    Public Function GetDatasetFromTextFile(CSVFileInfo As FileInfo, Headers As Boolean, Format As String) As DataSet
+    Public Function GetDatasetFromTextFile(CSVFileInfo As FileInfo, Headers As Boolean, Format As Format) As DataSet
         Dim CSVDataset As New DataSet(CSVFileInfo.Name)
+        'Dim FMT As String = ""
+        'Select Case Format
+        '    Case 0
+        '        FMT = "Delimited"
+        '    Case 1
+        '        FMT = "Fixed"
+        'End Select
         Try
             CSVDataset.Tables.Add(GetDataTableFromCSV(CSVFileInfo, Headers, Format))
         Catch ex As Exception
@@ -78,16 +98,25 @@ Module DatasetConverters
         Return CSVDataset
     End Function
 
+
     ''' <summary>
     ''' Converts the submitted CSV text file into a DataTable
     ''' </summary>
     ''' <param name="CSVFileInfo">Input CSV FileInfo</param>
     ''' <param name="Headers">Whether the file has headers or not</param>
+    ''' <param name="Format"></param>
     ''' <returns>DataTable</returns>
-    Public Function GetDataTableFromCSV(CSVFileInfo As FileInfo, Headers As Boolean, Format As String) As DataTable
+    Public Function GetDataTableFromCSV(CSVFileInfo As FileInfo, Headers As Boolean, Format As Format) As DataTable
         Dim MyDataTable As New DataTable(CSVFileInfo.Name) 'this datatable will hold the imported data
+        Dim FMT As String = ""
+        Select Case Format
+            Case 0
+                FMT = "Delimited"
+            Case 1
+                FMT = "Fixed"
+        End Select
         Try
-            Dim CSVConnectionString As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & CSVFileInfo.DirectoryName & ";Extended Properties=""text;HDR=" & Headers & ";FMT=" & Format & """;"
+            Dim CSVConnectionString As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & CSVFileInfo.DirectoryName & ";Extended Properties=""text;HDR=" & Headers & ";FMT=" & FMT & """;"
             Using MyOleDBDataAdapter As New OleDbDataAdapter("SELECT * FROM [" & CSVFileInfo.Name & "]", CSVConnectionString)
                 MyOleDBDataAdapter.Fill(MyDataTable)
             End Using
@@ -123,7 +152,6 @@ Module DatasetConverters
         'dbf file
         Try
             'we'll need the dbf filename and path separately so isolate them here
-            'Dim DBFFileInfo As New System.IO.FileInfo(InputFileInfo)
             Dim DBFDirectory As String = DBFFileInfo.DirectoryName 'the dbf directory
 
             'NOTE: the dbf query won't work on long filenames so copy the dbf to a temporary file named zzzzzzzz.dbf and work with that
@@ -475,7 +503,7 @@ Module DatasetConverters
                 Next
             End If
         Catch ex As Exception
-        MsgBox(ex.Message & " (" & System.Reflection.MethodBase.GetCurrentMethod.Name & ")")
+            MsgBox(ex.Message & " (" & System.Reflection.MethodBase.GetCurrentMethod.Name & ")")
         End Try
 
         'return the metadata datatable

@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports Janus.Windows.GridEX
 
 Public Class SkeeterDataTableControl
 
@@ -29,19 +30,13 @@ Public Class SkeeterDataTableControl
     End Property
 
 
-
-    Private Sub DataTableDataGridView_SelectionChanged(sender As Object, e As EventArgs) Handles DataTableDataGridView.SelectionChanged
-        HighlightClickedColumnMetadata()
-    End Sub
-
     Private Sub HighlightClickedColumnMetadata()
-        'get the name of the datagridview's clicked column
-        If Not Me.DataTableDataGridView.CurrentCell Is Nothing Then
-            Dim Index As Integer = Me.DataTableDataGridView.CurrentCell.ColumnIndex
-            Dim ClickedColumn As DataGridViewColumn = DataTableDataGridView.Columns(Index)
-            Dim ClickedColumnName As String = ClickedColumn.Name
 
-            'loop through the metadata DGV's columns looking for a match.  Select a match.
+        'get the name of the grid's clicked column
+        If Not Me.DataTableGridEX.CurrentColumn Is Nothing Then
+            Dim ClickedColumnName As String = Me.DataTableGridEX.CurrentColumn.Caption
+
+            'loop through the metadata DGV's columns looking for a match.  
             Dim RowIndex As Integer = 0
             Dim SelectedRowIndex As Integer = 0
             If MetadataDataGridView.Rows.Count > 0 Then
@@ -56,22 +51,11 @@ Public Class SkeeterDataTableControl
                 Next
                 Me.MetadataDataGridView.FirstDisplayedScrollingRowIndex = SelectedRowIndex
             End If
-
         End If
     End Sub
 
     Private Sub ConnectButton_Click(sender As Object, e As EventArgs)
-        'we're starting over so clear the controls
-        'Me.DataTableDataGridView.DataSource = Nothing
-
         Try
-            'get the tables in the connectionstring's database into a datatable
-            'Dim DatabaseTablesDataTable As DataTable = GetDatabaseTables(Me.ConnectionStringTextBox.Text)
-            ''load the table names into the combobox
-            'For Each Row As DataRow In DatabaseTablesDataTable.Rows
-            '    Me.TableComboBox.Items.Add(Row.Item("TABLE_NAME"))
-            'Next
-            'Me.TableComboBox.Refresh()
             LoadMappingsGrid()
         Catch ex As Exception
             MsgBox(ex.Message & "  " & System.Reflection.MethodBase.GetCurrentMethod.Name)
@@ -127,26 +111,152 @@ Public Class SkeeterDataTableControl
         End Try
     End Sub
 
-    Public Sub FormatSourceDataGridView(SourceDataTable As DataTable)
+    Public Sub ShowColumnTotals(ShowTotalsRow As Boolean)
+        Me.DataTableGridEX.TotalRow = ShowTotalsRow
+        If ShowTotalsRow = True Then
+            'add a total summary at the bottom of the gridex for each row
+            For i As Integer = 0 To Me.DataTableGridEX.RootTable.Columns.Count - 1
+                Me.DataTableGridEX.RootTable.Columns(i).AggregateFunction = AggregateFunction.Average
+            Next
+        End If
+    End Sub
+
+    Private Sub ShowColumnTotalsToolStripComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ShowColumnTotalsToolStripComboBox.SelectedIndexChanged
+        AddColumnTotals()
+    End Sub
+
+    ''' <summary>
+    ''' Adds totals to each column
+    ''' </summary>
+    Public Sub AddColumnTotals()
+        If Me.ShowColumnTotalsToolStripComboBox.Text <> "Hide column totals" Then
+            Me.DataTableGridEX.TotalRow = InheritableBoolean.True
+            Select Case ShowColumnTotalsToolStripComboBox.Text
+                Case "Avg"
+                    For i As Integer = 0 To Me.DataTableGridEX.RootTable.Columns.Count - 1
+                        Me.DataTableGridEX.RootTable.Columns(i).AggregateFunction = AggregateFunction.Average
+                    Next
+                Case "Count"
+                    For i As Integer = 0 To Me.DataTableGridEX.RootTable.Columns.Count - 1
+                        Me.DataTableGridEX.RootTable.Columns(i).AggregateFunction = AggregateFunction.Count
+                    Next
+                Case "Max"
+                    For i As Integer = 0 To Me.DataTableGridEX.RootTable.Columns.Count - 1
+                        Me.DataTableGridEX.RootTable.Columns(i).AggregateFunction = AggregateFunction.Max
+                    Next
+                Case "Min"
+                    For i As Integer = 0 To Me.DataTableGridEX.RootTable.Columns.Count - 1
+                        Me.DataTableGridEX.RootTable.Columns(i).AggregateFunction = AggregateFunction.Min
+                    Next
+                Case "Std. Dev."
+                    For i As Integer = 0 To Me.DataTableGridEX.RootTable.Columns.Count - 1
+                        Me.DataTableGridEX.RootTable.Columns(i).AggregateFunction = AggregateFunction.StdDeviation
+                    Next
+                Case "Sum"
+                    For i As Integer = 0 To Me.DataTableGridEX.RootTable.Columns.Count - 1
+                        Me.DataTableGridEX.RootTable.Columns(i).AggregateFunction = AggregateFunction.Sum
+                    Next
+                Case "Value count"
+                    For i As Integer = 0 To Me.DataTableGridEX.RootTable.Columns.Count - 1
+                        Me.DataTableGridEX.RootTable.Columns(i).AggregateFunction = AggregateFunction.ValueCount
+                    Next
+                Case "None"
+                    For i As Integer = 0 To Me.DataTableGridEX.RootTable.Columns.Count - 1
+                        Me.DataTableGridEX.RootTable.Columns(i).AggregateFunction = AggregateFunction.None
+                    Next
+            End Select
+        Else
+            Me.DataTableGridEX.TotalRow = InheritableBoolean.False
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Adds group totals to the DataTable grid.
+    ''' </summary>
+    Public Sub AddGroupTotals()
+        'loop through the columns and add group totals
+        For i As Integer = 0 To Me.DataTableGridEX.RootTable.Columns.Count - 1
+            'add a group average header total
+            Dim AvgGroupHeaderTotal As New GridEXGroupHeaderTotal()
+            With AvgGroupHeaderTotal
+                .AggregateFunction = AggregateFunction.Average
+                .Column = Me.DataTableGridEX.RootTable.Columns(i)
+                .Key = "AvgGroupHeaderTotal" + i.ToString
+                .TotalPrefix = "Avg.="
+                .TotalSuffix = ""
+            End With
+            Me.DataTableGridEX.RootTable.GroupHeaderTotals.Add(AvgGroupHeaderTotal)
+
+            'add a group count header total
+            Dim CountGroupHeaderTotal As New GridEXGroupHeaderTotal()
+            With CountGroupHeaderTotal
+                .AggregateFunction = AggregateFunction.Count
+                .Column = Me.DataTableGridEX.RootTable.Columns(i)
+                .Key = "CountGroupHeaderTotal" + i.ToString
+                .TotalPrefix = "n="
+                .TotalSuffix = ""
+            End With
+            Me.DataTableGridEX.RootTable.GroupHeaderTotals.Add(CountGroupHeaderTotal)
+        Next
+    End Sub
+
+
+    ''' <summary>
+    ''' Highlights null and empty cells in the dataset grid
+    ''' </summary>
+    ''' <param name="SourceDataTable"></param>
+    Public Sub FormatSourceDataGrid(SourceDataTable As DataTable)
+        'the purpose of the function is to highlight in colors data deficiencies. GridEX requires FormatStyles to assign to cells
+        Dim BlankFormatStyle As New GridEXFormatStyle()
+        With BlankFormatStyle
+            .BackColor = Color.LightSalmon
+        End With
+
+        Dim NullFormatStyle As New GridEXFormatStyle()
+        With NullFormatStyle
+            .BackColor = Color.Red
+        End With
+
+        Dim NormalFormatStyle As New GridEXFormatStyle()
+        With NormalFormatStyle
+            .BackColor = Color.White
+        End With
+
+        Dim RedFormatStyle As New GridEXFormatStyle()
+        With RedFormatStyle
+            .BackColor = Color.Red
+        End With
+
+        'if the source datatable has rows
         If SourceDataTable.Rows.Count > 0 Then
             Dim r As Integer = 0 'row counter
+
+            'loop through each row in the DataTable
             For Each Row As DataRow In SourceDataTable.Rows
                 Dim c As Integer = 0 'column counter
+
+                'loop through each column in Row
                 For Each Column As DataColumn In SourceDataTable.Columns
 
-                    If Row.Item(c).ToString.Trim = "" Then
-                        Me.DataTableDataGridView.Rows(r).Cells(c).Style.BackColor = ZeroLengthColor
-                    ElseIf IsDBNull(Row.Item(c)) Then
-                        Me.DataTableDataGridView.Rows(r).Cells(c).Style.BackColor = NullColor
-                    Else
-                        Me.DataTableDataGridView.Rows(r).Cells(c).Style.BackColor = Color.White
+                    'make sure there is an accompanying GridEX cell
+                    If Not Me.DataTableGridEX.GetRow(r).Cells(c) Is Nothing Then
+                        'get a reference to the cell at the address r,c
+                        Dim CurrentCell As GridEXCell = Me.DataTableGridEX.GetRow(r).Cells(c)
+
+                        'format the cell depending on its contents
+                        If Row.Item(c).ToString.Trim = "" Then
+                            CurrentCell.FormatStyle = BlankFormatStyle
+                        ElseIf IsDBNull(Row.Item(c)) Then
+                            CurrentCell.FormatStyle = NullFormatStyle
+                        Else
+                            CurrentCell.FormatStyle = NormalFormatStyle
+                        End If
                     End If
                     c = c + 1
                 Next
                 r = r + 1
             Next
         End If
-
     End Sub
 
     Public Sub FormatMetadataDataGridView()
@@ -371,22 +481,29 @@ Public Class SkeeterDataTableControl
         End Try
     End Sub
 
+    Private Sub DataTableGridEX_SelectionChanged(sender As Object, e As EventArgs) Handles DataTableGridEX.SelectionChanged
+        HighlightClickedColumnMetadata()
+    End Sub
+
     Private Sub AutosizeColumnsToolStripComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles AutosizeColumnsToolStripComboBox.SelectedIndexChanged
-        'change the autosizing columns mode of the main data datagridview
-        Select Case Me.AutosizeColumnsToolStripComboBox.Text
-            Case "Column header"
-                Me.DataTableDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader
-            Case "All cells except header"
-                Me.DataTableDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader
-            Case "All cells"
-                Me.DataTableDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.AllCells
-            Case "Displayed cells except header"
-                Me.DataTableDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader
-            Case "Displayed cells"
-                Me.DataTableDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.DisplayedCells
-            Case "Fill"
-                Me.DataTableDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.Fill
-        End Select
+        '2018-09-18 gridex is not obeying the below
+        With Me.DataTableGridEX
+            Select Case AutosizeColumnsToolStripComboBox.Text
+                Case "All cells"
+                    .ColumnAutoSizeMode = ColumnAutoSizeMode.AllCells
+                Case "All cells and header"
+                    .ColumnAutoSizeMode = ColumnAutoSizeMode.AllCellsAndHeader
+                Case "Column header"
+                    .ColumnAutoSizeMode = ColumnAutoSizeMode.ColumnHeader
+                Case "Default"
+                    .ColumnAutoSizeMode = ColumnAutoSizeMode.Default
+                Case "Displayed cells"
+                    .ColumnAutoSizeMode = ColumnAutoSizeMode.DiaplayedCells
+                Case "Displayed cells and header"
+                    .ColumnAutoSizeMode = ColumnAutoSizeMode.DisplayedCellsAndHeader
+            End Select
+            .Refresh()
+        End With
     End Sub
 
 

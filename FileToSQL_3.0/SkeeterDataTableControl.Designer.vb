@@ -25,7 +25,7 @@ Partial Class SkeeterDataTableControl
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SkeeterDataTableControl))
         Me.SplitContainer = New System.Windows.Forms.SplitContainer()
-        Me.DataTableDataGridView = New System.Windows.Forms.DataGridView()
+        Me.DataTableGridEX = New Janus.Windows.GridEX.GridEX()
         Me.DataTableToolStrip = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel3 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
@@ -33,19 +33,10 @@ Partial Class SkeeterDataTableControl
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.AutosizeColumnsModeToolStripLabel = New System.Windows.Forms.ToolStripLabel()
         Me.AutosizeColumnsToolStripComboBox = New System.Windows.Forms.ToolStripComboBox()
-        Me.DataTableBindingNavigator = New System.Windows.Forms.BindingNavigator(Me.components)
-        Me.BindingNavigatorAddNewItem = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripLabel5 = New System.Windows.Forms.ToolStripLabel()
+        Me.ShowColumnTotalsToolStripComboBox = New System.Windows.Forms.ToolStripComboBox()
         Me.DataTableBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.BindingNavigatorCountItem = New System.Windows.Forms.ToolStripLabel()
-        Me.BindingNavigatorDeleteItem = New System.Windows.Forms.ToolStripButton()
-        Me.BindingNavigatorMoveFirstItem = New System.Windows.Forms.ToolStripButton()
-        Me.BindingNavigatorMovePreviousItem = New System.Windows.Forms.ToolStripButton()
-        Me.BindingNavigatorSeparator = New System.Windows.Forms.ToolStripSeparator()
-        Me.BindingNavigatorPositionItem = New System.Windows.Forms.ToolStripTextBox()
-        Me.BindingNavigatorSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.BindingNavigatorMoveNextItem = New System.Windows.Forms.ToolStripButton()
-        Me.BindingNavigatorMoveLastItem = New System.Windows.Forms.ToolStripButton()
-        Me.BindingNavigatorSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.MetadataDataGridView = New System.Windows.Forms.DataGridView()
         Me.MetadataToolStrip = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel4 = New System.Windows.Forms.ToolStripLabel()
@@ -83,10 +74,8 @@ Partial Class SkeeterDataTableControl
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
         Me.SplitContainer.SuspendLayout()
-        CType(Me.DataTableDataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DataTableGridEX, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.DataTableToolStrip.SuspendLayout()
-        CType(Me.DataTableBindingNavigator, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.DataTableBindingNavigator.SuspendLayout()
         CType(Me.DataTableBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MetadataDataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MetadataToolStrip.SuspendLayout()
@@ -115,9 +104,8 @@ Partial Class SkeeterDataTableControl
         '
         'SplitContainer.Panel1
         '
-        Me.SplitContainer.Panel1.Controls.Add(Me.DataTableDataGridView)
+        Me.SplitContainer.Panel1.Controls.Add(Me.DataTableGridEX)
         Me.SplitContainer.Panel1.Controls.Add(Me.DataTableToolStrip)
-        Me.SplitContainer.Panel1.Controls.Add(Me.DataTableBindingNavigator)
         '
         'SplitContainer.Panel2
         '
@@ -128,25 +116,36 @@ Partial Class SkeeterDataTableControl
         Me.SplitContainer.SplitterWidth = 3
         Me.SplitContainer.TabIndex = 0
         '
-        'DataTableDataGridView
+        'DataTableGridEX
         '
-        Me.DataTableDataGridView.AllowUserToAddRows = False
-        Me.DataTableDataGridView.AllowUserToDeleteRows = False
-        Me.DataTableDataGridView.AllowUserToOrderColumns = True
-        Me.DataTableDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataTableDataGridView.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataTableDataGridView.Location = New System.Drawing.Point(0, 25)
-        Me.DataTableDataGridView.Margin = New System.Windows.Forms.Padding(2)
-        Me.DataTableDataGridView.Name = "DataTableDataGridView"
-        Me.DataTableDataGridView.ReadOnly = True
-        Me.DataTableDataGridView.RowTemplate.Height = 24
-        Me.DataTableDataGridView.Size = New System.Drawing.Size(874, 181)
-        Me.DataTableDataGridView.TabIndex = 0
+        Me.DataTableGridEX.AlternatingColors = True
+        Me.DataTableGridEX.AlternatingRowFormatStyle.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.DataTableGridEX.CellSelectionMode = Janus.Windows.GridEX.CellSelectionMode.SingleCell
+        Me.DataTableGridEX.ColumnAutoResize = True
+        Me.DataTableGridEX.ColumnAutoSizeMode = Janus.Windows.GridEX.ColumnAutoSizeMode.ColumnHeader
+        Me.DataTableGridEX.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataTableGridEX.EmptyRows = True
+        Me.DataTableGridEX.FilterMode = Janus.Windows.GridEX.FilterMode.Automatic
+        Me.DataTableGridEX.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.DataTableGridEX.GroupMode = Janus.Windows.GridEX.GroupMode.Collapsed
+        Me.DataTableGridEX.GroupTotals = Janus.Windows.GridEX.GroupTotals.Always
+        Me.DataTableGridEX.Location = New System.Drawing.Point(0, 25)
+        Me.DataTableGridEX.Name = "DataTableGridEX"
+        Me.DataTableGridEX.NewRowPosition = Janus.Windows.GridEX.NewRowPosition.BottomRow
+        Me.DataTableGridEX.RecordNavigator = True
+        Me.DataTableGridEX.RowHeaders = Janus.Windows.GridEX.InheritableBoolean.[True]
+        Me.DataTableGridEX.ScrollBars = Janus.Windows.GridEX.ScrollBars.Both
+        Me.DataTableGridEX.Size = New System.Drawing.Size(874, 208)
+        Me.DataTableGridEX.TabIndex = 3
+        Me.DataTableGridEX.TableHeaders = Janus.Windows.GridEX.InheritableBoolean.[True]
+        Me.DataTableGridEX.TotalRow = Janus.Windows.GridEX.InheritableBoolean.[True]
+        Me.DataTableGridEX.TotalRowFormatStyle.FontBold = Janus.Windows.GridEX.TriState.[True]
+        Me.DataTableGridEX.TotalRowPosition = Janus.Windows.GridEX.TotalRowPosition.BottomFixed
         '
         'DataTableToolStrip
         '
         Me.DataTableToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.DataTableToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel3, Me.ToolStripSeparator4, Me.ExportToCSVToolStripButton, Me.ToolStripSeparator3, Me.AutosizeColumnsModeToolStripLabel, Me.AutosizeColumnsToolStripComboBox})
+        Me.DataTableToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel3, Me.ToolStripSeparator4, Me.ExportToCSVToolStripButton, Me.ToolStripSeparator3, Me.AutosizeColumnsModeToolStripLabel, Me.AutosizeColumnsToolStripComboBox, Me.ToolStripSeparator5, Me.ToolStripLabel5, Me.ShowColumnTotalsToolStripComboBox})
         Me.DataTableToolStrip.Location = New System.Drawing.Point(0, 0)
         Me.DataTableToolStrip.Name = "DataTableToolStrip"
         Me.DataTableToolStrip.Size = New System.Drawing.Size(874, 25)
@@ -187,114 +186,26 @@ Partial Class SkeeterDataTableControl
         '
         'AutosizeColumnsToolStripComboBox
         '
-        Me.AutosizeColumnsToolStripComboBox.Items.AddRange(New Object() {"Column header", "All cells except header", "All cells", "Displayed cells except header", "Displayed cells", "Fill"})
+        Me.AutosizeColumnsToolStripComboBox.Items.AddRange(New Object() {"All cells", "All cells and header", "Column header", "Default", "Displayed cells", "Displayed cells and header"})
         Me.AutosizeColumnsToolStripComboBox.Name = "AutosizeColumnsToolStripComboBox"
         Me.AutosizeColumnsToolStripComboBox.Size = New System.Drawing.Size(151, 25)
         '
-        'DataTableBindingNavigator
+        'ToolStripSeparator5
         '
-        Me.DataTableBindingNavigator.AddNewItem = Me.BindingNavigatorAddNewItem
-        Me.DataTableBindingNavigator.BindingSource = Me.DataTableBindingSource
-        Me.DataTableBindingNavigator.CountItem = Me.BindingNavigatorCountItem
-        Me.DataTableBindingNavigator.DeleteItem = Me.BindingNavigatorDeleteItem
-        Me.DataTableBindingNavigator.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.DataTableBindingNavigator.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.DataTableBindingNavigator.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BindingNavigatorMoveFirstItem, Me.BindingNavigatorMovePreviousItem, Me.BindingNavigatorSeparator, Me.BindingNavigatorPositionItem, Me.BindingNavigatorCountItem, Me.BindingNavigatorSeparator1, Me.BindingNavigatorMoveNextItem, Me.BindingNavigatorMoveLastItem, Me.BindingNavigatorSeparator2, Me.BindingNavigatorAddNewItem, Me.BindingNavigatorDeleteItem})
-        Me.DataTableBindingNavigator.Location = New System.Drawing.Point(0, 206)
-        Me.DataTableBindingNavigator.MoveFirstItem = Me.BindingNavigatorMoveFirstItem
-        Me.DataTableBindingNavigator.MoveLastItem = Me.BindingNavigatorMoveLastItem
-        Me.DataTableBindingNavigator.MoveNextItem = Me.BindingNavigatorMoveNextItem
-        Me.DataTableBindingNavigator.MovePreviousItem = Me.BindingNavigatorMovePreviousItem
-        Me.DataTableBindingNavigator.Name = "DataTableBindingNavigator"
-        Me.DataTableBindingNavigator.PositionItem = Me.BindingNavigatorPositionItem
-        Me.DataTableBindingNavigator.Size = New System.Drawing.Size(874, 27)
-        Me.DataTableBindingNavigator.TabIndex = 1
-        Me.DataTableBindingNavigator.Text = "BindingNavigator1"
+        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(6, 25)
         '
-        'BindingNavigatorAddNewItem
+        'ToolStripLabel5
         '
-        Me.BindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorAddNewItem.Image = CType(resources.GetObject("BindingNavigatorAddNewItem.Image"), System.Drawing.Image)
-        Me.BindingNavigatorAddNewItem.Name = "BindingNavigatorAddNewItem"
-        Me.BindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = True
-        Me.BindingNavigatorAddNewItem.Size = New System.Drawing.Size(24, 24)
-        Me.BindingNavigatorAddNewItem.Text = "Add new"
+        Me.ToolStripLabel5.Name = "ToolStripLabel5"
+        Me.ToolStripLabel5.Size = New System.Drawing.Size(115, 22)
+        Me.ToolStripLabel5.Text = "Show column totals:"
         '
-        'BindingNavigatorCountItem
+        'ShowColumnTotalsToolStripComboBox
         '
-        Me.BindingNavigatorCountItem.Name = "BindingNavigatorCountItem"
-        Me.BindingNavigatorCountItem.Size = New System.Drawing.Size(35, 24)
-        Me.BindingNavigatorCountItem.Text = "of {0}"
-        Me.BindingNavigatorCountItem.ToolTipText = "Total number of items"
-        '
-        'BindingNavigatorDeleteItem
-        '
-        Me.BindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorDeleteItem.Image = CType(resources.GetObject("BindingNavigatorDeleteItem.Image"), System.Drawing.Image)
-        Me.BindingNavigatorDeleteItem.Name = "BindingNavigatorDeleteItem"
-        Me.BindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = True
-        Me.BindingNavigatorDeleteItem.Size = New System.Drawing.Size(24, 24)
-        Me.BindingNavigatorDeleteItem.Text = "Delete"
-        '
-        'BindingNavigatorMoveFirstItem
-        '
-        Me.BindingNavigatorMoveFirstItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorMoveFirstItem.Image = CType(resources.GetObject("BindingNavigatorMoveFirstItem.Image"), System.Drawing.Image)
-        Me.BindingNavigatorMoveFirstItem.Name = "BindingNavigatorMoveFirstItem"
-        Me.BindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = True
-        Me.BindingNavigatorMoveFirstItem.Size = New System.Drawing.Size(24, 24)
-        Me.BindingNavigatorMoveFirstItem.Text = "Move first"
-        '
-        'BindingNavigatorMovePreviousItem
-        '
-        Me.BindingNavigatorMovePreviousItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorMovePreviousItem.Image = CType(resources.GetObject("BindingNavigatorMovePreviousItem.Image"), System.Drawing.Image)
-        Me.BindingNavigatorMovePreviousItem.Name = "BindingNavigatorMovePreviousItem"
-        Me.BindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = True
-        Me.BindingNavigatorMovePreviousItem.Size = New System.Drawing.Size(24, 24)
-        Me.BindingNavigatorMovePreviousItem.Text = "Move previous"
-        '
-        'BindingNavigatorSeparator
-        '
-        Me.BindingNavigatorSeparator.Name = "BindingNavigatorSeparator"
-        Me.BindingNavigatorSeparator.Size = New System.Drawing.Size(6, 27)
-        '
-        'BindingNavigatorPositionItem
-        '
-        Me.BindingNavigatorPositionItem.AccessibleName = "Position"
-        Me.BindingNavigatorPositionItem.AutoSize = False
-        Me.BindingNavigatorPositionItem.Name = "BindingNavigatorPositionItem"
-        Me.BindingNavigatorPositionItem.Size = New System.Drawing.Size(38, 23)
-        Me.BindingNavigatorPositionItem.Text = "0"
-        Me.BindingNavigatorPositionItem.ToolTipText = "Current position"
-        '
-        'BindingNavigatorSeparator1
-        '
-        Me.BindingNavigatorSeparator1.Name = "BindingNavigatorSeparator1"
-        Me.BindingNavigatorSeparator1.Size = New System.Drawing.Size(6, 27)
-        '
-        'BindingNavigatorMoveNextItem
-        '
-        Me.BindingNavigatorMoveNextItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorMoveNextItem.Image = CType(resources.GetObject("BindingNavigatorMoveNextItem.Image"), System.Drawing.Image)
-        Me.BindingNavigatorMoveNextItem.Name = "BindingNavigatorMoveNextItem"
-        Me.BindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = True
-        Me.BindingNavigatorMoveNextItem.Size = New System.Drawing.Size(24, 24)
-        Me.BindingNavigatorMoveNextItem.Text = "Move next"
-        '
-        'BindingNavigatorMoveLastItem
-        '
-        Me.BindingNavigatorMoveLastItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorMoveLastItem.Image = CType(resources.GetObject("BindingNavigatorMoveLastItem.Image"), System.Drawing.Image)
-        Me.BindingNavigatorMoveLastItem.Name = "BindingNavigatorMoveLastItem"
-        Me.BindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = True
-        Me.BindingNavigatorMoveLastItem.Size = New System.Drawing.Size(24, 24)
-        Me.BindingNavigatorMoveLastItem.Text = "Move last"
-        '
-        'BindingNavigatorSeparator2
-        '
-        Me.BindingNavigatorSeparator2.Name = "BindingNavigatorSeparator2"
-        Me.BindingNavigatorSeparator2.Size = New System.Drawing.Size(6, 27)
+        Me.ShowColumnTotalsToolStripComboBox.Items.AddRange(New Object() {"Avg", "Count", "Max", "Min", "Std. Dev.", "Sum", "Value count", "None", "Hide column totals"})
+        Me.ShowColumnTotalsToolStripComboBox.Name = "ShowColumnTotalsToolStripComboBox"
+        Me.ShowColumnTotalsToolStripComboBox.Size = New System.Drawing.Size(121, 25)
         '
         'MetadataDataGridView
         '
@@ -644,12 +555,9 @@ Partial Class SkeeterDataTableControl
         Me.SplitContainer.Panel2.PerformLayout()
         CType(Me.SplitContainer, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer.ResumeLayout(False)
-        CType(Me.DataTableDataGridView, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DataTableGridEX, System.ComponentModel.ISupportInitialize).EndInit()
         Me.DataTableToolStrip.ResumeLayout(False)
         Me.DataTableToolStrip.PerformLayout()
-        CType(Me.DataTableBindingNavigator, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.DataTableBindingNavigator.ResumeLayout(False)
-        Me.DataTableBindingNavigator.PerformLayout()
         CType(Me.DataTableBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MetadataDataGridView, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MetadataToolStrip.ResumeLayout(False)
@@ -676,19 +584,6 @@ Partial Class SkeeterDataTableControl
     End Sub
 
     Friend WithEvents SplitContainer As SplitContainer
-    Friend WithEvents DataTableBindingNavigator As BindingNavigator
-    Friend WithEvents BindingNavigatorAddNewItem As ToolStripButton
-    Friend WithEvents BindingNavigatorCountItem As ToolStripLabel
-    Friend WithEvents BindingNavigatorDeleteItem As ToolStripButton
-    Friend WithEvents BindingNavigatorMoveFirstItem As ToolStripButton
-    Friend WithEvents BindingNavigatorMovePreviousItem As ToolStripButton
-    Friend WithEvents BindingNavigatorSeparator As ToolStripSeparator
-    Friend WithEvents BindingNavigatorPositionItem As ToolStripTextBox
-    Friend WithEvents BindingNavigatorSeparator1 As ToolStripSeparator
-    Friend WithEvents BindingNavigatorMoveNextItem As ToolStripButton
-    Friend WithEvents BindingNavigatorMoveLastItem As ToolStripButton
-    Friend WithEvents BindingNavigatorSeparator2 As ToolStripSeparator
-    Friend WithEvents DataTableDataGridView As DataGridView
     Friend WithEvents MetadataDataGridView As DataGridView
     Friend WithEvents DataTableBindingSource As BindingSource
     Friend WithEvents DataTableTabControl As TabControl
@@ -730,4 +625,8 @@ Partial Class SkeeterDataTableControl
     Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
     Friend WithEvents MetadataToolStrip As ToolStrip
     Friend WithEvents ToolStripLabel4 As ToolStripLabel
+    Friend WithEvents DataTableGridEX As Janus.Windows.GridEX.GridEX
+    Friend WithEvents ToolStripSeparator5 As ToolStripSeparator
+    Friend WithEvents ToolStripLabel5 As ToolStripLabel
+    Friend WithEvents ShowColumnTotalsToolStripComboBox As ToolStripComboBox
 End Class

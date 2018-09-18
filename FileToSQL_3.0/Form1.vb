@@ -7,6 +7,9 @@ Imports System.IO
 
 Public Class Form1
 
+
+
+    'Holds the currently selected TreeNode
     Dim CurrentTreeNode As TreeNode
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -32,18 +35,18 @@ Public Class Form1
             'set up the source DGV, metadata DGV
             If Not DT Is Nothing Then
                 .DataTableBindingSource.DataSource = DT
-                .DataTableDataGridView.DataSource = .DataTableBindingSource
+                '.DataTableDataGridView.DataSource = .DataTableBindingSource
+                .DataTableGridEX.DataSource = .DataTableBindingSource
+                .DataTableGridEX.RetrieveStructure()
                 .MetadataDataGridView.DataSource = GetMetadataDataTable(DT)
-                .FormatSourceDataGridView(DT)
+                .FormatSourceDataGrid(DT)
                 .FormatMetadataDataGridView()
             Else
                 .DataTableBindingSource.DataSource = Nothing
-                .DataTableDataGridView.DataSource = .DataTableBindingSource
-                .MetadataDataGridView.DataSource = Nothing
+                ClearControls()
             End If
 
         End With
-        'Me.SplitContainer.Panel2.Controls.Add(SkeeterDataTableControl)
     End Sub
 
 
@@ -59,14 +62,13 @@ Public Class Form1
         With OFD
             .CheckFileExists = True
             .CheckPathExists = True
-            .Filter = "Data files|*.csv;*.txt;*.tab;*.xls;*.xlsx"
+            .Filter = "Data files|*.csv;*.txt;*.tab;*.xls;*.xlsx;*.dbf"
             .RestoreDirectory = False
             .Title = "Select a data file to open"
         End With
         If OFD.ShowDialog = DialogResult.OK Then
             Dim DataFileInfo As New FileInfo(OFD.FileName)
-            Me.SkeeterDataTableControl.DataTableDataGridView.DataSource = Nothing
-            Me.SkeeterDataTableControl.MetadataDataGridView.DataSource = Nothing
+            ClearControls()
             LoadSourceDataset(DataFileInfo)
         End If
     End Sub
@@ -78,7 +80,6 @@ Public Class Form1
     Private Sub LoadSourceDataset(FileInfo As FileInfo)
 
         'clear everything
-        'Me.DatasetTreeView.Nodes.Clear()
         Me.SkeeterDataTableControl.SqlTextBox.Text = ""
 
         Try
@@ -90,7 +91,7 @@ Public Class Form1
                 SourceDataset = GetDatasetFromExcelWorkbook(MyConnectionString)
                 NodeImage = 6 'excel image
             ElseIf FileInfo.Extension.ToLower = ".csv" Or FileInfo.Extension.ToLower = ".txt" Or FileInfo.Extension.ToLower = ".tab" Then
-                SourceDataset = GetDatasetFromTextFile(FileInfo, True, "Delimited")
+                SourceDataset = GetDatasetFromTextFile(FileInfo, True, Format.Delimited)
                 NodeImage = 7 'text file image
             ElseIf FileInfo.Extension.ToLower = ".dbf" Then
                 SourceDataset = GetDatasetFromDBF(FileInfo)
@@ -144,8 +145,8 @@ Public Class Form1
             If e.Data.GetDataPresent(DataFormats.FileDrop) Then
                 Dim Files As String() = CType(e.Data.GetData(DataFormats.FileDrop), String())
                 For Each File As String In Files
-                    Me.SkeeterDataTableControl.DataTableDataGridView.DataSource = Nothing
-                    Me.SkeeterDataTableControl.MetadataDataGridView.DataSource = Nothing
+                    ClearControls()
+
                     If My.Computer.FileSystem.FileExists(File) Then
                         Dim DataFileInfo As New FileInfo(File)
                         LoadSourceDataset(DataFileInfo)
@@ -178,8 +179,12 @@ Public Class Form1
         ClearControls()
     End Sub
 
+    ''' <summary>
+    ''' Sets the data and metadata grids datasources to Nothing
+    ''' </summary>
     Private Sub ClearControls()
-        Me.SkeeterDataTableControl.DataTableDataGridView.DataSource = Nothing
+        'Me.SkeeterDataTableControl.DataTableDataGridView.DataSource = Nothing
+        Me.SkeeterDataTableControl.MetadataDataGridView.DataSource = Nothing
         Me.SkeeterDataTableControl.MetadataDataGridView.DataSource = Nothing
         Me.SkeeterDataTableControl.ColumnsMappingDataGridView.DataSource = Nothing
     End Sub
