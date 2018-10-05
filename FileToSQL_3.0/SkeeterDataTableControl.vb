@@ -30,6 +30,9 @@ Public Class SkeeterDataTableControl
     End Property
 
 
+    ''' <summary>
+    ''' When a user clicks on a column in the data grid the accompanying row in the metadata grid should be highlighted
+    ''' </summary>
     Private Sub HighlightClickedColumnMetadata()
 
         'get the name of the grid's clicked column
@@ -62,16 +65,18 @@ Public Class SkeeterDataTableControl
         End Try
     End Sub
 
+    ''' <summary>
+    ''' Sets up the source datatable to destination datatable columns mappings grid.
+    ''' </summary>
     Private Sub LoadMappingsGrid()
         'set up a DGV for the destination datatable
         Dim DestinationDataTable As DataTable
 
         'set up the mappings DGV with a new empty table
         MappingsDataTable = GetMappingsDataTable()
-
         Me.ColumnsMappingDataGridView.DataSource = MappingsDataTable
 
-        'get the destination datatable
+        'get the destination database datatable
         Dim Sql As String = Me.QueryTextBox.Text
         DestinationDataTable = GetSQLServerDatabaseTable(Me.ConnectionStringTextBox.Text, Sql)
         Me.DestinationDataGridView.DataSource = DestinationDataTable
@@ -92,8 +97,6 @@ Public Class SkeeterDataTableControl
             End With
         End If
 
-
-
         'load the destination datatable columns into the DGV
         For Each Column As DataColumn In DestinationDataTable.Columns
             Dim NewRow As DataRow = MappingsDataTable.NewRow
@@ -111,6 +114,10 @@ Public Class SkeeterDataTableControl
         End Try
     End Sub
 
+    ''' <summary>
+    ''' Shows or hides the totals row for each data table column.
+    ''' </summary>
+    ''' <param name="ShowTotalsRow"></param>
     Public Sub ShowColumnTotals(ShowTotalsRow As Boolean)
         Me.DataTableGridEX.TotalRow = ShowTotalsRow
         If ShowTotalsRow = True Then
@@ -122,13 +129,13 @@ Public Class SkeeterDataTableControl
     End Sub
 
     Private Sub ShowColumnTotalsToolStripComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ShowColumnTotalsToolStripComboBox.SelectedIndexChanged
-        AddColumnTotals()
+        SelectColumnTotals()
     End Sub
 
     ''' <summary>
-    ''' Adds totals to each column
+    ''' Allows the user to select an aggregation for each column (average, count, sum, etc.).
     ''' </summary>
-    Public Sub AddColumnTotals()
+    Public Sub SelectColumnTotals()
         If Me.ShowColumnTotalsToolStripComboBox.Text <> "Hide column totals" Then
             Me.DataTableGridEX.TotalRow = InheritableBoolean.True
             Select Case ShowColumnTotalsToolStripComboBox.Text
@@ -197,6 +204,39 @@ Public Class SkeeterDataTableControl
                 .TotalSuffix = ""
             End With
             Me.DataTableGridEX.RootTable.GroupHeaderTotals.Add(CountGroupHeaderTotal)
+
+            'add a group sum header total
+            Dim SumGroupHeaderTotal As New GridEXGroupHeaderTotal()
+            With SumGroupHeaderTotal
+                .AggregateFunction = AggregateFunction.Sum
+                .Column = Me.DataTableGridEX.RootTable.Columns(i)
+                .Key = "SumGroupHeaderTotal" + i.ToString
+                .TotalPrefix = "Sum="
+                .TotalSuffix = ""
+            End With
+            Me.DataTableGridEX.RootTable.GroupHeaderTotals.Add(SumGroupHeaderTotal)
+
+            'add a group Max header total
+            Dim MaxGroupHeaderTotal As New GridEXGroupHeaderTotal()
+            With MaxGroupHeaderTotal
+                .AggregateFunction = AggregateFunction.Max
+                .Column = Me.DataTableGridEX.RootTable.Columns(i)
+                .Key = "MaxGroupHeaderTotal" + i.ToString
+                .TotalPrefix = "Max="
+                .TotalSuffix = ""
+            End With
+            Me.DataTableGridEX.RootTable.GroupHeaderTotals.Add(MaxGroupHeaderTotal)
+
+            'add a group Min header total
+            Dim MinGroupHeaderTotal As New GridEXGroupHeaderTotal()
+            With MinGroupHeaderTotal
+                .AggregateFunction = AggregateFunction.Min
+                .Column = Me.DataTableGridEX.RootTable.Columns(i)
+                .Key = "MinGroupHeaderTotal" + i.ToString
+                .TotalPrefix = "Min="
+                .TotalSuffix = ""
+            End With
+            Me.DataTableGridEX.RootTable.GroupHeaderTotals.Add(MinGroupHeaderTotal)
         Next
     End Sub
 
@@ -259,6 +299,9 @@ Public Class SkeeterDataTableControl
         End If
     End Sub
 
+    ''' <summary>
+    ''' Highlights blanks and Nulls in the metadatagridview
+    ''' </summary>
     Public Sub FormatMetadataDataGridView()
         If Me.MetadataDataGridView.Rows.Count > 0 Then
             For Each Row As DataGridViewRow In Me.MetadataDataGridView.Rows
@@ -302,10 +345,13 @@ Public Class SkeeterDataTableControl
         GenerateInsertQueries(3, Me.SkeeterDatasetTreeNode.DataTable.DefaultView)
     End Sub
 
+    ''' <summary>
+    ''' Generates INSERT queries based on the data source to destination table columns mappings selected in the mappings grid
+    ''' </summary>
+    ''' <param name="Iterations"></param>
+    ''' <param name="DataView"></param>
     Private Sub GenerateInsertQueries(Iterations As Integer, DataView As DataView)
         Try
-
-
             'close out any changes to the mappings datatable
             Me.ColumnsMappingDataGridView.EndEdit()
 
@@ -317,15 +363,10 @@ Public Class SkeeterDataTableControl
             Intro = Intro & "USE Databasename;" & vbNewLine
             Intro = Intro & "-- Do not forget to ROLLBACK or COMMIT the transaction below or the database will be left in a hanging state" & vbNewLine
             Intro = Intro & "BEGIN TRANSACTION" & vbNewLine
-            'these are needed to make invalid polygon geographies valid later in the script
-            'Intro = Intro & "DECLARE @geom GEOMETRY" & vbNewLine
-            'Intro = Intro & "DECLARE @geog GEOGRAPHY" & vbNewLine
             Me.SqlTextBox.Text = Intro & vbNewLine
 
 
-
             'ensure iterations is <= the number of rows
-            'If SourceDataset.DataTable.Rows.Count < Iterations Then Iterations = SourceDataset.DataTable.Rows.Count - 1
             If DataView.ToTable.Rows.Count < Iterations Then Iterations = DataView.ToTable.Rows.Count - 1
 
             'loop through the rows

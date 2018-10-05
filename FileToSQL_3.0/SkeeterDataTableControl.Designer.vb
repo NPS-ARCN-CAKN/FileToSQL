@@ -119,7 +119,7 @@ Partial Class SkeeterDataTableControl
         'DataTableGridEX
         '
         Me.DataTableGridEX.AlternatingColors = True
-        Me.DataTableGridEX.AlternatingRowFormatStyle.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.DataTableGridEX.AlternatingRowFormatStyle.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
         Me.DataTableGridEX.CellSelectionMode = Janus.Windows.GridEX.CellSelectionMode.SingleCell
         Me.DataTableGridEX.ColumnAutoResize = True
         Me.DataTableGridEX.ColumnAutoSizeMode = Janus.Windows.GridEX.ColumnAutoSizeMode.ColumnHeader
