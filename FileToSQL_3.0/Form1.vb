@@ -40,7 +40,7 @@ Public Class Form1
                 .DataTableGridEX.DataSource = .DataTableBindingSource
                 .DataTableGridEX.RetrieveStructure()
                 .MetadataDataGridView.DataSource = GetMetadataDataTable(DT)
-                .FormatSourceDataGrid(DT)
+                .FormatDataGrid(DT)
                 .FormatMetadataDataGridView()
             Else
                 .DataTableBindingSource.DataSource = Nothing
@@ -172,11 +172,16 @@ Public Class Form1
     Private Sub RemoveDatasetToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RemoveDatasetToolStripMenuItem.Click
         If Not CurrentTreeNode Is Nothing Then
             Me.DatasetTreeView.Nodes.Remove(CurrentTreeNode)
+            Me.SkeeterDataTableControl.DataTableGridEX.DataSource = Nothing
+            Me.SkeeterDataTableControl.MetadataDataGridView.DataSource = Nothing
         End If
     End Sub
 
     Private Sub RemoveAllDatasetsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RemoveAllDatasetsToolStripMenuItem.Click
         Me.DatasetTreeView.Nodes.Clear()
+        Me.SkeeterDataTableControl.DataTableGridEX.DataSource = Nothing
+        Me.SkeeterDataTableControl.MetadataDataGridView.DataSource = Nothing
+
         ClearControls()
     End Sub
 

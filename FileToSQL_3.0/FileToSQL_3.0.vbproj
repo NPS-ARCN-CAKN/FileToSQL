@@ -111,6 +111,12 @@
     <Compile Include="SkeeterDataTableControl.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="SkeeterTextForm.Designer.vb">
+      <DependentUpon>SkeeterTextForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SkeeterTextForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">
@@ -125,6 +131,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SkeeterDataTableControl.resx">
       <DependentUpon>SkeeterDataTableControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SkeeterTextForm.resx">
+      <DependentUpon>SkeeterTextForm.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

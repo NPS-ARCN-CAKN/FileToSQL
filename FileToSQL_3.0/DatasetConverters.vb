@@ -631,7 +631,7 @@ Module DatasetConverters
     ''' <param name="DataView"></param>
     ''' <param name="NewTableName"></param>
     ''' <returns>String</returns>
-    Private Function GetCreateTableQuery(DataView As DataView, NewTableName As String) As String
+    Public Function GetCreateTableQuery(DataView As DataView, NewTableName As String) As String
         Dim Sql As String = "" & vbNewLine
         Try
             Sql = Sql & "--Best guess at columns and datatypes from the metadata available in the source dataset.  Examine and modify as needed" & vbNewLine
@@ -702,7 +702,6 @@ Module DatasetConverters
             For Each DataType In CSV.Split(",")
                 If ColumnDataType = DataType Then
                     IsNumeric = True
-                    Debug.Print(ColumnDataType & " " & DataType & " " & IsNumeric)
                 End If
             Next
         Catch ex As Exception

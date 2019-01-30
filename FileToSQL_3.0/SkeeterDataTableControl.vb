@@ -72,43 +72,44 @@ Public Class SkeeterDataTableControl
         'set up a DGV for the destination datatable
         Dim DestinationDataTable As DataTable
 
-        'set up the mappings DGV with a new empty table
-        MappingsDataTable = GetMappingsDataTable()
-        Me.ColumnsMappingDataGridView.DataSource = MappingsDataTable
-
-        'get the destination database datatable
-        Dim Sql As String = Me.QueryTextBox.Text
-        DestinationDataTable = GetSQLServerDatabaseTable(Me.ConnectionStringTextBox.Text, Sql)
-        Me.DestinationDataGridView.DataSource = DestinationDataTable
-
-        'load the source column names into the DGV's chooser combobox tool
-        If Not Me.MetadataDataGridView.DataSource Is Nothing Then
-            Dim MetadataDataTable As DataTable = Me.MetadataDataGridView.DataSource
-            Dim SourceColumnNameDataGridViewComboBoxColumn As DataGridViewComboBoxColumn = Me.ColumnsMappingDataGridView.Columns("SourceColumnName")
-            With SourceColumnNameDataGridViewComboBoxColumn
-                .Items.Add("Default value")
-                .Items.Add("New GUID")
-                .Items.Add("Autonumber")
-                .Items.Add("Current Datetime")
-                .Items.Add("Username")
-                For Each Row As DataRow In MetadataDataTable.Rows
-                    .Items.Add(Row.Item("ColumnName"))
-                Next
-            End With
-        End If
-
-        'load the destination datatable columns into the DGV
-        For Each Column As DataColumn In DestinationDataTable.Columns
-            Dim NewRow As DataRow = MappingsDataTable.NewRow
-            NewRow.Item("DestinationColumnName") = Column.ColumnName
-            If Column.DataType.ToString.Contains("String") Then
-                NewRow.Item("QuotedColumn") = True
-            Else
-                NewRow.Item("QuotedColumn") = False
-            End If
-            MappingsDataTable.Rows.Add(NewRow)
-        Next
         Try
+            'set up the mappings DGV with a new empty table
+            MappingsDataTable = GetMappingsDataTable()
+            Me.ColumnsMappingDataGridView.DataSource = MappingsDataTable
+
+            'get the destination database datatable
+            Dim Sql As String = Me.QueryTextBox.Text
+            DestinationDataTable = GetSQLServerDatabaseTable(Me.ConnectionStringTextBox.Text, Sql)
+            Me.DestinationDataGridView.DataSource = DestinationDataTable
+
+            'load the source column names into the DGV's chooser combobox tool
+            If Not Me.MetadataDataGridView.DataSource Is Nothing Then
+                Dim MetadataDataTable As DataTable = Me.MetadataDataGridView.DataSource
+                Dim SourceColumnNameDataGridViewComboBoxColumn As DataGridViewComboBoxColumn = Me.ColumnsMappingDataGridView.Columns("SourceColumnName")
+                With SourceColumnNameDataGridViewComboBoxColumn
+                    .Items.Add("Default value")
+                    .Items.Add("New GUID")
+                    .Items.Add("Autonumber")
+                    .Items.Add("Current Datetime")
+                    .Items.Add("Username")
+                    For Each Row As DataRow In MetadataDataTable.Rows
+                        .Items.Add(Row.Item("ColumnName"))
+                    Next
+                End With
+            End If
+
+            'load the destination datatable columns into the DGV
+            For Each Column As DataColumn In DestinationDataTable.Columns
+                Dim NewRow As DataRow = MappingsDataTable.NewRow
+                NewRow.Item("DestinationColumnName") = Column.ColumnName
+                If Column.DataType.ToString.Contains("String") Then
+                    NewRow.Item("QuotedColumn") = True
+                Else
+                    NewRow.Item("QuotedColumn") = False
+                End If
+                MappingsDataTable.Rows.Add(NewRow)
+            Next
+
         Catch ex As Exception
             MsgBox(ex.Message & "  " & System.Reflection.MethodBase.GetCurrentMethod.Name)
         End Try
@@ -245,57 +246,60 @@ Public Class SkeeterDataTableControl
     ''' Highlights null and empty cells in the dataset grid
     ''' </summary>
     ''' <param name="SourceDataTable"></param>
-    Public Sub FormatSourceDataGrid(SourceDataTable As DataTable)
+    Public Sub FormatDataGrid(SourceDataTable As DataTable)
         'the purpose of the function is to highlight in colors data deficiencies. GridEX requires FormatStyles to assign to cells
-        Dim BlankFormatStyle As New GridEXFormatStyle()
-        With BlankFormatStyle
-            .BackColor = Color.LightSalmon
-        End With
+        If Not SourceDataTable Is Nothing Then
 
-        Dim NullFormatStyle As New GridEXFormatStyle()
-        With NullFormatStyle
-            .BackColor = Color.Red
-        End With
+            Dim BlankFormatStyle As New GridEXFormatStyle()
+            With BlankFormatStyle
+                .BackColor = Color.LightSalmon
+            End With
 
-        Dim NormalFormatStyle As New GridEXFormatStyle()
-        With NormalFormatStyle
-            .BackColor = Color.White
-        End With
+            Dim NullFormatStyle As New GridEXFormatStyle()
+            With NullFormatStyle
+                .BackColor = Color.Red
+            End With
 
-        Dim RedFormatStyle As New GridEXFormatStyle()
-        With RedFormatStyle
-            .BackColor = Color.Red
-        End With
+            Dim NormalFormatStyle As New GridEXFormatStyle()
+            With NormalFormatStyle
+                .BackColor = Color.White
+            End With
 
-        'if the source datatable has rows
-        If SourceDataTable.Rows.Count > 0 Then
-            Dim r As Integer = 0 'row counter
+            Dim RedFormatStyle As New GridEXFormatStyle()
+            With RedFormatStyle
+                .BackColor = Color.Red
+            End With
 
-            'loop through each row in the DataTable
-            For Each Row As DataRow In SourceDataTable.Rows
-                Dim c As Integer = 0 'column counter
+            'if the source datatable has rows
+            If SourceDataTable.Rows.Count > 0 Then
+                Dim r As Integer = 0 'row counter
 
-                'loop through each column in Row
-                For Each Column As DataColumn In SourceDataTable.Columns
+                'loop through each row in the DataTable
+                For Each Row As DataRow In SourceDataTable.Rows
+                    Dim c As Integer = 0 'column counter
 
-                    'make sure there is an accompanying GridEX cell
-                    If Not Me.DataTableGridEX.GetRow(r).Cells(c) Is Nothing Then
-                        'get a reference to the cell at the address r,c
-                        Dim CurrentCell As GridEXCell = Me.DataTableGridEX.GetRow(r).Cells(c)
+                    'loop through each column in Row
+                    For Each Column As DataColumn In SourceDataTable.Columns
 
-                        'format the cell depending on its contents
-                        If Row.Item(c).ToString.Trim = "" Then
-                            CurrentCell.FormatStyle = BlankFormatStyle
-                        ElseIf IsDBNull(Row.Item(c)) Then
-                            CurrentCell.FormatStyle = NullFormatStyle
-                        Else
-                            CurrentCell.FormatStyle = NormalFormatStyle
+                        'make sure there is an accompanying GridEX cell
+                        If Not Me.DataTableGridEX.GetRow(r).Cells(c) Is Nothing Then
+                            'get a reference to the cell at the address r,c
+                            Dim CurrentCell As GridEXCell = Me.DataTableGridEX.GetRow(r).Cells(c)
+
+                            'format the cell depending on its contents
+                            If Row.Item(c).ToString.Trim = "" Then
+                                CurrentCell.FormatStyle = BlankFormatStyle
+                            ElseIf IsDBNull(Row.Item(c)) Then
+                                CurrentCell.FormatStyle = NullFormatStyle
+                            Else
+                                CurrentCell.FormatStyle = NormalFormatStyle
+                            End If
                         End If
-                    End If
-                    c = c + 1
+                        c = c + 1
+                    Next
+                    r = r + 1
                 Next
-                r = r + 1
-            Next
+            End If
         End If
     End Sub
 
@@ -529,6 +533,7 @@ Public Class SkeeterDataTableControl
     Private Sub AutosizeColumnsToolStripComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles AutosizeColumnsToolStripComboBox.SelectedIndexChanged
         '2018-09-18 gridex is not obeying the below
         With Me.DataTableGridEX
+            .ColumnAutoResize = False
             Select Case AutosizeColumnsToolStripComboBox.Text
                 Case "All cells"
                     .ColumnAutoSizeMode = ColumnAutoSizeMode.AllCells
@@ -543,9 +548,27 @@ Public Class SkeeterDataTableControl
                 Case "Displayed cells and header"
                     .ColumnAutoSizeMode = ColumnAutoSizeMode.DisplayedCellsAndHeader
             End Select
-            .Refresh()
+            '
+            '.Refresh()
         End With
     End Sub
 
 
+    Private Sub CreateTableQueryToolStripButton_Click(sender As Object, e As EventArgs) Handles CreateTableQueryToolStripButton.Click
+        Try
+            If Not _SkeeterDatasetTreeNode.DataTable Is Nothing Then
+                Dim CurrentDataTable As DataTable = _SkeeterDatasetTreeNode.DataTable
+                Dim CurrentDataview As DataView = CurrentDataTable.DefaultView
+                Dim Filename As String = _SkeeterDatasetTreeNode.FileInfo.Name
+                Dim InsertQuery As String = GetCreateTableQuery(CurrentDataview, Filename)
+                Dim TextForm As New SkeeterTextForm(InsertQuery)
+                TextForm.Show()
+                TextForm.Text = "Insert query generated from " & Filename
+            Else
+                MsgBox("Select a data table.", MsgBoxStyle.Information, "No data table selected.")
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message & " " & System.Reflection.MethodBase.GetCurrentMethod.Name)
+        End Try
+    End Sub
 End Class
