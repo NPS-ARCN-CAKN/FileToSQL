@@ -38,6 +38,7 @@ Partial Class SkeeterDataTableControl
         Me.ShowColumnTotalsToolStripComboBox = New System.Windows.Forms.ToolStripComboBox()
         Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
         Me.CreateTableQueryToolStripButton = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator7 = New System.Windows.Forms.ToolStripSeparator()
         Me.MetadataDataGridView = New System.Windows.Forms.DataGridView()
         Me.MetadataToolStrip = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel4 = New System.Windows.Forms.ToolStripLabel()
@@ -72,7 +73,6 @@ Partial Class SkeeterDataTableControl
         Me.MappingsHeaderLabel = New System.Windows.Forms.Label()
         Me.TreeNodesImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.DataTableBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.ToolStripSeparator7 = New System.Windows.Forms.ToolStripSeparator()
         CType(Me.SplitContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
@@ -223,6 +223,11 @@ Partial Class SkeeterDataTableControl
         Me.CreateTableQueryToolStripButton.Size = New System.Drawing.Size(116, 22)
         Me.CreateTableQueryToolStripButton.Text = "Create table query..."
         '
+        'ToolStripSeparator7
+        '
+        Me.ToolStripSeparator7.Name = "ToolStripSeparator7"
+        Me.ToolStripSeparator7.Size = New System.Drawing.Size(6, 25)
+        '
         'MetadataDataGridView
         '
         Me.MetadataDataGridView.AllowUserToAddRows = False
@@ -233,7 +238,6 @@ Partial Class SkeeterDataTableControl
         Me.MetadataDataGridView.Location = New System.Drawing.Point(0, 25)
         Me.MetadataDataGridView.Margin = New System.Windows.Forms.Padding(2)
         Me.MetadataDataGridView.Name = "MetadataDataGridView"
-        Me.MetadataDataGridView.ReadOnly = True
         Me.MetadataDataGridView.RowTemplate.Height = 24
         Me.MetadataDataGridView.Size = New System.Drawing.Size(874, 228)
         Me.MetadataDataGridView.TabIndex = 1
@@ -556,11 +560,6 @@ Partial Class SkeeterDataTableControl
         Me.TreeNodesImageList.Images.SetKeyName(5, "bullet_wrench.png")
         Me.TreeNodesImageList.Images.SetKeyName(6, "page_excel.png")
         Me.TreeNodesImageList.Images.SetKeyName(7, "page_white_text.png")
-        '
-        'ToolStripSeparator7
-        '
-        Me.ToolStripSeparator7.Name = "ToolStripSeparator7"
-        Me.ToolStripSeparator7.Size = New System.Drawing.Size(6, 25)
         '
         'SkeeterDataTableControl
         '
