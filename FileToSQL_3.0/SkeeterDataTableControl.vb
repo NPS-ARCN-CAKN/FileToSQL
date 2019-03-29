@@ -69,6 +69,11 @@ Public Class SkeeterDataTableControl
     ''' Sets up the source datatable to destination datatable columns mappings grid.
     ''' </summary>
     Private Sub LoadMappingsGrid()
+
+        'Unable to cast object of type 'System.Windows.Forms.DataGridViewTextBoxColumn' to type 'System.Windows.Forms.DataGridViewComboBoxColumn'.  LoadMappingsGrid
+
+
+
         'set up a DGV for the destination datatable
         Dim DestinationDataTable As DataTable
 
@@ -139,6 +144,7 @@ Public Class SkeeterDataTableControl
     Public Sub SelectColumnTotals()
         If Me.ShowColumnTotalsToolStripComboBox.Text <> "Hide column totals" Then
             Me.DataTableGridEX.TotalRow = InheritableBoolean.True
+            Me.DataTableGridEX.GroupTotals = GroupTotals.ExpandedGroup
             Select Case ShowColumnTotalsToolStripComboBox.Text
                 Case "Avg"
                     For i As Integer = 0 To Me.DataTableGridEX.RootTable.Columns.Count - 1
@@ -175,6 +181,19 @@ Public Class SkeeterDataTableControl
             End Select
         Else
             Me.DataTableGridEX.TotalRow = InheritableBoolean.False
+            Me.DataTableGridEX.GroupTotals = GroupTotals.Never
+        End If
+    End Sub
+
+    Private Sub GroupTotalsToolStripComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles GroupTotalsToolStripComboBox.SelectedIndexChanged
+        If Me.GroupTotalsToolStripComboBox.Text = "Always" Then
+            Me.DataTableGridEX.GroupTotals = GroupTotals.Always
+        ElseIf Me.GroupTotalsToolStripComboBox.Text = "Never" Then
+            Me.DataTableGridEX.GroupTotals = GroupTotals.Never
+        ElseIf Me.GroupTotalsToolStripComboBox.Text = "Expanded" Then
+            Me.DataTableGridEX.GroupTotals = GroupTotals.ExpandedGroup
+        Else
+            Me.DataTableGridEX.GroupTotals = GroupTotals.Default
         End If
     End Sub
 
@@ -571,4 +590,23 @@ Public Class SkeeterDataTableControl
             MsgBox(ex.Message & " " & System.Reflection.MethodBase.GetCurrentMethod.Name)
         End Try
     End Sub
+
+    Private Sub DestinationDataGridView_DataError(sender As Object, e As DataGridViewDataErrorEventArgs) Handles DestinationDataGridView.DataError
+        Dim Row As Integer = e.RowIndex
+        Dim Col As Integer = e.ColumnIndex
+        Dim OffendingData As String = ""
+        Dim Grid As DataGridView = Me.DestinationDataGridView
+        If Not Grid Is Nothing Then
+            If Not Grid.Rows(Row) Is Nothing Then
+                If Not Grid.Rows(Row).Cells(Col) Is Nothing Then
+                    If Not IsDBNull(Grid.Rows(Row).Cells(Col).Value) Then
+                        OffendingData = "Row: " & Row & " Column: " & Grid.Columns(Col).Name & " Value: " & Grid.Rows(Row).Cells(Col).Value.ToString
+                    End If
+                End If
+            End If
+        End If
+        MsgBox(e.Exception.Message & " " & OffendingData)
+    End Sub
+
+
 End Class

@@ -1,6 +1,4 @@
-﻿Imports System.Data.SqlClient
-Imports System.IO
-
+﻿Imports System.IO
 
 
 
@@ -40,8 +38,8 @@ Public Class Form1
                 .DataTableGridEX.DataSource = .DataTableBindingSource
                 .DataTableGridEX.RetrieveStructure()
                 .MetadataDataGridView.DataSource = GetMetadataDataTable(DT)
-                .FormatDataGrid(DT)
-                .FormatMetadataDataGridView()
+                ' .FormatDataGrid(DT)
+                '.FormatMetadataDataGridView()
             Else
                 .DataTableBindingSource.DataSource = Nothing
                 ClearControls()
