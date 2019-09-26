@@ -37,9 +37,11 @@ Partial Class SkeeterDataTableControl
         Me.ToolStripLabel5 = New System.Windows.Forms.ToolStripLabel()
         Me.ShowColumnTotalsToolStripComboBox = New System.Windows.Forms.ToolStripComboBox()
         Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
-        Me.CreateTableQueryToolStripButton = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripLabel6 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripSeparator7 = New System.Windows.Forms.ToolStripSeparator()
         Me.GroupTotalsToolStripComboBox = New System.Windows.Forms.ToolStripComboBox()
+        Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator()
+        Me.CreateTableQueryToolStripButton = New System.Windows.Forms.ToolStripButton()
         Me.MetadataDataGridView = New System.Windows.Forms.DataGridView()
         Me.MetadataToolStrip = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel4 = New System.Windows.Forms.ToolStripLabel()
@@ -74,8 +76,10 @@ Partial Class SkeeterDataTableControl
         Me.MappingsHeaderLabel = New System.Windows.Forms.Label()
         Me.TreeNodesImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.DataTableBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripLabel6 = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ShowFilterToolStripButton = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator10 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ShowGroupByBoxToolStripButton = New System.Windows.Forms.ToolStripButton()
         CType(Me.SplitContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
@@ -128,11 +132,12 @@ Partial Class SkeeterDataTableControl
         Me.DataTableGridEX.AlternatingRowFormatStyle.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.DataTableGridEX.BorderStyle = Janus.Windows.GridEX.BorderStyle.Flat
         Me.DataTableGridEX.CellSelectionMode = Janus.Windows.GridEX.CellSelectionMode.SingleCell
+        Me.DataTableGridEX.ColumnAutoResize = True
         Me.DataTableGridEX.ColumnAutoSizeMode = Janus.Windows.GridEX.ColumnAutoSizeMode.DiaplayedCells
         Me.DataTableGridEX.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataTableGridEX.EmptyRows = True
-        Me.DataTableGridEX.FilterMode = Janus.Windows.GridEX.FilterMode.Automatic
         Me.DataTableGridEX.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.DataTableGridEX.GroupByBoxVisible = False
         Me.DataTableGridEX.GroupMode = Janus.Windows.GridEX.GroupMode.Collapsed
         Me.DataTableGridEX.GroupTotalRowFormatStyle.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.DataTableGridEX.GroupTotalRowFormatStyle.FontBold = Janus.Windows.GridEX.TriState.[True]
@@ -155,7 +160,7 @@ Partial Class SkeeterDataTableControl
         'DataTableToolStrip
         '
         Me.DataTableToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.DataTableToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel3, Me.ToolStripSeparator4, Me.ExportToCSVToolStripButton, Me.ToolStripSeparator3, Me.AutosizeColumnsModeToolStripLabel, Me.AutosizeColumnsToolStripComboBox, Me.ToolStripSeparator5, Me.ToolStripLabel5, Me.ShowColumnTotalsToolStripComboBox, Me.ToolStripSeparator6, Me.ToolStripLabel6, Me.ToolStripSeparator7, Me.GroupTotalsToolStripComboBox, Me.ToolStripSeparator8, Me.CreateTableQueryToolStripButton})
+        Me.DataTableToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel3, Me.ToolStripSeparator4, Me.ExportToCSVToolStripButton, Me.ToolStripSeparator3, Me.AutosizeColumnsModeToolStripLabel, Me.AutosizeColumnsToolStripComboBox, Me.ToolStripSeparator5, Me.ToolStripLabel5, Me.ShowColumnTotalsToolStripComboBox, Me.ToolStripSeparator6, Me.ToolStripLabel6, Me.ToolStripSeparator7, Me.GroupTotalsToolStripComboBox, Me.ToolStripSeparator8, Me.CreateTableQueryToolStripButton, Me.ToolStripSeparator9, Me.ShowFilterToolStripButton, Me.ToolStripSeparator10, Me.ShowGroupByBoxToolStripButton})
         Me.DataTableToolStrip.Location = New System.Drawing.Point(0, 0)
         Me.DataTableToolStrip.Name = "DataTableToolStrip"
         Me.DataTableToolStrip.Padding = New System.Windows.Forms.Padding(0, 0, 2, 0)
@@ -223,14 +228,11 @@ Partial Class SkeeterDataTableControl
         Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
         Me.ToolStripSeparator6.Size = New System.Drawing.Size(6, 33)
         '
-        'CreateTableQueryToolStripButton
+        'ToolStripLabel6
         '
-        Me.CreateTableQueryToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.CreateTableQueryToolStripButton.Image = CType(resources.GetObject("CreateTableQueryToolStripButton.Image"), System.Drawing.Image)
-        Me.CreateTableQueryToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.CreateTableQueryToolStripButton.Name = "CreateTableQueryToolStripButton"
-        Me.CreateTableQueryToolStripButton.Size = New System.Drawing.Size(172, 29)
-        Me.CreateTableQueryToolStripButton.Text = "Create table query..."
+        Me.ToolStripLabel6.Name = "ToolStripLabel6"
+        Me.ToolStripLabel6.Size = New System.Drawing.Size(108, 30)
+        Me.ToolStripLabel6.Text = "_Group row:"
         '
         'ToolStripSeparator7
         '
@@ -242,6 +244,20 @@ Partial Class SkeeterDataTableControl
         Me.GroupTotalsToolStripComboBox.Items.AddRange(New Object() {"Always", "Never", "Expanded"})
         Me.GroupTotalsToolStripComboBox.Name = "GroupTotalsToolStripComboBox"
         Me.GroupTotalsToolStripComboBox.Size = New System.Drawing.Size(121, 33)
+        '
+        'ToolStripSeparator8
+        '
+        Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
+        Me.ToolStripSeparator8.Size = New System.Drawing.Size(6, 33)
+        '
+        'CreateTableQueryToolStripButton
+        '
+        Me.CreateTableQueryToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.CreateTableQueryToolStripButton.Image = CType(resources.GetObject("CreateTableQueryToolStripButton.Image"), System.Drawing.Image)
+        Me.CreateTableQueryToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.CreateTableQueryToolStripButton.Name = "CreateTableQueryToolStripButton"
+        Me.CreateTableQueryToolStripButton.Size = New System.Drawing.Size(172, 29)
+        Me.CreateTableQueryToolStripButton.Text = "Create table query..."
         '
         'MetadataDataGridView
         '
@@ -561,16 +577,33 @@ Partial Class SkeeterDataTableControl
         Me.TreeNodesImageList.Images.SetKeyName(6, "page_excel.png")
         Me.TreeNodesImageList.Images.SetKeyName(7, "page_white_text.png")
         '
-        'ToolStripSeparator8
+        'ToolStripSeparator9
         '
-        Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
-        Me.ToolStripSeparator8.Size = New System.Drawing.Size(6, 33)
+        Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
+        Me.ToolStripSeparator9.Size = New System.Drawing.Size(6, 6)
         '
-        'ToolStripLabel6
+        'ShowFilterToolStripButton
         '
-        Me.ToolStripLabel6.Name = "ToolStripLabel6"
-        Me.ToolStripLabel6.Size = New System.Drawing.Size(108, 30)
-        Me.ToolStripLabel6.Text = "_Group row:"
+        Me.ShowFilterToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ShowFilterToolStripButton.Image = CType(resources.GetObject("ShowFilterToolStripButton.Image"), System.Drawing.Image)
+        Me.ShowFilterToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ShowFilterToolStripButton.Name = "ShowFilterToolStripButton"
+        Me.ShowFilterToolStripButton.Size = New System.Drawing.Size(100, 29)
+        Me.ShowFilterToolStripButton.Text = "Show filter"
+        '
+        'ToolStripSeparator10
+        '
+        Me.ToolStripSeparator10.Name = "ToolStripSeparator10"
+        Me.ToolStripSeparator10.Size = New System.Drawing.Size(6, 6)
+        '
+        'ShowGroupByBoxToolStripButton
+        '
+        Me.ShowGroupByBoxToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ShowGroupByBoxToolStripButton.Image = CType(resources.GetObject("ShowGroupByBoxToolStripButton.Image"), System.Drawing.Image)
+        Me.ShowGroupByBoxToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ShowGroupByBoxToolStripButton.Name = "ShowGroupByBoxToolStripButton"
+        Me.ShowGroupByBoxToolStripButton.Size = New System.Drawing.Size(174, 29)
+        Me.ShowGroupByBoxToolStripButton.Text = "Show group by box"
         '
         'SkeeterDataTableControl
         '
@@ -665,4 +698,8 @@ Partial Class SkeeterDataTableControl
     Friend WithEvents GroupTotalsToolStripComboBox As ToolStripComboBox
     Friend WithEvents ToolStripLabel6 As ToolStripLabel
     Friend WithEvents ToolStripSeparator8 As ToolStripSeparator
+    Friend WithEvents ToolStripSeparator9 As ToolStripSeparator
+    Friend WithEvents ShowFilterToolStripButton As ToolStripButton
+    Friend WithEvents ToolStripSeparator10 As ToolStripSeparator
+    Friend WithEvents ShowGroupByBoxToolStripButton As ToolStripButton
 End Class

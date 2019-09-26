@@ -640,6 +640,7 @@ Module DatasetConverters
             For Each Col As DataColumn In CurrentDataTable.Columns
                 Dim DataType As String = Col.DataType.ToString.Replace("System.", "")
                 Dim SqlDataType As String = ""
+
                 Select Case DataType
                     Case "Boolean"
                         SqlDataType = "Bit"
@@ -653,7 +654,23 @@ Module DatasetConverters
                         SqlDataType = "Decimal" & "(" & Col.MaxLength & ",2)"
                     Case "Double"
                         SqlDataType = "Float"
+                    Case "Int16"
+                        SqlDataType = "Int"
+                    Case "Int32"
+                        SqlDataType = "Int"
+                    Case "Int64"
+                        SqlDataType = "Int"
+                    Case "Int"
+                        SqlDataType = "Int"
                     Case "Integer"
+                        SqlDataType = "Int"
+                    Case "UInteger"
+                        SqlDataType = "Int"
+                    Case "UInt16"
+                        SqlDataType = "Int"
+                    Case "UInt32"
+                        SqlDataType = "Int"
+                    Case "UInt64"
                         SqlDataType = "Int"
                     Case "Long"
                         SqlDataType = "Int"
@@ -678,6 +695,7 @@ Module DatasetConverters
                     Case Else
                         SqlDataType = "Varchar(50)"
                 End Select
+                Debug.Print(Col.ColumnName & " " & DataType & " " & SqlDataType)
                 Sql = Sql & "[" & Col.ColumnName & "] " & SqlDataType & "," & vbNewLine
             Next
             Sql = Sql.Substring(0, Sql.Trim.Length - 1) & ");"

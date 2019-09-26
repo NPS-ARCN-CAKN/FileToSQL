@@ -552,7 +552,7 @@ Public Class SkeeterDataTableControl
     Private Sub AutosizeColumnsToolStripComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles AutosizeColumnsToolStripComboBox.SelectedIndexChanged
         '2018-09-18 gridex is not obeying the below
         With Me.DataTableGridEX
-            .ColumnAutoResize = False
+            .ColumnAutoResize = True
             Select Case AutosizeColumnsToolStripComboBox.Text
                 Case "All cells"
                     .ColumnAutoSizeMode = ColumnAutoSizeMode.AllCells
@@ -567,9 +567,8 @@ Public Class SkeeterDataTableControl
                 Case "Displayed cells and header"
                     .ColumnAutoSizeMode = ColumnAutoSizeMode.DisplayedCellsAndHeader
             End Select
-            '
-            '.Refresh()
         End With
+
     End Sub
 
 
@@ -608,5 +607,27 @@ Public Class SkeeterDataTableControl
         MsgBox(e.Exception.Message & " " & OffendingData)
     End Sub
 
+    Private Sub ShowFilterToolStripButton_Click(sender As Object, e As EventArgs) Handles ShowFilterToolStripButton.Click
+        With Me.DataTableGridEX
+            If .FilterMode = FilterMode.None Then
+                .FilterMode = FilterMode.Automatic
+                Me.ShowFilterToolStripButton.Text = "Hide filter"
+            Else
+                .FilterMode = FilterMode.None
+                Me.ShowFilterToolStripButton.Text = "Show filter"
+            End If
+        End With
+    End Sub
 
+    Private Sub ShowGroupByBoxToolStripButton_Click(sender As Object, e As EventArgs) Handles ShowGroupByBoxToolStripButton.Click
+        With Me.DataTableGridEX
+            If .GroupByBoxVisible = True Then
+                .GroupByBoxVisible = False
+                Me.ShowGroupByBoxToolStripButton.Text = "Show group by box"
+            Else
+                .GroupByBoxVisible = True
+                Me.ShowGroupByBoxToolStripButton.Text = "Hide group by box"
+            End If
+        End With
+    End Sub
 End Class
