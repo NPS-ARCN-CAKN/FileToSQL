@@ -42,6 +42,10 @@ Partial Class SkeeterDataTableControl
         Me.GroupTotalsToolStripComboBox = New System.Windows.Forms.ToolStripComboBox()
         Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator()
         Me.CreateTableQueryToolStripButton = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ShowFilterToolStripButton = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator10 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ShowGroupByBoxToolStripButton = New System.Windows.Forms.ToolStripButton()
         Me.MetadataDataGridView = New System.Windows.Forms.DataGridView()
         Me.MetadataToolStrip = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel4 = New System.Windows.Forms.ToolStripLabel()
@@ -76,10 +80,6 @@ Partial Class SkeeterDataTableControl
         Me.MappingsHeaderLabel = New System.Windows.Forms.Label()
         Me.TreeNodesImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.DataTableBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ShowFilterToolStripButton = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripSeparator10 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ShowGroupByBoxToolStripButton = New System.Windows.Forms.ToolStripButton()
         CType(Me.SplitContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
@@ -132,8 +132,7 @@ Partial Class SkeeterDataTableControl
         Me.DataTableGridEX.AlternatingRowFormatStyle.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.DataTableGridEX.BorderStyle = Janus.Windows.GridEX.BorderStyle.Flat
         Me.DataTableGridEX.CellSelectionMode = Janus.Windows.GridEX.CellSelectionMode.SingleCell
-        Me.DataTableGridEX.ColumnAutoResize = True
-        Me.DataTableGridEX.ColumnAutoSizeMode = Janus.Windows.GridEX.ColumnAutoSizeMode.DiaplayedCells
+        Me.DataTableGridEX.ColumnAutoSizeMode = Janus.Windows.GridEX.ColumnAutoSizeMode.DisplayedCellsAndHeader
         Me.DataTableGridEX.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataTableGridEX.EmptyRows = True
         Me.DataTableGridEX.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
@@ -258,6 +257,34 @@ Partial Class SkeeterDataTableControl
         Me.CreateTableQueryToolStripButton.Name = "CreateTableQueryToolStripButton"
         Me.CreateTableQueryToolStripButton.Size = New System.Drawing.Size(172, 29)
         Me.CreateTableQueryToolStripButton.Text = "Create table query..."
+        '
+        'ToolStripSeparator9
+        '
+        Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
+        Me.ToolStripSeparator9.Size = New System.Drawing.Size(6, 6)
+        '
+        'ShowFilterToolStripButton
+        '
+        Me.ShowFilterToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ShowFilterToolStripButton.Image = CType(resources.GetObject("ShowFilterToolStripButton.Image"), System.Drawing.Image)
+        Me.ShowFilterToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ShowFilterToolStripButton.Name = "ShowFilterToolStripButton"
+        Me.ShowFilterToolStripButton.Size = New System.Drawing.Size(100, 29)
+        Me.ShowFilterToolStripButton.Text = "Show filter"
+        '
+        'ToolStripSeparator10
+        '
+        Me.ToolStripSeparator10.Name = "ToolStripSeparator10"
+        Me.ToolStripSeparator10.Size = New System.Drawing.Size(6, 6)
+        '
+        'ShowGroupByBoxToolStripButton
+        '
+        Me.ShowGroupByBoxToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ShowGroupByBoxToolStripButton.Image = CType(resources.GetObject("ShowGroupByBoxToolStripButton.Image"), System.Drawing.Image)
+        Me.ShowGroupByBoxToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ShowGroupByBoxToolStripButton.Name = "ShowGroupByBoxToolStripButton"
+        Me.ShowGroupByBoxToolStripButton.Size = New System.Drawing.Size(174, 29)
+        Me.ShowGroupByBoxToolStripButton.Text = "Show group by box"
         '
         'MetadataDataGridView
         '
@@ -576,34 +603,6 @@ Partial Class SkeeterDataTableControl
         Me.TreeNodesImageList.Images.SetKeyName(5, "bullet_wrench.png")
         Me.TreeNodesImageList.Images.SetKeyName(6, "page_excel.png")
         Me.TreeNodesImageList.Images.SetKeyName(7, "page_white_text.png")
-        '
-        'ToolStripSeparator9
-        '
-        Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
-        Me.ToolStripSeparator9.Size = New System.Drawing.Size(6, 6)
-        '
-        'ShowFilterToolStripButton
-        '
-        Me.ShowFilterToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ShowFilterToolStripButton.Image = CType(resources.GetObject("ShowFilterToolStripButton.Image"), System.Drawing.Image)
-        Me.ShowFilterToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ShowFilterToolStripButton.Name = "ShowFilterToolStripButton"
-        Me.ShowFilterToolStripButton.Size = New System.Drawing.Size(100, 29)
-        Me.ShowFilterToolStripButton.Text = "Show filter"
-        '
-        'ToolStripSeparator10
-        '
-        Me.ToolStripSeparator10.Name = "ToolStripSeparator10"
-        Me.ToolStripSeparator10.Size = New System.Drawing.Size(6, 6)
-        '
-        'ShowGroupByBoxToolStripButton
-        '
-        Me.ShowGroupByBoxToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ShowGroupByBoxToolStripButton.Image = CType(resources.GetObject("ShowGroupByBoxToolStripButton.Image"), System.Drawing.Image)
-        Me.ShowGroupByBoxToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ShowGroupByBoxToolStripButton.Name = "ShowGroupByBoxToolStripButton"
-        Me.ShowGroupByBoxToolStripButton.Size = New System.Drawing.Size(174, 29)
-        Me.ShowGroupByBoxToolStripButton.Text = "Show group by box"
         '
         'SkeeterDataTableControl
         '
