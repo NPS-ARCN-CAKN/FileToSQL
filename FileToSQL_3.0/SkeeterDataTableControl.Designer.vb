@@ -608,7 +608,7 @@ Partial Class SkeeterDataTableControl
         '
         'ImportButton
         '
-        Me.ImportButton.Location = New System.Drawing.Point(38, 183)
+        Me.ImportButton.Location = New System.Drawing.Point(17, 170)
         Me.ImportButton.Name = "ImportButton"
         Me.ImportButton.Size = New System.Drawing.Size(168, 28)
         Me.ImportButton.TabIndex = 10
