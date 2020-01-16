@@ -630,4 +630,81 @@ Public Class SkeeterDataTableControl
             End If
         End With
     End Sub
+
+    Private Sub ImportButton_Click(sender As Object, e As EventArgs) Handles ImportButton.Click
+        Dim DataFile As String = "C:\Temp\M3 2019 CAKR Census_group counts.csv"
+        ImportData(DataFile)
+    End Sub
+
+    ''' <summary>
+    ''' Imports data from DataFile into the destination data table.
+    ''' </summary>
+    ''' <param name="DataFile">Data file from which to import.</param>
+    Private Sub ImportData(DataFile As String)
+
+        'The data file to import.
+        Dim SourceFileInfo As New System.IO.FileInfo(DataFile)
+
+        'The DataTable to hold the imported data.
+        Dim SourceDataTable As DataTable = GetDataTableFromDelimitedTextFile(SourceFileInfo, ",")
+
+        'A list of default values that should be available as options in the SkeeterDataTablesTranslatorForm
+        Dim DefaultValuesList As New List(Of String)
+        With DefaultValuesList
+            .Add("Cape Thompson")
+            .Add("Seward Peninsula")
+            .Add("Raw")
+            .Add("Provisional")
+        End With
+
+        'Build a SkeeterDataTablesTranslatorForm, load in the SourceDataTable from above, the destination DataTable, a title, instructions and the default values list.
+        Dim TranslatorForm As New SkeeterDataTablesTranslator.SkeeterDataTablesTranslatorForm(SourceDataTable, ARCN_MuskoxSurveysDataSet.Tables("Results"), "Import muskox data", "Instructions", DefaultValuesList)
+
+        'Show the form
+        TranslatorForm.ShowDialog()
+
+        'Build a DataTable to hold the transformed data that came out of the SkeeterDataTablesTranslatorForm
+        Dim ImportDataTable As DataTable = TranslatorForm.DestinationDataTable
+
+        'Load the transformed data into the destination DataTable by looping through the rows, creating new destination rows
+        'and loading them with data.
+        For Each Row As DataRow In ImportDataTable.Rows
+
+            'make a new row
+            Dim NewRow As DataRow = ARCN_MuskoxSurveysDataSet.Tables("Results").NewRow
+            For Each Column As DataColumn In ImportDataTable.Columns
+                NewRow.Item(Column.ColumnName) = Row.Item(Column.ColumnName)
+            Next
+
+            'Override any selections made on the translator form
+            NewRow.Item("RecordInsertedDate") = Now
+            NewRow.Item("RecordInsertedBy") = My.User.Name
+            NewRow.Item("ID") = Guid.NewGuid.ToString
+            NewRow.Item("CertificationLevel") = "Raw"
+
+            'add the row
+            ARCN_MuskoxSurveysDataSet.Tables("Results").Rows.Add(NewRow)
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' Converts a tab delimited text file to a DataTable
+    ''' </summary>
+    ''' <param name="DelimitedTextFileInfo">Tab delimited text file. FileInfo.</param>
+    ''' <returns>DataTable</returns>
+    Public Function GetDataTableFromDelimitedTextFile(DelimitedTextFileInfo As FileInfo, Delimiter As String) As DataTable
+        Dim TDVDataTable As New DataTable(DelimitedTextFileInfo.Name)
+        Try
+            Dim MyTextFileParser As New FileIO.TextFieldParser(DelimitedTextFileInfo.FullName)
+            MyTextFileParser.Delimiters = New String() {Delimiter}
+            TDVDataTable.Columns.AddRange(Array.ConvertAll(MyTextFileParser.ReadFields, Function(s) New DataColumn With {.Caption = s, .ColumnName = s}))
+            Do While Not MyTextFileParser.EndOfData
+                TDVDataTable.Rows.Add(MyTextFileParser.ReadFields)
+            Loop
+            MyTextFileParser.Close()
+        Catch ex As Exception
+            MsgBox(ex.Message & "  " & System.Reflection.MethodBase.GetCurrentMethod.Name)
+        End Try
+        Return TDVDataTable
+    End Function
 End Class

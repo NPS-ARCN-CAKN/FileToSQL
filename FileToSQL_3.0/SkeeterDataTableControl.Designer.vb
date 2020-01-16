@@ -80,6 +80,7 @@ Partial Class SkeeterDataTableControl
         Me.MappingsHeaderLabel = New System.Windows.Forms.Label()
         Me.TreeNodesImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.DataTableBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.ImportButton = New System.Windows.Forms.Button()
         CType(Me.SplitContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
@@ -356,14 +357,15 @@ Partial Class SkeeterDataTableControl
         '
         Me.DestinationDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DestinationDataGridView.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DestinationDataGridView.Location = New System.Drawing.Point(3, 188)
+        Me.DestinationDataGridView.Location = New System.Drawing.Point(3, 223)
         Me.DestinationDataGridView.Name = "DestinationDataGridView"
         Me.DestinationDataGridView.RowTemplate.Height = 24
-        Me.DestinationDataGridView.Size = New System.Drawing.Size(1315, 574)
+        Me.DestinationDataGridView.Size = New System.Drawing.Size(1315, 539)
         Me.DestinationDataGridView.TabIndex = 5
         '
         'DatabaseConnectionPanel
         '
+        Me.DatabaseConnectionPanel.Controls.Add(Me.ImportButton)
         Me.DatabaseConnectionPanel.Controls.Add(Me.QueryTextBox)
         Me.DatabaseConnectionPanel.Controls.Add(Me.ExecuteSQLButton)
         Me.DatabaseConnectionPanel.Controls.Add(Me.TableLabel)
@@ -373,7 +375,7 @@ Partial Class SkeeterDataTableControl
         Me.DatabaseConnectionPanel.Dock = System.Windows.Forms.DockStyle.Top
         Me.DatabaseConnectionPanel.Location = New System.Drawing.Point(3, 3)
         Me.DatabaseConnectionPanel.Name = "DatabaseConnectionPanel"
-        Me.DatabaseConnectionPanel.Size = New System.Drawing.Size(1315, 185)
+        Me.DatabaseConnectionPanel.Size = New System.Drawing.Size(1315, 220)
         Me.DatabaseConnectionPanel.TabIndex = 4
         '
         'QueryTextBox
@@ -604,6 +606,15 @@ Partial Class SkeeterDataTableControl
         Me.TreeNodesImageList.Images.SetKeyName(6, "page_excel.png")
         Me.TreeNodesImageList.Images.SetKeyName(7, "page_white_text.png")
         '
+        'ImportButton
+        '
+        Me.ImportButton.Location = New System.Drawing.Point(38, 183)
+        Me.ImportButton.Name = "ImportButton"
+        Me.ImportButton.Size = New System.Drawing.Size(168, 28)
+        Me.ImportButton.TabIndex = 10
+        Me.ImportButton.Text = "Import from file..."
+        Me.ImportButton.UseVisualStyleBackColor = True
+        '
         'SkeeterDataTableControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
@@ -701,4 +712,5 @@ Partial Class SkeeterDataTableControl
     Friend WithEvents ShowFilterToolStripButton As ToolStripButton
     Friend WithEvents ToolStripSeparator10 As ToolStripSeparator
     Friend WithEvents ShowGroupByBoxToolStripButton As ToolStripButton
+    Friend WithEvents ImportButton As Button
 End Class
