@@ -54,6 +54,7 @@ Partial Class SkeeterDataTableControl
         Me.DestinationTableTabPage = New System.Windows.Forms.TabPage()
         Me.DestinationDataGridView = New System.Windows.Forms.DataGridView()
         Me.DatabaseConnectionPanel = New System.Windows.Forms.Panel()
+        Me.ImportButton = New System.Windows.Forms.Button()
         Me.QueryTextBox = New System.Windows.Forms.TextBox()
         Me.ExecuteSQLButton = New System.Windows.Forms.Button()
         Me.TableLabel = New System.Windows.Forms.Label()
@@ -80,7 +81,6 @@ Partial Class SkeeterDataTableControl
         Me.MappingsHeaderLabel = New System.Windows.Forms.Label()
         Me.TreeNodesImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.DataTableBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.ImportButton = New System.Windows.Forms.Button()
         CType(Me.SplitContainer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
@@ -133,7 +133,7 @@ Partial Class SkeeterDataTableControl
         Me.DataTableGridEX.AlternatingRowFormatStyle.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.DataTableGridEX.BorderStyle = Janus.Windows.GridEX.BorderStyle.Flat
         Me.DataTableGridEX.CellSelectionMode = Janus.Windows.GridEX.CellSelectionMode.SingleCell
-        Me.DataTableGridEX.ColumnAutoSizeMode = Janus.Windows.GridEX.ColumnAutoSizeMode.DisplayedCellsAndHeader
+        Me.DataTableGridEX.ColumnAutoSizeMode = Janus.Windows.GridEX.ColumnAutoSizeMode.DiaplayedCells
         Me.DataTableGridEX.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataTableGridEX.EmptyRows = True
         Me.DataTableGridEX.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
@@ -378,6 +378,15 @@ Partial Class SkeeterDataTableControl
         Me.DatabaseConnectionPanel.Size = New System.Drawing.Size(1315, 220)
         Me.DatabaseConnectionPanel.TabIndex = 4
         '
+        'ImportButton
+        '
+        Me.ImportButton.Location = New System.Drawing.Point(17, 170)
+        Me.ImportButton.Name = "ImportButton"
+        Me.ImportButton.Size = New System.Drawing.Size(168, 28)
+        Me.ImportButton.TabIndex = 10
+        Me.ImportButton.Text = "Import from file..."
+        Me.ImportButton.UseVisualStyleBackColor = True
+        '
         'QueryTextBox
         '
         Me.QueryTextBox.Location = New System.Drawing.Point(156, 117)
@@ -605,15 +614,6 @@ Partial Class SkeeterDataTableControl
         Me.TreeNodesImageList.Images.SetKeyName(5, "bullet_wrench.png")
         Me.TreeNodesImageList.Images.SetKeyName(6, "page_excel.png")
         Me.TreeNodesImageList.Images.SetKeyName(7, "page_white_text.png")
-        '
-        'ImportButton
-        '
-        Me.ImportButton.Location = New System.Drawing.Point(17, 170)
-        Me.ImportButton.Name = "ImportButton"
-        Me.ImportButton.Size = New System.Drawing.Size(168, 28)
-        Me.ImportButton.TabIndex = 10
-        Me.ImportButton.Text = "Import from file..."
-        Me.ImportButton.UseVisualStyleBackColor = True
         '
         'SkeeterDataTableControl
         '
