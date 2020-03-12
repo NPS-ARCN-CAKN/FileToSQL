@@ -548,7 +548,9 @@ Public Class SkeeterDataTableControl
     Private Sub AutosizeColumnsToolStripComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles AutosizeColumnsToolStripComboBox.SelectedIndexChanged
         '2018-09-18 gridex is not obeying the below
         With Me.DataTableGridEX
-            .ColumnAutoResize = True
+            'set the datasource and retrieve structure before setting autosize attributes
+            .ColumnAutoResize = False
+            .AutoSizeColumns(.RootTable)
             Select Case AutosizeColumnsToolStripComboBox.Text
                 Case "All cells"
                     .ColumnAutoSizeMode = ColumnAutoSizeMode.AllCells
