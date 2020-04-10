@@ -1,7 +1,7 @@
 ﻿Imports System.Data.OleDb
 Imports System.Data.SqlClient
 Imports System.IO
-
+Imports ExcelDataReader
 
 ''' <summary>
 ''' Functions that convert data file formats to Datasets
@@ -179,6 +179,37 @@ Module DatasetConverters
             MsgBox("Could not import waypoints from DBF file. " & ex.Message & " (" & System.Reflection.MethodBase.GetCurrentMethod.Name)
         End Try
         Return DBFDataTable
+    End Function
+
+    ''' <summary>
+    ''' Converts an Excel spreadsheet into a Dataset with each worksheet as a DataTable. Uses the ExcelDataReader library (https://github.com/ExcelDataReader/ExcelDataReader)
+    ''' </summary>
+    ''' <param name="ExcelFile"></param>
+    ''' <returns></returns>
+    Public Function GetDatasetFromExcel(ExcelFile As String) As DataSet
+        Dim ExcelDataset As New DataSet
+        Try
+            If My.Computer.FileSystem.FileExists(ExcelFile) Then
+                Dim Stream = File.Open(ExcelFile, FileMode.Open, FileAccess.Read)
+                Dim Reader = ExcelDataReader.ExcelReaderFactory.CreateReader(Stream)
+                ExcelDataset = Reader.AsDataSet(New ExcelDataReader.ExcelDataSetConfiguration() With {
+                    .UseColumnDataType = True,
+                    .FilterSheet = Function(tableReader, sheetIndex) True,
+                    .ConfigureDataTable = Function(tableReader) New ExcelDataReader.ExcelDataTableConfiguration() With {
+                        .EmptyColumnNamePrefix = "Column",
+                        .UseHeaderRow = True,
+                        .ReadHeaderRow = Function(rowReader)
+                                             rowReader.Read()
+                                         End Function,
+                        .FilterRow = Function(rowReader) True,
+                        .FilterColumn = Function(rowReader, columnIndex) True
+                    }
+                })
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message & " (" & System.Reflection.MethodBase.GetCurrentMethod.Name)
+        End Try
+        Return ExcelDataset
     End Function
 
     Public Function GetDatasetFromExcelWorkbook(ExcelConnectionString As String) As DataSet
@@ -451,12 +482,14 @@ Module DatasetConverters
             .Add(DateTimeModeColumn)
         End With
 
-
         Try
             If Not InputDataTable Is Nothing Then
                 'load the columns data table with info about the input data table
                 For Each Column As DataColumn In InputDataTable.Columns
                     Dim NewRow As DataRow = ColumnsDataTable.NewRow
+
+
+
                     NewRow.Item("ColumnName") = Column.ColumnName
                     NewRow.Item("DataType") = Column.DataType.ToString.Replace("System.", "")
                     NewRow.Item("AllowDBNull") = Column.AllowDBNull
@@ -474,20 +507,25 @@ Module DatasetConverters
                     NewRow.Item("Unique") = Column.Unique
                     NewRow.Item("DateTimeMode") = Column.DateTimeMode
 
-                    'if the column type is numaric then calculate the average
-                    If ColumnDataTypeIsNumeric(Column) = True Then
-                        NewRow.Item("Average") = InputDataTable.Compute("Avg([" & Column.ColumnName & "])", "").ToString
+                    Debug.Print(Column.DataType.ToString)
+                    If Not Column.DataType.ToString = "System.Object" Then
+                        'if the column type is numaric then calculate the average
+                        If ColumnDataTypeIsNumeric(Column) = True Then
+                            NewRow.Item("Average") = InputDataTable.Compute("Avg([" & Column.ColumnName & "])", "").ToString
+                            NewRow.Item("Maximum") = InputDataTable.Compute("Max([" & Column.ColumnName & "])", "").ToString
+                            NewRow.Item("Minimum") = InputDataTable.Compute("Min([" & Column.ColumnName & "])", "").ToString
+                        End If
+                        NewRow.Item("Count") = InputDataTable.Compute("Count([" & Column.ColumnName & "])", "").ToString
+
+                        Dim NullsFilter As String = "[" & Column.ColumnName & "] is NULL"
+                        NewRow.Item("NullCount") = InputDataTable.Compute("Count([" & Column.ColumnName & "])", NullsFilter).ToString
+
+                        Dim NotNullsFilter As String = "[" & Column.ColumnName & "] is not NULL"
+                        NewRow.Item("FilledCount") = InputDataTable.Compute("Count([" & Column.ColumnName & "])", NotNullsFilter).ToString
+
+
                     End If
-                    NewRow.Item("Maximum") = InputDataTable.Compute("Max([" & Column.ColumnName & "])", "").ToString
-                    NewRow.Item("Minimum") = InputDataTable.Compute("Min([" & Column.ColumnName & "])", "").ToString
 
-                    NewRow.Item("Count") = InputDataTable.Compute("Count([" & Column.ColumnName & "])", "").ToString
-
-                    Dim NullsFilter As String = "[" & Column.ColumnName & "] is NULL"
-                    NewRow.Item("NullCount") = InputDataTable.Compute("Count([" & Column.ColumnName & "])", NullsFilter).ToString
-
-                    Dim NotNullsFilter As String = "[" & Column.ColumnName & "] is not NULL"
-                    NewRow.Item("FilledCount") = InputDataTable.Compute("Count([" & Column.ColumnName & "])", NotNullsFilter).ToString
 
                     'count the blanks
                     Dim BlanksCount As Integer = 0
@@ -503,7 +541,7 @@ Module DatasetConverters
                 Next
             End If
         Catch ex As Exception
-            MsgBox(ex.Message & " (" & System.Reflection.MethodBase.GetCurrentMethod.Name & ")")
+        MsgBox(ex.Message & " (" & System.Reflection.MethodBase.GetCurrentMethod.Name & ")")
         End Try
 
         'return the metadata datatable
