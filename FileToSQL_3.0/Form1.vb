@@ -1,4 +1,5 @@
-﻿Imports System.IO
+﻿Imports System.Data.OleDb
+Imports System.IO
 
 
 
@@ -72,6 +73,27 @@ Public Class Form1
         End If
     End Sub
 
+    Private Function GetExcelConnectionString(ExcelFile As String) As String
+        'Dim ExcelFile As String = "C:\temp\BB-01_Waypoints_2016LowerNoatakBearSurvey.xlsx"
+        'Dim CS As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & ExcelFile & ";Extended Properties=""Excel 12.0 Xml;HDR=YES"";"
+        Dim CSB As New OleDb.OleDbConnectionStringBuilder()
+        Try
+            Dim ProvidersForm As New ProviderSelectorForm
+            ProvidersForm.ShowDialog()
+
+
+            With CSB
+                .Provider = ProvidersForm.Provider
+                .DataSource = ExcelFile
+            End With
+            MsgBox(CSB.ConnectionString)
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+
+        Return CSB.ConnectionString
+    End Function
+
     ''' <summary>
     ''' Loads the FileInfo into the main interface and builds the data sources TreeView
     ''' </summary>
@@ -86,7 +108,8 @@ Public Class Form1
             Dim SourceDataset As DataSet = Nothing
             Dim NodeImage As Integer = 0
             If FileInfo.Extension.ToLower = ".xlsx" Or FileInfo.Extension.ToLower = ".xls" Then
-                Dim MyConnectionString As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & FileInfo.FullName & ";Extended Properties=""Excel 12.0 Xml;HDR=YES"";"
+                Dim MyConnectionString As String = GetExcelConnectionString(FileInfo.FullName) ' "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & FileInfo.FullName & ";Extended Properties=""Excel 12.0 Xml;HDR=YES"";"
+                'Dim MyConnectionString As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & FileInfo.FullName & ";Extended Properties='Excel 12.0 Xml;HDR=YES';"
                 SourceDataset = GetDatasetFromExcelWorkbook(MyConnectionString)
                 NodeImage = 6 'excel image
             ElseIf FileInfo.Extension.ToLower = ".csv" Or FileInfo.Extension.ToLower = ".txt" Or FileInfo.Extension.ToLower = ".tab" Then
