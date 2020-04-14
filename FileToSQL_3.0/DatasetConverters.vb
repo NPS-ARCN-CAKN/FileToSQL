@@ -488,8 +488,6 @@ Module DatasetConverters
                 For Each Column As DataColumn In InputDataTable.Columns
                     Dim NewRow As DataRow = ColumnsDataTable.NewRow
 
-
-
                     NewRow.Item("ColumnName") = Column.ColumnName
                     NewRow.Item("DataType") = Column.DataType.ToString.Replace("System.", "")
                     NewRow.Item("AllowDBNull") = Column.AllowDBNull
@@ -507,14 +505,16 @@ Module DatasetConverters
                     NewRow.Item("Unique") = Column.Unique
                     NewRow.Item("DateTimeMode") = Column.DateTimeMode
 
-                    Debug.Print(Column.DataType.ToString)
+                    'set up the new row with metadata values
                     If Not Column.DataType.ToString = "System.Object" Then
-                        'if the column type is numaric then calculate the average
+                        'average fails on non-numeric types so check if numeric
                         If ColumnDataTypeIsNumeric(Column) = True Then
                             NewRow.Item("Average") = InputDataTable.Compute("Avg([" & Column.ColumnName & "])", "").ToString
-                            NewRow.Item("Maximum") = InputDataTable.Compute("Max([" & Column.ColumnName & "])", "").ToString
-                            NewRow.Item("Minimum") = InputDataTable.Compute("Min([" & Column.ColumnName & "])", "").ToString
                         End If
+
+                        'ironically, max and min seem to work on text as well as numeric
+                        NewRow.Item("Maximum") = InputDataTable.Compute("Max([" & Column.ColumnName & "])", "").ToString
+                        NewRow.Item("Minimum") = InputDataTable.Compute("Min([" & Column.ColumnName & "])", "").ToString
                         NewRow.Item("Count") = InputDataTable.Compute("Count([" & Column.ColumnName & "])", "").ToString
 
                         Dim NullsFilter As String = "[" & Column.ColumnName & "] is NULL"
@@ -522,13 +522,11 @@ Module DatasetConverters
 
                         Dim NotNullsFilter As String = "[" & Column.ColumnName & "] is not NULL"
                         NewRow.Item("FilledCount") = InputDataTable.Compute("Count([" & Column.ColumnName & "])", NotNullsFilter).ToString
-
-
                     End If
 
 
-                    'count the blanks
-                    Dim BlanksCount As Integer = 0
+                        'count the blanks
+                        Dim BlanksCount As Integer = 0
                     For Each InputRow As DataRow In InputDataTable.Rows
                         If InputRow.Item(Column.ColumnName).ToString.Trim = "" Then
                             BlanksCount = BlanksCount + 1

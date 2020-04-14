@@ -109,25 +109,20 @@ Public Class Form1
             Dim NodeImage As Integer = 0
             If FileInfo.Extension.ToLower = ".xlsx" Or FileInfo.Extension.ToLower = ".xls" Then
                 Dim ExcelFile As String = FileInfo.FullName
-                SourceDataset = GetDatasetFromExcel(ExcelFile)
-                'If My.Computer.FileSystem.FileExists(ExcelFile) Then
-                '    Dim Stream = File.Open(ExcelFile, FileMode.Open, FileAccess.Read)
-                '    Dim Reader = ExcelReaderFactory.CreateReader(Stream)
-                '    SourceDataset = Reader.AsDataSet(New ExcelDataSetConfiguration() With {
-                '            .UseColumnDataType = True,
-                '            .FilterSheet = Function(tableReader, sheetIndex) True,
-                '            .ConfigureDataTable = Function(tableReader) New ExcelDataTableConfiguration() With {
-                '                .EmptyColumnNamePrefix = "Column",
-                '                .UseHeaderRow = True,
-                '                .ReadHeaderRow = Function(rowReader)
-                '                                     rowReader.Read()
-                '                                 End Function,
-                '                .FilterRow = Function(rowReader) True,
-                '                .FilterColumn = Function(rowReader, columnIndex) True
-                '            }
-                '        })
-
-                'End If
+                If My.Computer.FileSystem.FileExists(ExcelFile) Then
+                    Dim CS As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & ExcelFile & ";Extended Properties=""Excel 12.0 Xml;HDR=YES"";"
+                    Try
+                        'first try ace.oledb
+                        SourceDataset = GetDatasetFromExcelWorkbook(CS)
+                    Catch ex As Exception
+                        MsgBox("Could not connect using connection string " & vbNewLine & CS & " " & vbNewLine & ex.Message & vbNewLine & vbNewLine & "Trying using ExcelDataReader.")
+                        Try
+                            SourceDataset = GetDatasetFromExcel(ExcelFile)
+                        Catch ex2 As Exception
+                            MsgBox("Could not connect using Excel Data Reader driver." & ex2.Message)
+                        End Try
+                    End Try
+                End If
             ElseIf FileInfo.Extension.ToLower = ".csv" Or FileInfo.Extension.ToLower = ".txt" Or FileInfo.Extension.ToLower = ".tab" Then
                 SourceDataset = GetDatasetFromTextFile(FileInfo, True, Format.Delimited)
                 NodeImage = 7 'text file image
