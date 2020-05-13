@@ -240,5 +240,14 @@ Public Class Form1
 
     End Sub
 
+    Private Sub RefreshDatasourceToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RefreshDatasourceToolStripMenuItem.Click
+        'get the datatable associated with the clicked node
+        If Not Me.DatasetTreeView.SelectedNode Is Nothing Then
+            Dim ClickedNode As SkeeterDatasetTreeNode = Me.DatasetTreeView.SelectedNode
+            Dim DataFileInfo As FileInfo = ClickedNode.FileInfo
+            ClearControls()
+            LoadSourceDataset(DataFileInfo)
+        End If
 
+    End Sub
 End Class

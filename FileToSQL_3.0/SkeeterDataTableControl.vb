@@ -73,9 +73,9 @@ Public Class SkeeterDataTableControl
         'set up a DGV for the destination datatable
         Dim DestinationDataTable As DataTable
 
-        'Try
-        'set up the mappings DGV with a new empty table
-        MappingsDataTable = GetMappingsDataTable()
+        Try
+            'set up the mappings DGV with a new empty table
+            MappingsDataTable = GetMappingsDataTable()
             Me.ColumnsMappingDataGridView.DataSource = MappingsDataTable
 
             'get the destination database datatable
@@ -85,37 +85,37 @@ Public Class SkeeterDataTableControl
 
 
 
-        'load the destination datatable columns into the DGV
-        For Each Column As DataColumn In DestinationDataTable.Columns
-            Dim NewRow As DataRow = MappingsDataTable.NewRow
-            NewRow.Item("DestinationColumnName") = Column.ColumnName
-            If Column.DataType.ToString.Contains("String") Then
-                NewRow.Item("QuotedColumn") = True
-            Else
-                NewRow.Item("QuotedColumn") = False
+            'load the destination datatable columns into the DGV
+            For Each Column As DataColumn In DestinationDataTable.Columns
+                Dim NewRow As DataRow = MappingsDataTable.NewRow
+                NewRow.Item("DestinationColumnName") = Column.ColumnName
+                If Column.DataType.ToString.Contains("String") Then
+                    NewRow.Item("QuotedColumn") = True
+                Else
+                    NewRow.Item("QuotedColumn") = False
+                End If
+                MappingsDataTable.Rows.Add(NewRow)
+            Next
+
+
+            'load the source column names into the DGV's chooser combobox tool
+            If Not Me.MetadataDataGridView.DataSource Is Nothing Then
+                Dim MetadataDataTable As DataTable = Me.MetadataDataGridView.DataSource
+                Dim SourceColumnNameDataGridViewComboBoxColumn As DataGridViewComboBoxColumn = Me.ColumnsMappingDataGridView.Columns("SourceColumnName")
+                With SourceColumnNameDataGridViewComboBoxColumn
+                    .Items.Add("Default value")
+                    .Items.Add("New GUID")
+                    .Items.Add("Autonumber")
+                    .Items.Add("Current Datetime")
+                    .Items.Add("Username")
+                    For Each Row As DataRow In MetadataDataTable.Rows
+                        .Items.Add(Row.Item("ColumnName"))
+                    Next
+                End With
             End If
-            MappingsDataTable.Rows.Add(NewRow)
-        Next
-
-
-        'load the source column names into the DGV's chooser combobox tool
-        If Not Me.MetadataDataGridView.DataSource Is Nothing Then
-            Dim MetadataDataTable As DataTable = Me.MetadataDataGridView.DataSource
-            Dim SourceColumnNameDataGridViewComboBoxColumn As DataGridViewComboBoxColumn = Me.ColumnsMappingDataGridView.Columns("SourceColumnName")
-            With SourceColumnNameDataGridViewComboBoxColumn
-                .Items.Add("Default value")
-                .Items.Add("New GUID")
-                .Items.Add("Autonumber")
-                .Items.Add("Current Datetime")
-                .Items.Add("Username")
-                For Each Row As DataRow In MetadataDataTable.Rows
-                    .Items.Add(Row.Item("ColumnName"))
-                Next
-            End With
-        End If
-        'Catch ex As Exception
-        '    MsgBox(ex.Message & "  " & System.Reflection.MethodBase.GetCurrentMethod.Name)
-        'End Try
+        Catch ex As Exception
+            MsgBox(ex.Message & "  " & System.Reflection.MethodBase.GetCurrentMethod.Name)
+        End Try
     End Sub
 
     ''' <summary>
@@ -511,7 +511,10 @@ Public Class SkeeterDataTableControl
     End Sub
 
     Private Sub ExportToCSVToolStripButton_Click(sender As Object, e As EventArgs) Handles ExportToCSVToolStripButton.Click
-        Dim CSVFilename As String = _SkeeterDatasetTreeNode.FileInfo.Name.Replace(_SkeeterDatasetTreeNode.FileInfo.Extension, ".csv")
+
+        'Dim CSVFilename As String = _SkeeterDatasetTreeNode.FileInfo.Name.Replace(_SkeeterDatasetTreeNode.FileInfo.Extension, ".csv")
+        Dim CSVFilename As String = Me.SkeeterDatasetTreeNode.Text.Replace("$", "").Trim & ".csv"
+
         Dim CSVMetadataFilename As String = _SkeeterDatasetTreeNode.FileInfo.Name.Replace(_SkeeterDatasetTreeNode.FileInfo.Extension, ".csv.meta")
         ' Displays a SaveFileDialog so the user can save the file where needed
         Dim SFD As New SaveFileDialog()
