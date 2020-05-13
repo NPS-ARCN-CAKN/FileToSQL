@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports Janus.Windows.GridEX
+Imports SkeeterDataTablesTranslator
 
 Public Class SkeeterDataTableControl
 
@@ -83,7 +84,19 @@ Public Class SkeeterDataTableControl
             DestinationDataTable = GetSQLServerDatabaseTable(Me.ConnectionStringTextBox.Text, Sql)
             Me.DestinationDataGridView.DataSource = DestinationDataTable
 
+            Dim DefaultValuesList As New List(Of String)
+            With DefaultValuesList
+                .Add("Kahiltna")
+                .Add("Traleika")
+                .Add(SkeeterDatasetTreeNode.FileInfo.Name)
+                .Add("Alaska")
+                .Add(0)
+                .Add(1)
+            End With
 
+            Dim TranslatorForm As New SkeeterDataTablesTranslatorForm(SkeeterDatasetTreeNode.DataTable, DestinationDataTable, "Import", "Here are the instructions", DefaultValuesList)
+            TranslatorForm.ShowDialog()
+            Me.DestinationDataGridView.DataSource = TranslatorForm.DestinationDataTable
 
             'load the destination datatable columns into the DGV
             For Each Column As DataColumn In DestinationDataTable.Columns

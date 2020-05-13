@@ -25,6 +25,9 @@ Public Class Form1
         Dim DT As DataTable = ClickedNode.DataTable
         Dim DS As DataSet = ClickedNode.Dataset
 
+
+
+
         'set up the skeeterdatatablecontrol
         With Me.SkeeterDataTableControl
             .Dock = DockStyle.Fill
