@@ -237,7 +237,7 @@ Public Class Form1
             'ask If the user wants to save the database connection info for next time
             If MsgBox("Persist the current database connection string and SQL query?", MsgBoxStyle.YesNo, "Save database connection information for next time?") = MsgBoxResult.Yes Then
                 My.Settings.ConnectionString = Me.SkeeterDataTableControl.ConnectionStringTextBox.Text
-                My.Settings.Query = Me.SkeeterDataTableControl.SqlTextBox.Text
+                My.Settings.Query = Me.SkeeterDataTableControl.QueryTextBox.Text
             End If
         End If
 
@@ -253,4 +253,6 @@ Public Class Form1
         End If
 
     End Sub
+
+
 End Class

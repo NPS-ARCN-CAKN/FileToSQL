@@ -60,7 +60,7 @@ Public Class SkeeterDataTableControl
 
     Private Sub ConnectButton_Click(sender As Object, e As EventArgs)
         Try
-            LoadMappingsGrid()
+            LoadMappingsGrid(SkeeterDatasetTreeNode.FileInfo.Name)
         Catch ex As Exception
             MsgBox(ex.Message & "  " & System.Reflection.MethodBase.GetCurrentMethod.Name)
         End Try
@@ -69,7 +69,7 @@ Public Class SkeeterDataTableControl
     ''' <summary>
     ''' Sets up the source datatable to destination datatable columns mappings grid.
     ''' </summary>
-    Private Sub LoadMappingsGrid()
+    Private Sub LoadMappingsGrid(SourceFilename As String)
 
         'set up a DGV for the destination datatable
         Dim DestinationDataTable As DataTable
@@ -86,46 +86,45 @@ Public Class SkeeterDataTableControl
 
             Dim DefaultValuesList As New List(Of String)
             With DefaultValuesList
-                .Add("Kahiltna")
-                .Add("Traleika")
-                .Add(SkeeterDatasetTreeNode.FileInfo.Name)
-                .Add("Alaska")
-                .Add(0)
-                .Add(1)
+                .Add(SourceFilename)
             End With
 
             Dim TranslatorForm As New SkeeterDataTablesTranslatorForm(SkeeterDatasetTreeNode.DataTable, DestinationDataTable, "Import", "Here are the instructions", DefaultValuesList)
             TranslatorForm.ShowDialog()
-            Me.DestinationDataGridView.DataSource = TranslatorForm.DestinationDataTable
+            DestinationDataTable = TranslatorForm.DestinationDataTable
+            Me.DestinationDataGridView.DataSource = DestinationDataTable
+
+            GenerateInsertQueries(DestinationDataTable.DefaultView.Count, DestinationDataTable.DefaultView)
 
             'load the destination datatable columns into the DGV
-            For Each Column As DataColumn In DestinationDataTable.Columns
-                Dim NewRow As DataRow = MappingsDataTable.NewRow
-                NewRow.Item("DestinationColumnName") = Column.ColumnName
-                If Column.DataType.ToString.Contains("String") Then
-                    NewRow.Item("QuotedColumn") = True
-                Else
-                    NewRow.Item("QuotedColumn") = False
-                End If
-                MappingsDataTable.Rows.Add(NewRow)
-            Next
+            'For Each Column As DataColumn In DestinationDataTable.Columns
+            '    Dim NewRow As DataRow = MappingsDataTable.NewRow
+            '    NewRow.Item("DestinationColumnName") = Column.ColumnName
+            '    If Column.DataType.ToString.Contains("String") Then
+            '        NewRow.Item("QuotedColumn") = True
+            '    Else
+            '        NewRow.Item("QuotedColumn") = False
+            '    End If
+            '    MappingsDataTable.Rows.Add(NewRow)
+            'Next
 
 
             'load the source column names into the DGV's chooser combobox tool
-            If Not Me.MetadataDataGridView.DataSource Is Nothing Then
-                Dim MetadataDataTable As DataTable = Me.MetadataDataGridView.DataSource
-                Dim SourceColumnNameDataGridViewComboBoxColumn As DataGridViewComboBoxColumn = Me.ColumnsMappingDataGridView.Columns("SourceColumnName")
-                With SourceColumnNameDataGridViewComboBoxColumn
-                    .Items.Add("Default value")
-                    .Items.Add("New GUID")
-                    .Items.Add("Autonumber")
-                    .Items.Add("Current Datetime")
-                    .Items.Add("Username")
-                    For Each Row As DataRow In MetadataDataTable.Rows
-                        .Items.Add(Row.Item("ColumnName"))
-                    Next
-                End With
-            End If
+            'If Not Me.MetadataDataGridView.DataSource Is Nothing Then
+            '    Dim MetadataDataTable As DataTable = Me.MetadataDataGridView.DataSource
+            '    Dim SourceColumnNameDataGridViewComboBoxColumn As DataGridViewComboBoxColumn = Me.ColumnsMappingDataGridView.Columns("SourceColumnName")
+            '    With SourceColumnNameDataGridViewComboBoxColumn
+            '        .Items.Add("Default value")
+            '        .Items.Add("New GUID")
+            '        .Items.Add("Autonumber")
+            '        .Items.Add("Current Datetime")
+            '        .Items.Add("Username")
+            '        For Each Row As DataRow In MetadataDataTable.Rows
+            '            .Items.Add(Row.Item("ColumnName"))
+            '        Next
+            '    End With
+            'End If
+
         Catch ex As Exception
             MsgBox(ex.Message & "  " & System.Reflection.MethodBase.GetCurrentMethod.Name)
         End Try
@@ -355,7 +354,7 @@ Public Class SkeeterDataTableControl
 
     Private Sub ExecuteSQLButton_Click(sender As Object, e As EventArgs) Handles ExecuteSQLButton.Click
         'load the mappings grid
-        LoadMappingsGrid()
+        LoadMappingsGrid(SkeeterDatasetTreeNode.FileInfo.Name)
 
         'save the database connection info
         My.Settings.ConnectionString = Me.ConnectionStringTextBox.Text.Trim
@@ -386,6 +385,27 @@ Public Class SkeeterDataTableControl
     ''' <param name="DataView"></param>
     Private Sub GenerateInsertQueries(Iterations As Integer, DataView As DataView)
         Try
+
+            'Get the destination database name
+            Dim DatabaseName As String = InputBox("What is the name of the destination database?", "Database name is required.", My.Settings.CurrentDatabaseName)
+            If DatabaseName.Trim = "" Then
+                DatabaseName = "DatabaseName"
+            End If
+            DatabaseName = DatabaseName.Trim
+            My.Settings.CurrentDatabaseName = DatabaseName
+
+            'Get the destination table name            
+            'Dim SourceFilename As String = Me.SkeeterDatasetTreeNode.FileInfo.Name.Trim.Replace(Me.SkeeterDatasetTreeNode.FileInfo.Extension, "")
+            Dim TableName As String = InputBox("What is the name of the destination table?", "Table name is required.", My.Settings.CurrentTableName)
+            If TableName.Trim = "" Then
+                TableName = "TableName"
+            End If
+            TableName = TableName.Trim
+            My.Settings.CurrentTableName = TableName
+
+            'clear the insert queries list text box
+            Me.SqlTextBox.Text = ""
+
             'close out any changes to the mappings datatable
             Me.ColumnsMappingDataGridView.EndEdit()
 
@@ -394,105 +414,46 @@ Public Class SkeeterDataTableControl
             Intro = Intro & "-- Source file: " & Me._SkeeterDatasetTreeNode.FileInfo.FullName & vbNewLine
             Intro = Intro & "-- Generated on " & DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") & " by " & My.User.Name & vbNewLine & vbNewLine
 
-            Intro = Intro & "USE Databasename;" & vbNewLine
+            Intro = Intro & "USE " & DatabaseName & ";" & vbNewLine
             Intro = Intro & "-- Do not forget to ROLLBACK or COMMIT the transaction below or the database will be left in a hanging state" & vbNewLine
             Intro = Intro & "BEGIN TRANSACTION" & vbNewLine
             Me.SqlTextBox.Text = Intro & vbNewLine
 
-
-            'ensure iterations is <= the number of rows
-            If DataView.ToTable.Rows.Count < Iterations Then Iterations = DataView.ToTable.Rows.Count - 1
-
-            'loop through the rows
             Dim Counter As Integer = 1
-            For i As Integer = 0 To Iterations Step 1 ' Each SourceRow As DataRow In SqlSourceDataTable.Rows
-
+            For Each SourceRow As DataRow In DataView.ToTable.Rows
                 Dim Sql As String = ""
-
-                'get the source dataset's row
-                'this datatable is created in order to get the distinct columns 
-                Dim DT As DataTable = DataView.ToTable()
-                Dim SourceRow As DataRow = DT.Rows(i)
-                'Dim SourceRow As DataRow = DataTable.Rows(i)
-
-                'make sure the wkt column exists and set up sql text to make sure we get a valid polygon
-                If SourceRow.Table.Columns.Contains("WKT") Then
-                    Sql = Sql & vbNewLine
-                    'Sql = Sql & "SET @geom ='" & SourceRow.Item("WKT") & "'" & vbNewLine
-                    'Sql = Sql & "SET @geog = @geom.MakeValid().STUnion(@geom.STStartPoint()).STAsText()" & vbNewLine
-                End If
-
-
-                Sql = Sql & "INSERT INTO " & Me.SkeeterDatasetTreeNode.FileInfo.Name.Trim.Replace(Me.SkeeterDatasetTreeNode.FileInfo.Extension, "") & "("
+                Sql = Sql & "INSERT INTO [" & TableName & "]("
                 Dim InsertColumns As String = ""
                 Dim ValuesList As String = ""
 
-                'build a list of INSERT query columns from the checked columns in the mapping table
-                If Not MappingsDataTable Is Nothing Then
-                    'if we have records
-                    If MappingsDataTable.Rows.Count > 0 Then
-                        'loop through the mappings table row by row and build queries
+                'build up the column names list and values list
+                For Each Col As DataColumn In DataView.ToTable.Columns
+                    InsertColumns = InsertColumns & "[" & Col.ColumnName.Trim & "],"
+                    Dim Value As String = SourceRow.Item(Col.ColumnName).ToString.Trim
 
-                        For Each MappingRow As DataRow In MappingsDataTable.Rows
-                            Try
-                                'if the source and destination columns are each not blank
-                                If MappingRow.Item("DestinationColumnName").ToString.Trim <> "" And MappingRow.Item("SourceColumnName").ToString.Trim <> "" Then
-                                    'append the insert column name 
-                                    InsertColumns = InsertColumns & MappingRow.Item("DestinationColumnName") & ","
-
-                                    'values list
-                                    Dim SourceRowColumnName As String = MappingRow.Item("SourceColumnName")
-
-
-                                    'get the value of the source row item
-                                    Dim SourceRowValue As String = ""
-                                    'determine if we should use some defaults not
-                                    If MappingRow.Item("SourceColumnName").ToString.Trim = "Default value" Then
-                                        SourceRowValue = MappingRow.Item("DefaultValueColumn").ToString.Trim
-                                    ElseIf MappingRow.Item("SourceColumnName").ToString.Trim = "New GUID" Then
-                                        SourceRowValue = Guid.NewGuid().ToString
-                                    ElseIf MappingRow.Item("SourceColumnName").ToString.Trim = "Autonumber" Then
-                                        SourceRowValue = Counter
-                                    ElseIf MappingRow.Item("SourceColumnName").ToString.Trim = "Current Datetime" Then
-                                        SourceRowValue = Now.ToString
-                                    ElseIf MappingRow.Item("SourceColumnName").ToString.Trim = "Username" Then
-                                        SourceRowValue = My.User.Name
-                                    Else
-                                        SourceRowValue = SourceRow.Item(SourceRowColumnName).ToString.Trim
-
-                                        'Convert blanks to NULL values
-                                        If SourceRowValue.ToString.Trim = "" Then
-                                            SourceRowValue = "NULL"
-                                        End If
-                                    End If
-
-                                    'quote or not
-                                    Dim Value As String
-                                    If MappingRow.Item("QuotedColumn") = True Then
-                                        Value = SourceRowValue.Trim
-                                        If Not Value = "NULL" Then
-                                            ValuesList = ValuesList & "'" & Value & "'" & ","
-                                        Else
-                                            ValuesList = ValuesList & Value & ","
-                                        End If
-
-                                    Else
-                                        ValuesList = ValuesList & SourceRowValue.Trim & ","
-                                    End If
-
-                                End If
-                            Catch ex As Exception
-                                MsgBox(ex.Message & " " & System.Reflection.MethodBase.GetCurrentMethod.Name)
-                            End Try
-
-                        Next
+                    'if the cell value is empty make it NULL
+                    If Value = "" Or IsDBNull(Value) = True Then
+                        Value = "NULL"
                     End If
-                End If
+
+                    Dim Quote As String = ""
+                    If Value = "NULL" Then
+                        'no need to quote NULL values
+                        ValuesList = ValuesList & Value & ","
+                    Else
+                        'quote the value if it's a string or date or text date type
+                        If Col.DataType.ToString.Contains("String") Or Col.DataType.ToString.Contains("Date") Then Quote = "'"
+                        ValuesList = ValuesList & Quote & Value.Replace("'", "''") & Quote & "," 'also escape any single quotes with two single quotes
+                    End If
+
+
+                Next
 
                 'trim trailing comma
                 If InsertColumns.Trim.Length > 0 Then
                     InsertColumns = InsertColumns.Substring(0, Len(InsertColumns.Trim) - 1)
                 End If
+
 
                 'trim trailing comma
                 If ValuesList.Trim.Length > 0 Then
@@ -501,8 +462,12 @@ Public Class SkeeterDataTableControl
 
                 Sql = Sql & InsertColumns & ") VALUES(" & ValuesList & ");"
                 Me.SqlTextBox.AppendText(Sql & vbNewLine)
+
                 Counter = Counter + 1
             Next
+
+            'bring the sql tab page forward
+            Me.DataTableTabControl.SelectedTab = MappingTabPage
         Catch ex As Exception
             MsgBox(ex.Message & " " & System.Reflection.MethodBase.GetCurrentMethod.Name)
         End Try
@@ -514,13 +479,14 @@ Public Class SkeeterDataTableControl
 
     Private Sub NumberOfPreviewQueriesToolStripTextBox_TextChanged(sender As Object, e As EventArgs) Handles NumberOfPreviewQueriesToolStripTextBox.TextChanged
         'change the number of queries to generate
-        If IsNumeric(Me.NumberOfPreviewQueriesToolStripTextBox.Text) Then
-            Dim NumberOfPreviewQueries As Integer = Me.NumberOfPreviewQueriesToolStripTextBox.Text
-            If NumberOfPreviewQueries = 0 Then
-                NumberOfPreviewQueries = Me.SkeeterDatasetTreeNode.DataTable.DefaultView.ToTable.Rows.Count - 1
-            End If
-            GenerateInsertQueries(NumberOfPreviewQueries, Me.SkeeterDatasetTreeNode.DataTable.DefaultView)
-        End If
+        'If IsNumeric(Me.NumberOfPreviewQueriesToolStripTextBox.Text) Then
+        '    Dim NumberOfPreviewQueries As Integer = Me.NumberOfPreviewQueriesToolStripTextBox.Text
+        '    If NumberOfPreviewQueries = 0 Then
+        '        NumberOfPreviewQueries = Me.SkeeterDatasetTreeNode.DataTable.DefaultView.ToTable.Rows.Count - 1
+        '    End If
+        '    GenerateInsertQueries(NumberOfPreviewQueries, Me.SkeeterDatasetTreeNode.DataTable.DefaultView)
+        '    GenerateInsertQueries(1, DestinationDataTable.DefaultView)
+        'End If
     End Sub
 
     Private Sub ExportToCSVToolStripButton_Click(sender As Object, e As EventArgs) Handles ExportToCSVToolStripButton.Click
@@ -727,4 +693,6 @@ Public Class SkeeterDataTableControl
         End Try
         Return TDVDataTable
     End Function
+
+
 End Class

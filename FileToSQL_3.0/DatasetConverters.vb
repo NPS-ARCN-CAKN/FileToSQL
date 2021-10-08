@@ -609,6 +609,7 @@ Module DatasetConverters
     End Function
 
     Public Function GetSQLServerDatabaseTable(ConnectionString As String, Sql As String) As DataTable
+
         Dim MyDataTable As New DataTable
         Try
             'make a SqlConnection using the supplied ConnectionString 
@@ -676,7 +677,6 @@ Module DatasetConverters
             For Each Col As DataColumn In CurrentDataTable.Columns
                 Dim DataType As String = Col.DataType.ToString.Replace("System.", "")
                 Dim SqlDataType As String = ""
-
                 Select Case DataType
                     Case "Boolean"
                         SqlDataType = "Bit"
@@ -684,8 +684,12 @@ Module DatasetConverters
                         SqlDataType = "Binary"
                     Case "Char"
                         SqlDataType = "Char(" & Col.MaxLength & ")"
-                    Case "Date"
+                    Case "DateTime"
                         SqlDataType = "Datetime"
+                    Case "Date"
+                        SqlDataType = "Date"
+                    Case "Time"
+                        SqlDataType = "Time"
                     Case "Decimal"
                         SqlDataType = "Decimal" & "(" & Col.MaxLength & ",2)"
                     Case "Double"
