@@ -77,7 +77,7 @@ Public Class SkeeterDataTableControl
         Try
             'set up the mappings DGV with a new empty table
             MappingsDataTable = GetMappingsDataTable()
-            Me.ColumnsMappingDataGridView.DataSource = MappingsDataTable
+            ' Me.ColumnsMappingDataGridView.DataSource = MappingsDataTable
 
             'get the destination database datatable
             Dim Sql As String = Me.QueryTextBox.Text
@@ -363,7 +363,7 @@ Public Class SkeeterDataTableControl
 
 
 
-    Private Sub ColumnsMappingDataGridView_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles ColumnsMappingDataGridView.CellEndEdit
+    Private Sub ColumnsMappingDataGridView_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs)
         'reconcile the automated column types to the quotedcolumn value, e.g. Autonumber should not be quoted but New GUID should
         For Each Row As DataRow In MappingsDataTable.Rows
             If Not IsDBNull(Row.Item("SourceColumnName")) Then
@@ -407,7 +407,7 @@ Public Class SkeeterDataTableControl
             Me.SqlTextBox.Text = ""
 
             'close out any changes to the mappings datatable
-            Me.ColumnsMappingDataGridView.EndEdit()
+            'Me.ColumnsMappingDataGridView.EndEdit()
 
             'build up some documentation on the script
             Dim Intro As String = "-- Data import script" & vbNewLine
@@ -694,5 +694,29 @@ Public Class SkeeterDataTableControl
         Return TDVDataTable
     End Function
 
+    Private Sub SaveScriptToolStripButton_Click(sender As Object, e As EventArgs) Handles SaveScriptToolStripButton.Click
+        Try
+            Dim FileFilter As String = "SQL files (*.sql)|(*.sql)"
+            Dim FileExtension As String = "sql"
+            Dim CurrentFilename As String = Me.SkeeterDatasetTreeNode.FileInfo.Name.Trim.Replace(Me.SkeeterDatasetTreeNode.FileInfo.Extension, "")
 
+            'Open a save file dialog to allow the user to save the file someplace
+            Dim SFD As New SaveFileDialog
+            With SFD
+                .AddExtension = True
+                .DefaultExt = FileExtension
+                .FileName = CurrentFilename.Trim & "." & FileExtension
+                .Filter = FileFilter
+            End With
+
+            'Show the dialog
+            If SFD.ShowDialog = DialogResult.OK Then
+                My.Computer.FileSystem.WriteAllText(SFD.FileName, SqlTextBox.Text.Trim, False)
+            End If
+
+
+        Catch ex As Exception
+            MsgBox(ex.Message & "  " & System.Reflection.MethodBase.GetCurrentMethod.Name)
+        End Try
+    End Sub
 End Class

@@ -33,7 +33,7 @@ Public Class Form1
             .Dock = DockStyle.Fill
 
             'set up the source to destination columns mapping DGV
-            .ColumnsMappingDataGridView.DataSource = GetMappingsDataTable()
+            '.ColumnsMappingDataGridView.DataSource = GetMappingsDataTable()
 
             'set up the source DGV, metadata DGV
             If Not DT Is Nothing Then
@@ -227,7 +227,7 @@ Public Class Form1
         'Me.SkeeterDataTableControl.DataTableDataGridView.DataSource = Nothing
         Me.SkeeterDataTableControl.MetadataDataGridView.DataSource = Nothing
         Me.SkeeterDataTableControl.MetadataDataGridView.DataSource = Nothing
-        Me.SkeeterDataTableControl.ColumnsMappingDataGridView.DataSource = Nothing
+        ' Me.SkeeterDataTableControl.ColumnsMappingDataGridView.DataSource = Nothing
     End Sub
 
     Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
