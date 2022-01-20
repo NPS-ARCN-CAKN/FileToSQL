@@ -1,4 +1,5 @@
-﻿Imports System.IO
+﻿Imports System.Data.SqlClient
+Imports System.IO
 Imports Janus.Windows.GridEX
 Imports SkeeterDataTablesTranslator
 
@@ -77,10 +78,18 @@ Public Class SkeeterDataTableControl
         Try
             'set up the mappings DGV with a new empty table
             MappingsDataTable = GetMappingsDataTable()
-            ' Me.ColumnsMappingDataGridView.DataSource = MappingsDataTable
 
             'get the destination database datatable
-            Dim Sql As String = Me.QueryTextBox.Text
+            Dim Sql As String = Me.QueryTextBox.Text.Trim
+
+            'Build a connectionstring builder so we can get the database name to use later in building the insert queries script
+            Dim MyConnectionStringBuilder As New SqlConnectionStringBuilder(Me.ConnectionStringTextBox.Text.Trim)
+            My.Settings.CurrentDatabaseName = MyConnectionStringBuilder.InitialCatalog
+
+            'Get the name of the database table from the Sql
+            My.Settings.CurrentTableName = GetTableNameFromSelectQuery(Sql)
+
+            'Get the index of the next space after the FROM
             DestinationDataTable = GetSQLServerDatabaseTable(Me.ConnectionStringTextBox.Text, Sql)
             Me.DestinationDataGridView.DataSource = DestinationDataTable
 
@@ -89,46 +98,48 @@ Public Class SkeeterDataTableControl
                 .Add(SourceFilename)
             End With
 
-            Dim TranslatorForm As New SkeeterDataTablesTranslatorForm(SkeeterDatasetTreeNode.DataTable, DestinationDataTable, "Import", "Here are the instructions", DefaultValuesList)
+            Dim TranslatorForm As New SkeeterDataTablesTranslatorForm(SkeeterDatasetTreeNode.DataTable, DestinationDataTable, "Import", "Map the source columns to destination columns.", DefaultValuesList)
             TranslatorForm.ShowDialog()
             DestinationDataTable = TranslatorForm.DestinationDataTable
             Me.DestinationDataGridView.DataSource = DestinationDataTable
 
-            GenerateInsertQueries(DestinationDataTable.DefaultView.Count, DestinationDataTable.DefaultView)
-
-            'load the destination datatable columns into the DGV
-            'For Each Column As DataColumn In DestinationDataTable.Columns
-            '    Dim NewRow As DataRow = MappingsDataTable.NewRow
-            '    NewRow.Item("DestinationColumnName") = Column.ColumnName
-            '    If Column.DataType.ToString.Contains("String") Then
-            '        NewRow.Item("QuotedColumn") = True
-            '    Else
-            '        NewRow.Item("QuotedColumn") = False
-            '    End If
-            '    MappingsDataTable.Rows.Add(NewRow)
-            'Next
-
-
-            'load the source column names into the DGV's chooser combobox tool
-            'If Not Me.MetadataDataGridView.DataSource Is Nothing Then
-            '    Dim MetadataDataTable As DataTable = Me.MetadataDataGridView.DataSource
-            '    Dim SourceColumnNameDataGridViewComboBoxColumn As DataGridViewComboBoxColumn = Me.ColumnsMappingDataGridView.Columns("SourceColumnName")
-            '    With SourceColumnNameDataGridViewComboBoxColumn
-            '        .Items.Add("Default value")
-            '        .Items.Add("New GUID")
-            '        .Items.Add("Autonumber")
-            '        .Items.Add("Current Datetime")
-            '        .Items.Add("Username")
-            '        For Each Row As DataRow In MetadataDataTable.Rows
-            '            .Items.Add(Row.Item("ColumnName"))
-            '        Next
-            '    End With
-            'End If
-
+            'If we have a destination data table with rows then generate the insert queries
+            If DestinationDataTable.Rows.Count > 0 Then
+                GenerateInsertQueries(DestinationDataTable.DefaultView.Count, DestinationDataTable.DefaultView)
+            End If
         Catch ex As Exception
             MsgBox(ex.Message & "  " & System.Reflection.MethodBase.GetCurrentMethod.Name)
         End Try
     End Sub
+
+    ''' <summary>
+    ''' Returns the name of the data table from an SQL SELECT query.
+    ''' </summary>
+    ''' <param name="SelectQuery">SQL SELECT query. String</param>
+    ''' <returns>Table name. String</returns>
+    Public Function GetTableNameFromSelectQuery(SelectQuery As String) As String
+        Dim Tablename As String = "TableName"
+        SelectQuery = SelectQuery.Trim
+        SelectQuery = SelectQuery.Replace("  ", " ") 'get rid of double spaces
+        SelectQuery = SelectQuery.Replace("   ", "") 'get rid of triple spaces
+        SelectQuery = SelectQuery.Replace("    ", "") 'get rid of quadruple spaces
+        SelectQuery = SelectQuery.Replace("    ", "") 'get rid of quintuple spaces
+        SelectQuery = SelectQuery.Replace(vbTab, " ") 'convert tabs to space
+        Try
+            'Get the table name from the SQL
+            Dim Key = "FROM"
+            'key is case sensitive, convert sql to upper
+            SelectQuery = SelectQuery.ToUpper
+            Dim words = SelectQuery.Trim.Split(" "c)
+            Dim i = Array.IndexOf(words, Key)
+            If i <> -1 AndAlso i <> words.Length - 1 Then
+                Tablename = words(i + 1)
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message & "  " & System.Reflection.MethodBase.GetCurrentMethod.Name)
+        End Try
+        Return Tablename.Trim
+    End Function
 
     ''' <summary>
     ''' Shows or hides the totals row for each data table column.
@@ -375,6 +386,7 @@ Public Class SkeeterDataTableControl
         Next
 
         'generate the insert queries preview
+
         GenerateInsertQueries(3, Me.SkeeterDatasetTreeNode.DataTable.DefaultView)
     End Sub
 
@@ -385,36 +397,15 @@ Public Class SkeeterDataTableControl
     ''' <param name="DataView"></param>
     Private Sub GenerateInsertQueries(Iterations As Integer, DataView As DataView)
         Try
-
-            'Get the destination database name
-            Dim DatabaseName As String = InputBox("What is the name of the destination database?", "Database name is required.", My.Settings.CurrentDatabaseName)
-            If DatabaseName.Trim = "" Then
-                DatabaseName = "DatabaseName"
-            End If
-            DatabaseName = DatabaseName.Trim
-            My.Settings.CurrentDatabaseName = DatabaseName
-
-            'Get the destination table name            
-            'Dim SourceFilename As String = Me.SkeeterDatasetTreeNode.FileInfo.Name.Trim.Replace(Me.SkeeterDatasetTreeNode.FileInfo.Extension, "")
-            Dim TableName As String = InputBox("What is the name of the destination table?", "Table name is required.", My.Settings.CurrentTableName)
-            If TableName.Trim = "" Then
-                TableName = "TableName"
-            End If
-            TableName = TableName.Trim
-            My.Settings.CurrentTableName = TableName
-
             'clear the insert queries list text box
             Me.SqlTextBox.Text = ""
-
-            'close out any changes to the mappings datatable
-            'Me.ColumnsMappingDataGridView.EndEdit()
 
             'build up some documentation on the script
             Dim Intro As String = "-- Data import script" & vbNewLine
             Intro = Intro & "-- Source file: " & Me._SkeeterDatasetTreeNode.FileInfo.FullName & vbNewLine
             Intro = Intro & "-- Generated on " & DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") & " by " & My.User.Name & vbNewLine & vbNewLine
 
-            Intro = Intro & "USE " & DatabaseName & ";" & vbNewLine
+            Intro = Intro & "USE " & My.Settings.CurrentDatabaseName.Trim & ";" & vbNewLine
             Intro = Intro & "-- Do not forget to ROLLBACK or COMMIT the transaction below or the database will be left in a hanging state" & vbNewLine
             Intro = Intro & "BEGIN TRANSACTION" & vbNewLine
             Me.SqlTextBox.Text = Intro & vbNewLine
@@ -422,7 +413,7 @@ Public Class SkeeterDataTableControl
             Dim Counter As Integer = 1
             For Each SourceRow As DataRow In DataView.ToTable.Rows
                 Dim Sql As String = ""
-                Sql = Sql & "INSERT INTO [" & TableName & "]("
+                Sql = Sql & "INSERT INTO [" & My.Settings.CurrentTableName.Trim & "]("
                 Dim InsertColumns As String = ""
                 Dim ValuesList As String = ""
 
@@ -430,6 +421,12 @@ Public Class SkeeterDataTableControl
                 For Each Col As DataColumn In DataView.ToTable.Columns
                     InsertColumns = InsertColumns & "[" & Col.ColumnName.Trim & "],"
                     Dim Value As String = SourceRow.Item(Col.ColumnName).ToString.Trim
+
+                    'Convert boolean values to 1s or zeroes
+                    If Col.DataType.ToString.Contains("Boolean") Then
+                        If Value.Trim.ToLower = "true" Or Value.Trim.ToLower = "yes" Then Value = 1
+                        If Value.Trim.ToLower = "false" Then Value = 0
+                    End If
 
                     'if the cell value is empty make it NULL
                     If Value = "" Or IsDBNull(Value) = True Then
@@ -442,8 +439,12 @@ Public Class SkeeterDataTableControl
                         ValuesList = ValuesList & Value & ","
                     Else
                         'quote the value if it's a string or date or text date type
-                        If Col.DataType.ToString.Contains("String") Or Col.DataType.ToString.Contains("Date") Then Quote = "'"
+                        If Col.DataType.ToString.Contains("String") Or Col.DataType.ToString.Contains("Date") Then
+                            Quote = "'"
+                        End If
+                        'Replace single quotes with double single quotes to escape them in SQL
                         ValuesList = ValuesList & Quote & Value.Replace("'", "''") & Quote & "," 'also escape any single quotes with two single quotes
+
                     End If
 
 

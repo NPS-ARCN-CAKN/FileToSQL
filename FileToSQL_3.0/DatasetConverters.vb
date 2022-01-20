@@ -219,7 +219,7 @@ Module DatasetConverters
             For Each WorksheetRow As DataRow In WorksheetsDataTable.Rows
                 Dim WorksheetName As String = WorksheetRow.Item("TABLE_NAME")
                 Dim ExcelDataTable As New DataTable(WorksheetName)
-                ExcelDataTable.TableName = WorksheetName
+                ExcelDataTable.TableName = WorksheetName.Trim
                 Dim Sql As String = "SELECT * FROM [" & WorksheetName & "]"
                 Dim MyConnection As New OleDbConnection(ExcelConnectionString)
                 MyConnection.Open()
@@ -672,7 +672,7 @@ Module DatasetConverters
         Dim Sql As String = "" & vbNewLine
         Try
             Sql = Sql & "--Best guess at columns and datatypes from the metadata available in the source dataset.  Examine and modify as needed" & vbNewLine
-            Sql = Sql & "CREATE TABLE " & NewTableName & "(" & vbNewLine
+            Sql = Sql & "CREATE TABLE " & NewTableName.Trim & "(" & vbNewLine
             Dim CurrentDataTable As DataTable = DataView.ToTable
             For Each Col As DataColumn In CurrentDataTable.Columns
                 Dim DataType As String = Col.DataType.ToString.Replace("System.", "")

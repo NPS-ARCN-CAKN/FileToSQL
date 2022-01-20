@@ -254,5 +254,7 @@ Public Class Form1
 
     End Sub
 
+    Private Sub SkeeterDataTableControl_Load(sender As Object, e As EventArgs) Handles SkeeterDataTableControl.Load
 
+    End Sub
 End Class

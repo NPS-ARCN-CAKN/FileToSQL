@@ -58,7 +58,7 @@ Partial Class Form1
         Me.DatasetTreeView.ImageIndex = 0
         Me.DatasetTreeView.ImageList = Me.TreeNodesImageList
         Me.DatasetTreeView.Location = New System.Drawing.Point(0, 0)
-        Me.DatasetTreeView.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.DatasetTreeView.Margin = New System.Windows.Forms.Padding(2)
         Me.DatasetTreeView.Name = "DatasetTreeView"
         Me.DatasetTreeView.SelectedImageIndex = 0
         Me.DatasetTreeView.Size = New System.Drawing.Size(184, 680)
@@ -107,7 +107,7 @@ Partial Class Form1
         '
         Me.SplitContainer.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer.Location = New System.Drawing.Point(0, 49)
-        Me.SplitContainer.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.SplitContainer.Margin = New System.Windows.Forms.Padding(2)
         Me.SplitContainer.Name = "SplitContainer"
         '
         'SplitContainer.Panel1
@@ -126,7 +126,7 @@ Partial Class Form1
         '
         Me.SkeeterDataTableControl.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SkeeterDataTableControl.Location = New System.Drawing.Point(0, 0)
-        Me.SkeeterDataTableControl.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.SkeeterDataTableControl.Margin = New System.Windows.Forms.Padding(2)
         Me.SkeeterDataTableControl.Name = "SkeeterDataTableControl"
         Me.SkeeterDataTableControl.Size = New System.Drawing.Size(821, 680)
         Me.SkeeterDataTableControl.SkeeterDatasetTreeNode = Nothing
@@ -210,7 +210,7 @@ Partial Class Form1
         Me.Controls.Add(Me.SplitContainer)
         Me.Controls.Add(Me.MainToolStrip)
         Me.Controls.Add(Me.MainMenuStrip)
-        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Margin = New System.Windows.Forms.Padding(2)
         Me.Name = "Form1"
         Me.Text = "Data file to SQL 3.0"
         Me.TreeViewContextMenuStrip.ResumeLayout(False)
